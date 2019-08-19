@@ -15,7 +15,6 @@ const config = require('../config/config');
 
 var port = normalizePort(config.port);
 app.set('port', port);
-console.log(port, 'port')
 
 /**
  * Create HTTP server.
@@ -84,7 +83,6 @@ function onError(error) {
  */
 
 function onListening() { 
-	console.log(config.port);
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr

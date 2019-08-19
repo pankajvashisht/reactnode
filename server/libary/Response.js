@@ -1,13 +1,12 @@
-const error = (res, err) => {
-  let code = typeof err === "object" ? err.code : 403;
-  let message = typeof err === "object" ? err.message : err;
-  res.status(code).json({
-    success: false,
-    error_message: message,
-    code: code,
-    body: []
-  });
+const response = fn => async (req, res, next) => {
+  try {
+    const data  = await fn(req, res);
+    res.status(200).send({
+      success: true,
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
 };
-const response = () => {};
-
-module.exports = error;
+module.exports = response;

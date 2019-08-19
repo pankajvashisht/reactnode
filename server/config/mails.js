@@ -4,7 +4,7 @@ const mails = {
     service: "gmail",
     auth: {
       user: "pankaj.cqlsys@gmail.com",
-      pass: "123@pankaj"
+      pass: "123@pankaj@ram"
     }
   },
   smtp: {}

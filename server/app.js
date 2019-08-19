@@ -6,14 +6,14 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const process = require("process");
-const fs = require("fs");
-
+const useragent = require('express-useragent');
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const adminRouter = require("./routes/admin");
 const apiRouter = require("./routes/apis");
 
 var app = express();
 
+app.use(useragent.express());
 // body parser setup
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -33,6 +33,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../build")));
 app.get('/admin', (req, res) => {
   console.log('path.resolve(__dirname)', path.resolve(__dirname, '../build/index.html'));
@@ -40,7 +41,7 @@ app.get('/admin', (req, res) => {
 });
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/admin", adminRouter);
 app.use("/apis/v1/", apiRouter);
 
 // catch 404 and forward to error handler
@@ -51,8 +52,10 @@ app.use(function(req, res, next) {
 // set path root path
 global.appRoot = path.resolve(__dirname);
 // error handler
+console.log(appRoot);
 app.use(function(err, req, res) {
   // set locals, only providing error in development
+  console.log(err,"pankaj check");
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
   if (req.accepts("json")) {
@@ -66,14 +69,12 @@ app.use(function(err, req, res) {
   res.render("error");
 });
 
-process.on('uncaughtException', (err, origin) => {
-  fs.writeSync(
-    process.stderr.fd,
-    `Caught exception: ${err}\n` +
-    `Exception origin: ${origin}`
-  );
-});
-
-
-
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', err => {
+    console.error(err, 'Uncaught Exception thrown');
+   // process.exit(1);
+  });
 module.exports = app;

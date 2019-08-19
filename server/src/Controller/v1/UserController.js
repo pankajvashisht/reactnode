@@ -10,34 +10,93 @@ class UserController extends ApiController {
   }
 
   async addUser(req, res) {
-    try {
       let required = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        gender: req.body.gender,
-        interest: req.body.interest,
         checkexist: 1
       };
       let non_required = {
         device_type: req.body.device_type,
         device_token: req.body.device_token,
-        authorization_key: app.createToken()
+        authorization_key: app.createToken(),
+        otp: app.randomNumber()
       };
-
-      let request_data = await apis.vaildation(required, non_required);
-      let insert_id = await DB.save("users", request_data);
-      request_data.id = insert_id;
-      app.success(res, {
-        message: "User signup successfully",
-        data: {
-          authorization_key: request_data.authorization_key
-        }
-      });
+      try {
+        let request_data = await apis.vaildation(required, non_required);
+        let insert_id = await DB.save("users", request_data);
+        request_data.id = insert_id;
+        app.success(res, {
+          message: "User signup successfully",
+          data: {
+            authorization_key: request_data.authorization_key
+          }
+        });
+      let mail = {
+          to : request_data.email,
+          subject: "Signup User",
+          text: "Your one time password is "+ request_data.otp + " Please Dont share with any one eles"
+      }
+      await app.send_mail(mail);
     } catch (err) {
       app.error(res, err);
     }
   }
+
+  async verifyOtp(req,res){
+    try {
+        let required = {
+            otp : req.body.otp
+        }
+        let non_required = {}
+        
+        let request_data = await super.vaildation(required, non_required);
+        if (request_data.otp != req.body.userInfo.otp) {
+            throw " Invaild Otp ";
+        }
+        req.body.userInfo.status = 1;
+        await DB.save('users', req.body.userInfo);
+        app.success(res , {
+            message:" Otp verify Successfully", 
+            data:await super.userDetails(req.body.userInfo.id)
+        });  
+    }catch(err){  
+      app.error(res , err);
+    }
+}
+
+async forgotPassword(req, res){
+    try {
+        let required = {
+            email : req.body.email,
+            otp : app.randomNumber()
+        }
+        let non_required = {}
+        
+        let request_data = await super.vaildation(required, non_required);
+        let user_info = await DB.find('users', 'first', {
+            conditions : {
+                email: request_data.email
+            },
+            fields : ['id', 'email']
+        });
+        if(!user_info) throw "Email not found";
+        user_info.otp = request_data.otp;
+        await DB.save('users', user_info);
+        let mail = {
+            to : request_data.email,
+            subject: "Forgot Password",
+            text: "Your one time password is "+ request_data.otp + " Please Dont share with any one eles"
+        }
+        await app.send_mail(mail);
+        return app.success(res , {
+            message:"Otp send your register email", 
+            data: []
+        });  
+    }catch(err){  
+      app.error(res , err);
+    }
+}
 
   async loginUser(req, res) {
     try {
@@ -62,10 +121,6 @@ class UserController extends ApiController {
           "password",
           "email",
           "authorization_key",
-          "gender",
-          "social_id",
-          "social_token",
-          "interest",
           "profile"
         ]
       });
@@ -80,7 +135,7 @@ class UserController extends ApiController {
           authorization_key: request_data.authorization_key
         });
         login_details.authorization_key = request_data.authorization_key;
-        app.success(res, {
+        return app.success(res, {
           message: "User login successfully",
           data: login_details
         });
@@ -90,125 +145,18 @@ class UserController extends ApiController {
       app.error(res, err);
     }
   }
-
-  async soicalLogin(req, res) {
-    try {
-      let required = {
-        social_id: req.body.social_id,
-        social_token: req.body.social_token,
-        soical_type: req.body.soical_type
-      };
-      let non_required = {
-        device_type: req.body.device_type,
-        device_token: req.body.device_token,
-        name: req.body.name,
-        email: req.body.email,
-        gender: req.body.gender,
-        authorization_key: app.createToken()
-      };
-
-      let request_data = await super.vaildation(required, non_required);
-      let soical_id = await DB.find("users", "first", {
-        conditions: {
-          or: {
-            email: request_data.email,
-            social_id: request_data.social_id
-          }
-        },
-        fields: ["id"]
-      });
-      if (soical_id) {
-        request_data.id = soical_id.id;
-      }
-      let id = await DB.save("users", request_data);
-      app.success(res, {
-        message: "User login successfully",
-        data: await super.userDetails(id)
-      });
-    } catch (err) {
-      console.log(err);
-      app.error(res, err);
+  
+  async appInfo(req, res){
+    try{
+        let app_info = await DB.find('app_information', 'all');
+        app.success(res , {
+            message:"App Information", 
+            data: app_info
+        });
+    }catch(err){
+        app.error(res , err);
     }
-  }
-
-  async UserLike(req, res) {
-    try {
-      let required = {
-        friend_id: req.body.friend_id,
-        user_id: req.body.user_id,
-        type: req.body.type // 1-> like 2-> dislike
-      };
-      let non_required = {};
-      let request_data = await super.vaildation(required, non_required);
-      let find_user = await DB.find("likes", "first", {
-        conditions: {
-          user_id: request_data.friend_id,
-          friend_id: request_data.user_id,
-          type: 1
-        }
-      });
-      let is_match = false;
-      if (find_user && request_data.type == 1) {
-        is_match = true;
-      }
-      let old_like = await DB.find("likes", "first", {
-        conditions: {
-          user_id: request_data.user_id,
-          friend_id: request_data.friend_id,
-          type: 1
-        }
-      });
-      if (old_like) {
-        request_data.id = old_like.id;
-      }
-      await DB.save("likes", request_data);
-      app.success(res, {
-        message: "Action successfully",
-        data: {
-          is_match
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      app.error(res, err);
-    }
-  }
-
-  async allUsers(req, res) {
-    try {
-      let request_data = {
-        offset: req.params.offset,
-        limit: 20
-      };
-      let all_users = await DB.find("users", "all", {
-        conditions: {
-          1:
-            " > (select count(id) from likes where user_id = " +
-            req.body.user_id +
-            " and friend_id = users.id)",
-          gender: req.body.userInfo.interest
-        },
-        fields: [
-          "id",
-          "name",
-          "email",
-          "gender",
-          "social_id",
-          "social_token",
-          "interest",
-          "profile"
-        ]
-      });
-      app.success(res, {
-        message: "all users list",
-        data: all_users
-      });
-    } catch (err) {
-      console.log(err);
-      app.error(res, err);
-    }
-  }
-
+ }
   async updateProfile(req, res) {
     try {
       let required = {
@@ -226,12 +174,15 @@ class UserController extends ApiController {
         );
       }
       await DB.save("users", request_data);
-      app.success(res, {
+      const usersinfo = await super.userDetails(request_data.id);
+      if(usersinfo.profile.length > 0){
+        usersinfo.profile = app.ImageUrl(usersinfo.profile);
+      }
+      return app.success(res, {
         message: "all users list",
-        data: await super.userDetails(request_data.id)
+        data: usersinfo
       });
     } catch (err) {
-      console.log(err);
       app.error(res, err);
     }
   }

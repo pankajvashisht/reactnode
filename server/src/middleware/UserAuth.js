@@ -16,10 +16,7 @@ const UserAuth = async (req, res, next) => {
         "name",
         "email",
         "authorization_key",
-        "gender",
-        "social_id",
-        "social_token",
-        "interest",
+        "otp",
         "profile"
       ]
     });
