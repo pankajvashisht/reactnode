@@ -135,6 +135,9 @@ async forgotPassword(req, res){
           authorization_key: request_data.authorization_key
         });
         login_details.authorization_key = request_data.authorization_key;
+        if(login_details.profile.length > 0){
+          login_details.profile = app.ImageUrl(login_details.profile);
+        }
         return app.success(res, {
           message: "User login successfully",
           data: login_details
