@@ -1,12 +1,11 @@
 require("dotenv").config();
-
 const database = {
   default: process.env.DATABASE || "mysql",
   mysql: {
     host: "localhost",
-    user: "root",
-    password: "",
-    database: "tiger2",
+    user: "ucreate",
+    password: "ucreate",
+    database: "users",
     connectionLimit: 50
   }
 };

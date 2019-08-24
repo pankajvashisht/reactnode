@@ -35,13 +35,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../build")));
-app.get('/admin', (req, res) => {
-  console.log('path.resolve(__dirname)', path.resolve(__dirname, '../build/index.html'));
+
+app.get('/admin/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 
 app.use("/", indexRouter);
-app.use("/admin", adminRouter);
+app.use("/admins", adminRouter);
 app.use("/apis/v1/", apiRouter);
 
 // catch 404 and forward to error handler

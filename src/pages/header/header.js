@@ -22,10 +22,6 @@ class Header extends Component {
   }
   
   render() {
-    const { redirect } = this.state;
-     if (redirect) {
-       return <Redirect to='/login'/>;
-     }
     return (
       <Router>
               
@@ -36,13 +32,13 @@ class Header extends Component {
                       </a>
                       <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
-                          <Link className="nav-link " to="/">Dashboard</Link>
+                          <Link className="nav-link " to="admin/">Dashboard</Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to="/users">Users</Link>
+                        <Link className="nav-link" to="users">Users</Link>
                         </li>
                         <li className="nav-item">
-                          <Link className="nav-link" to="/posts">Posts</Link>              
+                          <Link className="nav-link" to="posts">Posts</Link>              
                         </li>
                       </ul>
                       <ul className="navbar-nav my-2 my-lg-0">
@@ -53,10 +49,10 @@ class Header extends Component {
                     </nav>
                     <div className="container-fluid" style={{marginTop:'80px'}}>
                         <Switch>
-                          <Route exact path="/" component={Dashboard} />
-                          <Route path="/users" component={Users} />
-                          <Route path="/posts" component={Posts} />
-                          <Route path="/login" component={Login} />
+                          <Route exact path="/admin/" component={Dashboard} />
+                          <Route path="/admin/users" component={Users} />
+                          <Route path="/admin/posts" component={Posts} />
+                          <Route path="/admin/login" component={Login} />
                         </Switch>
                     </div>
       </div>
