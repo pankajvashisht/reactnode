@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../build")));
 
-app.get('/admin/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 

@@ -16,12 +16,15 @@ class Header extends Component {
   }
   
   componentDidMount(){
-    setInterval(()=> {
+   const login_datails = localStorage.getItem('userInfo');
+   if(login_datails != undefined && login_datails != null && login_datails.length > 0){
+      this.setState({isLogin:true});
       this.setState({redirect:true});
-    },5000);
+   } 
   }
   
   render() {
+<<<<<<< HEAD
     return (
       <Router>
               
@@ -47,6 +50,40 @@ class Header extends Component {
                         </li>
                       </ul>
                     </nav>
+=======
+    const { redirect } = this.state;
+    let login;
+    if(redirect){
+      this.history.pushState(null, '/');
+        login = <div>
+        <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+          <a className="navbar-brand" href="#">
+            <img src={logo} alt="logo" style={{width:'40px'}}/>
+          </a>
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link className="nav-link " to="/">Dashboard</Link>
+            </li>
+            <li className="nav-item">
+            <Link className="nav-link" to="/users">Users</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/posts">Posts</Link>              
+            </li>
+          </ul>
+          <ul className="navbar-nav my-2 my-lg-0">
+          <li className="nav-item">
+              <Link className="nav-link " to="/">Dashboard</Link>
+            </li>
+          </ul>
+        </nav>
+        </div>
+    }
+    return (
+      <Router>
+                    {login}
+                
+>>>>>>> add login page
                     <div className="container-fluid" style={{marginTop:'80px'}}>
                         <Switch>
                           <Route exact path="/admin/" component={Dashboard} />
@@ -55,7 +92,7 @@ class Header extends Component {
                           <Route path="/admin/login" component={Login} />
                         </Switch>
                     </div>
-      </div>
+     
       </Router>
     );
   }
