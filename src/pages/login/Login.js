@@ -18,14 +18,14 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { password, email } = this.state;
-    if(email.length == 0 || password.length == 0){
+    if(email.length === 0 || password.length === 0){
       swal("Error", "Email or password is required", "error");
       return false;
     }
     Adminlogin({email, password})
       .then(response => { 
          let login_details = response.data.data;
-          localStorage.setItem('userInfo', login_details);
+          localStorage.setItem('userInfo', JSON.stringify(login_details));
           this.setState({ isLogin: true } )
       })
       .catch(error => {

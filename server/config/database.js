@@ -5,7 +5,7 @@ const database = {
     host: "localhost",
     user: "ucreate",
     password: "ucreate",
-    database: "users",
+    database: "reactnode",
     connectionLimit: 50
   }
 };

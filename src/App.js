@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import routes from "./routes";
 import withTracker from "./withTracker";
@@ -11,12 +11,11 @@ import "./asset/styles/shards-dashboards.1.1.0.min.css";
 
 export default () => {
   const [title,updateTitle] = useState('Home'); 
-  const login_datails = localStorage.getItem('userInfo');
   useEffect(() => {
     document.title = `2TigersLCC-${title}`;
   })
    return(
-          <Router basename={process.env.REACT_APP_BASENAME || ""}>
+          <Router basename={process.env.REACT_APP_BASENAME || "admin"}>
             <div>
               {routes.map((route, index) => {
                 return (
