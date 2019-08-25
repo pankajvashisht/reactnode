@@ -3,9 +3,9 @@ const database = {
   default: process.env.DATABASE || "mysql",
   mysql: {
     host: "localhost",
-    user: "ucreate",
-    password: "ucreate",
-    database: "users",
+    user: "root",
+    password: "",
+    database: "tiger2",
     connectionLimit: 50
   }
 };

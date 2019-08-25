@@ -11,9 +11,7 @@ class Login extends Component {
       email: '',
       password: '',
       formErrors: {email: '', password: ''},
-      emailValid: false,
-      passwordValid: false,
-      formValid: false
+      isLogin:false
     }
   }
 
@@ -25,12 +23,16 @@ class Login extends Component {
       return false;
     }
     Adminlogin({email, password})
-      .then(function (response) {
-          let login_details = response.data.data;
+      .then(response => { 
+         let login_details = response.data.data;
           localStorage.setItem('userInfo', login_details);
+          this.setState({ isLogin: true } )
       })
-      .catch(function (response) {
-          swal("Error", response.response.data.error_message, "error");
+      .catch(error => {
+          if(error.response){
+            swal("Error", error.response.data.error_message, "error");
+          }
+          
       });
   };
    handlePassword = event => {
@@ -42,6 +44,9 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.isLogin) {
+      return <Redirect to="/" />
+    }
     return (
         <div className="wrapper fadeInDown">
         <div id="formContent">
