@@ -52,7 +52,6 @@ app.use(function(req, res, next) {
 // set path root path
 global.appRoot = path.resolve(__dirname);
 // error handler
-console.log(appRoot);
 app.use(function(err, req, res) {
   // set locals, only providing error in development
   console.log(err,"pankaj check");
