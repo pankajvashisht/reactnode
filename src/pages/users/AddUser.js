@@ -21,8 +21,8 @@ const AddUser = () => {
     password: "",
     profile: ""
   });
-  const [vaildForm, setVaildForm] = useState({
-    name: null,
+  let [vaildForm, setVaildForm] = useState({
+    name: false,
     email: null,
     password: null,
     profile: null
@@ -36,14 +36,12 @@ const AddUser = () => {
         }
     }
     setVaildForm(vaildForm);
-    console.log(vaildForm);
   };
 
   const addUser = (e) => {
-    alert();
     e.preventDefault();
     checkValidation();
-    console.log(userForm.name);
+    console.log(userForm);
   }
 
   const handleInput = (e) => {
@@ -98,6 +96,7 @@ const AddUser = () => {
                       onChange = {handleInput}
                       name="password"
                     />
+                    <FormFeedback > Email Field is required</FormFeedback>
                   </Col>
                 </Row>
                 <Row form>

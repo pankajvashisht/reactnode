@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Logincss from './login.css'
 import {Adminlogin} from '../../Apis/apis'
 import swal from 'sweetalert';
+import login from "./login.css"
 import {  Redirect } from 'react-router-dom';
-
+import Button from "../../components/Button/button";
+import Input from "../../components/Input/input";
 class Login extends Component {
   constructor (props) {
     super(props);
@@ -48,22 +49,50 @@ class Login extends Component {
       return <Redirect to="/" />
     }
     return (
-        <div className="wrapper fadeInDown">
-        <div id="formContent">
-        
-          <div className="fadeIn first">
-            <h3> Login as Admin </h3>
+      <div class="container h-100 someback">
+          <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+          <div class="d-flex justify-content-center">
+            <div class="brand_logo_container">
+              <img src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png" class="brand_logo" alt="Logo" />
+            </div>
           </div>
-          <form  onSubmit={this.handleSubmit}>
-            <input type="email" id="login" onChange={this.handleEmail} className="fadeIn second" name="login" value={this.state.email} placeholder="Email" />
-            <input type="password" id="password" onChange={this.handlePassword} className="fadeIn third" value={this.state.password} name="login" placeholder="password" />
-            <input type="submit" className="fadeIn fourth" value="Log In" />
-          </form>
-      
-          <div id="formFooter">
-            <a className="underlineHover" href="#">Forgot Password?</a>
+          <div class="d-flex justify-content-center form_container">
+            <form onSubmit={this.handleSubmit}>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <Input type="email"  action={this.handleEmail} classes="form-control" name="login" value={this.state.email} placeholder="Email" />
+            
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <Input type="password"  action={this.handlePassword} classes="fadeIn form-control input_pass" value={this.state.password} name="password" placeholder="password" />
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customControlInline" />
+                  <label class="custom-control-label" for="customControlInline">Remember me</label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="d-flex justify-content-center mt-3 login_container">
+            <Button action={this.handleSubmit} type="submit" children="Login" classes="btn login_btn"  />
+          </div>
+          <div class="mt-4">
+            <div class="d-flex justify-content-center links">
+              Don't have an account? <a href="#" class="ml-2">Sign Up</a>
+            </div>
+            <div class="d-flex justify-content-center links">
+              <a href="#">Forgot your password?</a>
+            </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }
