@@ -11,8 +11,11 @@ import { Post, PostAdd } from "./pages/posts/";
 
 
 const isLogin = () => {
-  const login_datails = localStorage.getItem('userInfo');
-  if(login_datails !== undefined && login_datails !== null && login_datails.length > 0){
+  let login_datails = localStorage.getItem('userInfo');
+  if (typeof login_datails === 'string') {
+    login_datails = JSON.parse(localStorage.getItem('userInfo'));
+  }
+  if (typeof login_datails === 'object') {
     return <Redirect to="/dashboard" />
   }
   return <Redirect to="/login" />

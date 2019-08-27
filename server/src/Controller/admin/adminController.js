@@ -96,15 +96,18 @@ class adminController {
       next(err);
     }
   }
-  async addUser(req, res, next) {
+  async addUser(req, res) {
     const { body } = req;
+    delete body.profile;
+    console.log(body.form);
     try {
       if (req.files && req.files.profile) {
         body.profile = await app.upload_pic_with_await(req.files.profile);
       }
       return await DB.save("users", body);
     } catch (err) {
-      next(err);
+      console.log(JSON.stringify(err));
+      throw new Error(JSON.stringify(err));
     }
   }
 

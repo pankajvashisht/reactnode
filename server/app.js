@@ -10,6 +10,7 @@ const useragent = require('express-useragent');
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
 const apiRouter = require("./routes/apis");
+const cors = require('cors')
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(
     createParentPath: true
   })
 );
+app.use(cors())
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -36,7 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../build")));
 
-app.get('admin/*', (req, res) => {
+app.get('/admin/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 

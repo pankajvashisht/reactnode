@@ -5,10 +5,17 @@ const header = {
     token : "",
   }
 };
-const login_datails = JSON.parse(localStorage.getItem('userInfo'));  
-if(login_datails != undefined && login_datails != null && login_datails.length > 0){
-    header.headers.token = login_datails.token;
-  }
+let login_datails = ''
+
+if (typeof localStorage.getItem('userInfo') === 'string') {
+    login_datails = JSON.parse(localStorage.getItem('userInfo'));
+}
+if (typeof login_datails === 'object') {
+   login_datails = JSON.parse(localStorage.getItem('userInfo'));
+   header.headers.token = login_datails.token;
+   console.log(header);
+}
+console.log(header);
 export const Adminlogin = ({email, password}) => {
     return axios.post(`${apis}/login`, {
         email,
@@ -16,29 +23,29 @@ export const Adminlogin = ({email, password}) => {
       })
 }
 
-export const addUser = from => {
-  console.log(from);
-  return axios.post(`${apis}/users`, {
-      data:from,
-      header
+export const addUser = userForm => {
+  let form = new FormData();
+  form.append('name', userForm.name);
+  form.append('password', userForm.password);
+  form.append('email', userForm.email);
+  form.append('profile', userForm.profile);
+  return axios.post(`${apis}/users?token=${login_datails.token}`, {
+      form,
     })
 }
 export const getUser = (page=1) => {
-  return axios.get(`${apis}/users`, {
-      header
+  return axios.get(`${apis}/users?token=${login_datails.token}`, {
     })
 }
 
 export const updateUser = (data) => {
-  return axios.put(`${apis}/users`, {
-    ...data,  
-    header
+  return axios.put(`${apis}/users?token=${login_datails.token}`, {
+    ...data,
     })
 }
 
 export const deleteUser = (data) => {
-  return axios.delete(`${apis}/users`, {
-    ...data,  
-    header
+  return axios.delete(`${apis}/users?token=${login_datails.token}`, {
+    ...data,
     })
 }

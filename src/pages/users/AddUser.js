@@ -49,13 +49,7 @@ const AddUser = () => {
         return false;
     }
     setDisabled(true);
-    const form = new FormData();
-    form.append('name', userForm.name);
-    form.append('password', userForm.password);
-    form.append('email', userForm.email);
-    form.append('profile', userForm.profile);
-    console.log(userForm);
-    addUser(form).then(data=> {
+    addUser(userForm).then(data=> {
       setDisabled(false);
       swal('success', 'User Add successfully', 'success');
     }).catch(err=>{
