@@ -12,7 +12,8 @@ import {
 } from "shards-react";
 import PageTitle from "../../components/common/PageTitle";
 import Button from "../../components/Button/button";
-
+import { addUser } from '../../Apis/apis'
+import swal from 'sweetalert';
 const AddUser = () => {
 
   const [userForm, setUserForm] = useState({
@@ -21,6 +22,7 @@ const AddUser = () => {
     password: "",
     profile: ""
   });
+  const [disabled, setDisabled] = useState(null);
   let [vaildForm, setVaildForm] = useState({
     name: null,
     email: null,
@@ -28,23 +30,49 @@ const AddUser = () => {
     profile: null
   });
   const checkValidation = (field = null) => {
-      for (let vaild in vaildForm) {
+    let validation = false;  
+    for (let vaild in vaildForm) {
         if (userForm[vaild] === "" ) {
+          validation = true;
           vaildForm[vaild] = false;
         } else {
           vaildForm[vaild] = true;
         }
     }
     setVaildForm({...vaildForm});
+    return validation
   };
 
-  const addUser = (e) => {
-    e.preventDefault();
-    checkValidation();
+  const adduser = event => {
+    event.preventDefault();
+    if (checkValidation()) {
+        return false;
+    }
+    setDisabled(true);
+    const form = new FormData();
+    form.append('name', userForm.name);
+    form.append('password', userForm.password);
+    form.append('email', userForm.email);
+    form.append('profile', userForm.profile);
     console.log(userForm);
+    addUser(form).then(data=> {
+      setDisabled(false);
+      swal('success', 'User Add successfully', 'success');
+    }).catch(err=>{
+      setDisabled(false);
+      console.log(err.response);
+      swal('Error', 'Some went wrong', 'error');
+    });
+  }
+  const selectImage = e => {
+    const file = e.target.files[0];
+    const name = e.target.name;
+    userForm[name] = file;
+    setUserForm({...userForm});
+    checkValidation();
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const value = e.target.value;
     const name = e.target.name;
     userForm[name] = value;
@@ -69,7 +97,7 @@ const AddUser = () => {
         <ListGroupItem className="p-3">
           <Row>
             <Col>
-              <Form onSubmit={addUser}>
+              <Form onSubmit={adduser}>
                 <Row form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Name</label>
@@ -97,7 +125,7 @@ const AddUser = () => {
                       onChange = {handleInput}
                       name="password"
                     />
-                    <FormFeedback > Password Field is required</FormFeedback>
+                    <FormFeedback > password Field is required</FormFeedback>
                   </Col>
                 </Row>
                 <Row form>
@@ -114,7 +142,7 @@ const AddUser = () => {
                       name="email"
 
                     />
-                     <FormFeedback > Email Field is required</FormFeedback>
+                    <FormFeedback > Email Field is required</FormFeedback>
                   </Col>
                   <Col md="6">
                     <label htmlFor="fePassword">Profile</label>
@@ -124,9 +152,10 @@ const AddUser = () => {
                       placeholder="Password"
                       valid={vaildForm.profile}
                       invalid={!vaildForm.profile && vaildForm.profile!=null}
-                      onChange = {handleInput}
+                      onChange = {selectImage}
                       name="profile"
                     />
+                    <FormFeedback > profile Field is required</FormFeedback>
                   </Col>
                   <FormFeedback > Profile Field is required</FormFeedback>
                 </Row>
@@ -135,6 +164,7 @@ const AddUser = () => {
                   classes="btn btn-info text-center"
                   type="submit"
                   children="Add User"
+                  disabled={disabled}
                 />
               </Form>
             </Col>

@@ -7,7 +7,7 @@ let admin = new adminController();
 
 router.use([cross, AdminAuth]);
 router.get("/", function(req, res) {
-  res.send(" APi workings ");
+  res.json(" APi workings ");
 });
 router.post("/login", admin.login);
 router.route('/users/:offset([0-9]+)?/:limit([0-9]+)?')
