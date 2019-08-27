@@ -32,9 +32,8 @@ class adminController {
           data: login_details
         });
       }
-      
-      throw "Wrong Email or password";
 
+      throw "Wrong Email or password";
     } catch (err) {
       app.error(res, err);
     }
@@ -112,7 +111,7 @@ class adminController {
   async updateData(req, res, next) {
     const { body } = req;
     try {
-      if (body.id == undefined) {
+      if (body.id === undefined) {
         throw "id is missing";
       }
       if (req.files && req.files.url) {
@@ -130,7 +129,7 @@ class adminController {
   async deleteData(req, res, next) {
     const { body } = req;
     try {
-      if (body.id == undefined) {
+      if (body.id === undefined) {
         throw "id is missing";
       }
       return await DB.first(

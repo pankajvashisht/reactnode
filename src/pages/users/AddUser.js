@@ -22,7 +22,7 @@ const AddUser = () => {
     profile: ""
   });
   let [vaildForm, setVaildForm] = useState({
-    name: false,
+    name: null,
     email: null,
     password: null,
     profile: null
@@ -35,7 +35,7 @@ const AddUser = () => {
           vaildForm[vaild] = true;
         }
     }
-    setVaildForm(vaildForm);
+    setVaildForm({...vaildForm});
   };
 
   const addUser = (e) => {
@@ -48,7 +48,8 @@ const AddUser = () => {
     const value = e.target.value;
     const name = e.target.name;
     userForm[name] = value;
-    setUserForm(userForm);
+    setUserForm({...userForm});
+    checkValidation();
   }
 
   return (
@@ -63,7 +64,7 @@ const AddUser = () => {
       </Row>
       <Card small>
         <CardHeader className="border-bottom">
-          <h6 className="m-0">Add Users {vaildForm.name}</h6>
+          <h6 className="m-0">Add Users</h6>
         </CardHeader>
         <ListGroupItem className="p-3">
           <Row>
@@ -77,7 +78,7 @@ const AddUser = () => {
                       type="text"
                       placeholder="Name"
                       name="name"
-                      value={userForm.name.value}
+                      value={userForm.name}
                       valid={vaildForm.name}
                       invalid={(vaildForm.name === false && vaildForm.name != null)}
                       onChange = {handleInput}
@@ -90,13 +91,13 @@ const AddUser = () => {
                       id="fePassword"
                       type="password"
                       placeholder="Password"
-                      value={userForm.password.value}
+                      value={userForm.password}
                       valid={vaildForm.password}
                       invalid={!vaildForm.password && vaildForm.password!=null}
                       onChange = {handleInput}
                       name="password"
                     />
-                    <FormFeedback > Email Field is required</FormFeedback>
+                    <FormFeedback > Password Field is required</FormFeedback>
                   </Col>
                 </Row>
                 <Row form>
@@ -106,13 +107,14 @@ const AddUser = () => {
                       id="feEmailAddress"
                       type="email"
                       placeholder="Email"
-                      value={userForm.email.value}
+                      value={userForm.email}
                       valid={vaildForm.email}
                       invalid={!vaildForm.email && vaildForm.email!=null}
                       onChange = {handleInput}
                       name="email"
 
                     />
+                     <FormFeedback > Email Field is required</FormFeedback>
                   </Col>
                   <Col md="6">
                     <label htmlFor="fePassword">Profile</label>
@@ -126,6 +128,7 @@ const AddUser = () => {
                       name="profile"
                     />
                   </Col>
+                  <FormFeedback > Profile Field is required</FormFeedback>
                 </Row>
                 <hr></hr>
                 <Button
