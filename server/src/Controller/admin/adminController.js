@@ -99,8 +99,9 @@ class adminController {
   async addUser(req, res) {
     const { body } = req;
     delete body.profile;
-    console.log(body.form);
+    console.log(body);
     try {
+      console.log(req.files);
       if (req.files && req.files.profile) {
         body.profile = await app.upload_pic_with_await(req.files.profile);
       }

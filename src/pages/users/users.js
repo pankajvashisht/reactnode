@@ -3,16 +3,30 @@ import { Container, Row, Col, Card, CardHeader, CardBody  } from "shards-react";
 import PageTitle from "../../components/common/PageTitle";
 import Button from "../../components/Button/button";
 import { Redirect } from "react-router-dom";
+import { getUser } from "../../Apis/apis";
+import DeleteData from '../../components/common/DeleteData'
+import StatusUpdate from '../../components/common/StatusUpdate'
+import Input from '../../components/Input/input'
 class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      users: []
     };
+  }
+
+  componentWillMount(){
+    getUser().then(data => {
+      console.log(data.data.data);
+      this.setState({users: data.data.data});
+    }).catch(err => console.warn(err));
   }
   addUser = () => {
     this.setState({redirect:true})    
   }
+
+  
   render() {
     if(this.state.redirect){
       return <Redirect to="add-user" />
@@ -35,6 +49,26 @@ class User extends Component {
             <CardBody className="p-0 pb-3">
               <table className="table mb-0">
                 <thead className="bg-light">
+                <tr>
+                    <th scope="col" className="border-0">
+                  
+                    </th>
+                    <th scope="col" className="border-0">
+                        <Input placeholder="Search Name" classes="form-control" name="name"/>
+                    </th>
+                    <th scope="col" className="border-0">
+                      <Input placeholder="Search Email" classes="form-control" name="Email"/>
+                    </th>
+                    <th scope="col" className="border-0">
+                     
+                    </th>
+                    <th scope="col" className="border-0">
+                     
+                    </th>
+                    <th scope="col" className="border-0">
+                      
+                    </th>
+                  </tr>
                   <tr>
                     <th scope="col" className="border-0">
                       #
@@ -49,7 +83,7 @@ class User extends Component {
                      Profile
                     </th>
                     <th scope="col" className="border-0">
-                      Statusadd-user
+                      Status
                     </th>
                     <th scope="col" className="border-0">
                       Action
@@ -57,38 +91,16 @@ class User extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Ali</td>
-                    <td>Kerry</td>
-                    <td>Russian Federation</td>
-                    <td>Gdańsk</td>
-                    <td>107-0339</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Clark</td>
-                    <td>Angela</td>
-                    <td>Estonia</td>
-                    <td>Borghetto di Vara</td>
-                    <td>1-660-850-1647</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Jerry</td>
-                    <td>Nathan</td>
-                    <td>Cyprus</td>
-                    <td>Braunau am Inn</td>
-                    <td>214-4225</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Colt</td>
-                    <td>Angela</td>
-                    <td>Liberia</td>
-                    <td>Bad Hersfeld</td>
-                    <td>1-848-473-7416</td>
-                  </tr>
+                  {this.state.users.map((user, key) => 
+                      <tr key={key}>
+                        <td>{key+1}</td>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.profile}</td>
+                        <td><StatusUpdate data={user} onUpdate ={(data) => {this.setState(this.state.users[key] = data )}} /></td>
+                        <td><DeleteData  table="users" data={user.id} ondelete={() => {this.setState(this.state.users.splice(key,1))}} children="Delete"/></td>
+                      </tr>
+                   )}
                 </tbody>
               </table>
             </CardBody>

@@ -29,13 +29,14 @@ export const addUser = userForm => {
   form.append('password', userForm.password);
   form.append('email', userForm.email);
   form.append('profile', userForm.profile);
-  return axios.post(`${apis}/users?token=${login_datails.token}`, {
-      form,
-    })
+  return axios.post(`${apis}/users?token=${login_datails.token}`, form , {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+  })
 }
 export const getUser = (page=1) => {
-  return axios.get(`${apis}/users?token=${login_datails.token}`, {
-    })
+  return axios.get(`${apis}/users?token=${login_datails.token}`)
 }
 
 export const updateUser = (data) => {
