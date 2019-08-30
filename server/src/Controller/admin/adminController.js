@@ -143,6 +143,18 @@ class adminController {
       next(err);
     }
   }
+
+  islogin = async (req, res) => {
+    this.checkLogin();  
+    return true;
+  }
+  
+  checkLogin = () => {
+    return true;
+  }
+
 }
+
+
 
 module.exports = adminController;

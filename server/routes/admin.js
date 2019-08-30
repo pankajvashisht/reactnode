@@ -10,6 +10,7 @@ router.get("/", function(req, res) {
   res.json(" APi workings ");
 });
 router.post("/login", admin.login);
+router.get('/checkAuth', admin.islogin)
 router.route('/users/:offset([0-9]+)?/:limit([0-9]+)?')
     .get(response(admin.allUser))
     .post(response(admin.addUser))

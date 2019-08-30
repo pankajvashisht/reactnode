@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { updateUser } from "../../Apis/apis";
 const StatusUpdate = ({  table, data, onUpdate }) => {
 
     const updateStatus = () => {
@@ -9,7 +9,10 @@ const StatusUpdate = ({  table, data, onUpdate }) => {
         }else{
             data.status = 1;
         }
-        onUpdate(data);
+        updateUser({table,status:data.status,id:data.id}).then(info => {
+          onUpdate(data);
+        }).catch(err => {})
+        
     };
     const statusCheck = () => {return (data.status === 1) ? 'badge badge-pill badge-success': 'badge badge-pill badge-danger';}
     const text = () => {return (data.status === 1) ? 'Active': 'Deactive';}

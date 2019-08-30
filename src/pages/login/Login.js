@@ -49,11 +49,11 @@ class Login extends Component {
       return <Redirect to="/" />
     }
     return (
-      <div class="container h-100 someback">
-          <div class="d-flex justify-content-center h-100">
-        <div class="user_card">
-          <div class="d-flex justify-content-center">
-            <div class="brand_logo_container">
+      <div className="container h-100 someback">
+          <div className="d-flex justify-content-center h-100">
+        <div className="user_card">
+          <div className="d-flex justify-content-center">
+            <div className="brand_logo_container">
               <img src="https://media.licdn.com/dms/image/C560BAQH9pR29yg9yjg/company-logo_200_200/0?e=2159024400&v=beta&t=efiyA3o8AgkBGIV4jbZrXVVrOn7Nn0wSeDjDfkAZFyk" className="brand_logo" alt="Logo" />
             </div>
           </div>
@@ -72,24 +72,11 @@ class Login extends Component {
                 </div>
                 <Input type="password"  action={this.handlePassword} classes="fadeIn form-control input_pass" value={this.state.password} name="password" placeholder="password" />
               </div>
-              <div className="form-group">
-                <div className="custom-control custom-checkbox">
-                  <input type="checkbox" className="custom-control-input" id="customControlInline" />
-                  <label className="custom-control-label" for="customControlInline">Remember me</label>
-                </div>
-              </div>
+              
             </form>
           </div>
           <div className="d-flex justify-content-center mt-3 login_container">
             <Button action={this.handleSubmit} type="submit" children="Login" classes="btn login_btn"  />
-          </div>
-          <div className="mt-4">
-            <div className="d-flex justify-content-center links">
-              Don't have an account? <a href="#" className="ml-2">Sign Up</a>
-            </div>
-            <div className="d-flex justify-content-center links">
-              <a href="#">Forgot your password?</a>
-            </div>
           </div>
         </div>
       </div>

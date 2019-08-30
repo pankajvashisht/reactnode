@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button/button";
 import swal from "sweetalert";
-
+import { deleteUser } from "../../Apis/apis";
 const DeleteData = ({ classes, children, table, data,ondelete }) => {
   const deleted = ( ) => {
     swal({
@@ -13,12 +13,18 @@ const DeleteData = ({ classes, children, table, data,ondelete }) => {
       dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
-        swal("Poof! Your imaginary file has been deleted!", {
-          icon: "success"
+        deleteUser({table:table,id:data}).then(data => {
+          swal(table+" have been deleted", {
+            icon: "success"
+          });
+          ondelete(data);
+        }).catch(err => {
+          swal("Something went wrong", {
+            icon: "error"
+          });
         });
-        ondelete(data);
       } else {
-        swal("Your imaginary file is safe!");
+        swal("Process Cancel");
       }
     });
   };

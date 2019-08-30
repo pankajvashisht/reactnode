@@ -12,10 +12,11 @@ import { Post, PostAdd } from "./pages/posts/";
 
 const isLogin = () => {
   let login_datails = localStorage.getItem('userInfo');
+  console.log(typeof login_datails);
   if (typeof login_datails === 'string') {
     login_datails = JSON.parse(localStorage.getItem('userInfo'));
   }
-  if (typeof login_datails === 'object') {
+  if (typeof login_datails === 'object' && login_datails!=null) {
     return <Redirect to="/dashboard" />
   }
   return <Redirect to="/login" />
