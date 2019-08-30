@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 const apis = "http://localhost:4000/admins";
 const header = {
@@ -13,9 +14,8 @@ if (typeof localStorage.getItem("userInfo") === "string") {
 if (typeof login_datails === "object") {
   login_datails = JSON.parse(localStorage.getItem("userInfo"));
   header.headers.token = login_datails.token;
-  console.log(header);
 }
-console.log(header);
+
 export const Adminlogin = ({ email, password }) => {
   return axios.post(`${apis}/login`, {
     email,
@@ -43,10 +43,11 @@ export const getPost = (page = 1) => {
 };
 
 export const updateUser = data => {
-  return axios.put(
-    `${apis}/users?token=${login_datails.token}`,
-     { table:data.table,id:data.id,status:data.status },
-  );
+  return axios.put(`${apis}/users?token=${login_datails.token}`, {
+    table: data.table,
+    id: data.id,
+    status: data.status
+  });
 };
 
 export const deleteUser = data => {
@@ -63,7 +64,7 @@ export const deleteUser = data => {
 
 export const checkAuth = () => {
   return axios.get(`${apis}/checkAuth?token=${login_datails.token}`);
-}
+};
 
 export const addPost = data => {
   var form = new FormData();

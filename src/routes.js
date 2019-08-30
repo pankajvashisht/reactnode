@@ -12,7 +12,6 @@ import { Post, PostAdd } from "./pages/posts/";
 
 const isLogin = () => {
   let login_datails = localStorage.getItem('userInfo');
-  console.log(typeof login_datails);
   if (typeof login_datails === 'string') {
     login_datails = JSON.parse(localStorage.getItem('userInfo'));
   }
@@ -31,38 +30,43 @@ export default [
   },
   {
     path: "/dashboard",
-    exact: true,
     layout: DefaultLayout,
-    component: Dashboard
+    component: Dashboard,
+    auth:true
   },
   {
     path: "/login",
     page: 'Login',
     layout: logins,
-    component: Login
+    component: Login,
+    auth:false
   },
   {
     path: "/users",
     page: 'users',
     layout: DefaultLayout,
-    component: users
+    component: users,
+    auth:true
   },
   {
     path: "/add-user",
     page: 'add-users',
     layout: DefaultLayout,
-    component: AddUser
+    component: AddUser,
+    auth:true
   },
   {
     path: "/posts",
     page: 'posts',
     layout: DefaultLayout,
-    component: Post
+    component: Post,
+    auth:true
   },
   {
     path: "/add-post",
     page: 'add-post',
     layout: DefaultLayout,
-    component: PostAdd
+    component: PostAdd,
+    auth:true
   }
 ];

@@ -15,7 +15,7 @@ export default () => {
     document.title = `2TigersLCC-${title}`;
   })
    return(
-          <Router basename={process.env.REACT_APP_BASENAME || "admin"}>
+          <Router basename="admin">
             <div>
               {routes.map((route, index) => {
                 return (

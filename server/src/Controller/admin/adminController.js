@@ -7,6 +7,7 @@ class adminController {
     this.limit = 20;
     this.offset = 1;
     this.login = this.login.bind(this);
+    this.islogin = this.islogin.bind(this);
   }
   async login(req, res) {
     const { body } = req;
@@ -144,17 +145,14 @@ class adminController {
     }
   }
 
-  islogin = async (req, res) => {
-    this.checkLogin();  
-    return true;
-  }
-  
-  checkLogin = () => {
+  islogin(req, res) {
+    this.checkLogin();
     return true;
   }
 
+  checkLogin() {
+    return true;
+  }
 }
-
-
 
 module.exports = adminController;
