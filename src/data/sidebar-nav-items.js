@@ -7,14 +7,29 @@ export default function() {
       htmlAfter: ""
     },
     {
+      title: "Add User",
+      htmlBefore: '<i class="material-icons">person_add</i>',
+      to: "/add-user",
+    },
+    {
       title: "Users",
-      htmlBefore: '<i class="material-icons">vertical_split</i>',
+      htmlBefore: '<i class="material-icons">people</i>',
       to: "/users",
     },
     {
-      title: "Posts",
+      title: "Add Posts",
       htmlBefore: '<i class="material-icons">note_add</i>',
+      to: "/add-post",
+    },
+    {
+      title: "Posts",
+      htmlBefore: '<i class="material-icons">local_activity</i>',
       to: "/posts",
+    },
+    {
+      title: "Trsansaction",
+      htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
+      to: "/transaction",
     },
     {
       title: "User Profile",

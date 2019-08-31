@@ -54,7 +54,7 @@ class Login extends Component {
         <div className="user_card">
           <div className="d-flex justify-content-center">
             <div className="brand_logo_container">
-              <img src="https://media.licdn.com/dms/image/C560BAQH9pR29yg9yjg/company-logo_200_200/0?e=2159024400&v=beta&t=efiyA3o8AgkBGIV4jbZrXVVrOn7Nn0wSeDjDfkAZFyk" className="brand_logo" alt="Logo" />
+              <img src={require('../../logo.jpeg')} className="brand_logo" alt="Logo" />
             </div>
           </div>
           <div className="d-flex justify-content-center form_container">

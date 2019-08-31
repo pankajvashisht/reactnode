@@ -19,6 +19,7 @@ import PageTitle from "../../components/common/PageTitle";
 import Button from "../../components/Button/button";
 import { addPost } from "../../Apis/apis";
 import swal from "sweetalert";
+const types = ["image/*", "application/pdf", "audio/*"];
 const PostAdd = () => {
   const [userForm, setUserForm] = useState({
     form: { posttype: "", url: "", price: "", name: "", description: "" },
@@ -31,6 +32,7 @@ const PostAdd = () => {
     }
   });
   const [disabled, setDisabled] = useState(null);
+  const [fileType, setFileType] = useState('image/*');
   const checkValidation = (field = null) => {
     let validation = false;
     for (let vaild in userForm.validation) {
@@ -50,8 +52,8 @@ const PostAdd = () => {
     if (checkValidation()) {
       return false;
     }
-    setUserForm(true);
-    addPost({...userForm.form})
+    setDisabled(true);
+    addPost({ ...userForm.form })
       .then(data => {
         setDisabled(false);
         swal("success", "Post Add successfully", "success");
@@ -83,6 +85,9 @@ const PostAdd = () => {
   const handleInput = e => {
     const value = e.target.value;
     const name = e.target.name;
+    if (name === "posttype") {
+      setFileType(types[value]);
+    }
     userForm.form[name] = value;
     setUserForm({ ...userForm });
     checkValidation();
@@ -165,10 +170,10 @@ const PostAdd = () => {
                   <Col md="6">
                     <label htmlFor="fePassword">Select File</label>
                     <FormInput
-                      id="fePassword"
                       type="file"
                       placeholder="Password"
                       valid={userForm.validation.url}
+                      accept={fileType}
                       invalid={
                         !userForm.validation.url &&
                         userForm.validation.url != null
@@ -189,7 +194,7 @@ const PostAdd = () => {
                         !userForm.validation.description &&
                         userForm.validation.description != null
                       }
-                        onChange={handleInput}
+                      onChange={handleInput}
                       name="description"
                     />
                     <FormFeedback> Description field is required</FormFeedback>

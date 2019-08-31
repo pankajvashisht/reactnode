@@ -66,7 +66,7 @@ class ApiController {
       }
 
       for (let data in final_data) {
-        if (final_data[data] == undefined) {
+        if (final_data[data] === undefined) {
           delete final_data[data];
         } else {
           if (typeof final_data[data] == "string") {
@@ -103,13 +103,7 @@ class ApiController {
       conditions: {
         id: id
       },
-      fields: [
-        "id",
-        "name",
-        "email",
-        "authorization_key",
-        "profile"
-      ]
+      fields: ["id", "name", "email", "authorization_key", "profile"]
     });
   }
 }

@@ -6,13 +6,17 @@ import { Redirect } from "react-router-dom";
 import { getUser } from "../../Apis/apis";
 import DeleteData from "../../components/common/DeleteData";
 import StatusUpdate from "../../components/common/StatusUpdate";
+import Image from "../../components/common/Image";
 import Input from "../../components/Input/input";
+import Loader from "../../components/common/Loader";
 class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
-      users: []
+      users: [],
+      searchtext:'',
+      loading:true
     };
   }
 
@@ -20,13 +24,24 @@ class User extends Component {
     getUser()
       .then(data => {
         console.log(data.data.data);
-        this.setState({ users: data.data.data });
+        this.setState({ users: data.data.data,loading:false });
       })
-      .catch(err => console.warn(err));
+      .catch(err => this.setState({ oading:false }));
   }
+  
   addUser = () => {
     this.setState({ redirect: true });
   };
+  search = event => {
+    const text = event.target.value
+    this.setState({searchtext:text,loading:true})
+    getUser(1, text)
+      .then(data => {
+        console.log(data.data.data);
+        this.setState({ users: data.data.data,loading:false });
+      })
+      .catch(err => this.setState({ oading:false }));
+  }
 
   render() {
     if (this.state.redirect) {
@@ -54,31 +69,25 @@ class User extends Component {
           <Col>
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">Active Users</h6>
+              <Row>
+                  <Col md="4">
+                    <h6 className="m-0">Active User</h6>
+                  </Col>
+                  <Col md="4"></Col>
+                  <Col md="4">
+                    <Input
+                      classes="form-control"
+                      name="search"
+                      placeholder="Search"
+                      action={this.search}
+                      value={this.state.searchtext}
+                    />
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
                 <table className="table mb-0">
                   <thead className="bg-light">
-                    <tr>
-                      <th scope="col" className="border-0"></th>
-                      <th scope="col" className="border-0">
-                        <Input
-                          placeholder="Search Name"
-                          classes="form-control"
-                          name="name"
-                        />
-                      </th>
-                      <th scope="col" className="border-0">
-                        <Input
-                          placeholder="Search Email"
-                          classes="form-control"
-                          name="Email"
-                        />
-                      </th>
-                      <th scope="col" className="border-0"></th>
-                      <th scope="col" className="border-0"></th>
-                      <th scope="col" className="border-0"></th>
-                    </tr>
                     <tr>
                       <th scope="col" className="border-0">
                         #
@@ -101,14 +110,18 @@ class User extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                  {this.state.loading && (<Loader />)}
                     {this.state.users.map((user, key) => (
                       <tr key={key}>
                         <td>{key + 1}</td>
                         <td>{user.name}</td>
                         <td>{user.email}</td>
-                        <td>{user.profile}</td>
+                        <td>
+                          <Image key={key} src={user.profile} />
+                        </td>
                         <td>
                           <StatusUpdate
+                            key={key}
                             data={user}
                             table="users"
                             onUpdate={data => {
@@ -118,6 +131,7 @@ class User extends Component {
                         </td>
                         <td>
                           <DeleteData
+                            key={key}
                             table="users"
                             data={user.id}
                             ondelete={() => {

@@ -44,7 +44,7 @@ export default class UserActions extends React.Component {
     }
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
-        <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
+        <DropdownToggle style={{cursor:"pointer"}}  caret tag={NavLink} className="text-nowrap px-3">
           <img
             className="user-avatar rounded-circle mr-2"
             src={require("./../../../../images/avatars/0.jpg")}
@@ -53,13 +53,10 @@ export default class UserActions extends React.Component {
           <span className="d-none d-md-inline-block">{(this.state.information !=null)?this.state.information.name:null}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          <DropdownItem tag={Link} to="user-profile">
+          <DropdownItem tag={Link} to="profile">
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
-          <DropdownItem tag={Link} to="file-manager-list">
-            <i className="material-icons">&#xE2C7;</i> Files
-          </DropdownItem>
-          <DropdownItem tag={Link} to="transaction-history">
+          <DropdownItem tag={Link} to="transaction">
             <i className="material-icons">&#xE896;</i> Transactions
           </DropdownItem>
           <DropdownItem divider />

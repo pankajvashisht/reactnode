@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Navbar, NavbarBrand } from "shards-react";
 import { Dispatcher, Constants } from "../../../flux";
-import {DashboardImage} from "../../../images/shards-dashboards-logo.svg"
+
 
 class SidebarMainNavbar extends React.Component {
   constructor(props) {
@@ -35,12 +35,12 @@ class SidebarMainNavbar extends React.Component {
                 id="main-logo"
                 className="d-inline-block align-top mr-1"
                 style={{ maxWidth: "25px" }}
-                src={DashboardImage}
+                src={require('../../../logo.jpeg')}
                 alt=""
               />
               {!hideLogoText && (
                 <span className="d-none d-md-inline ml-1">
-                  Tiger 2
+                  Tigers Lcc
                 </span>
               )}
             </div>

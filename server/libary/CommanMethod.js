@@ -190,21 +190,21 @@ module.exports = {
   }, 
   ImageUrl(name , folder = 'uploads') {
     const networkInterfaces = os.networkInterfaces( );
-    let ip = 0.0;
-    Object.keys(networkInterfaces).forEach(function (ifname) {
-      var alias = 0;
-      networkInterfaces[ifname].forEach(function (iface) {
-        if ('IPv4' !== iface.family || iface.internal !== false) {
-          ip = iface.address;
-        }
-        if (alias >= 1) {
-          ip = iface.address;
-        } else {
-          ip = iface.address;
-        }
-        ++alias;
-      });
-    });
+    let ip = 'localhost';
+    // Object.keys(networkInterfaces).forEach(function (ifname) {
+    //   var alias = 0;
+    //   networkInterfaces[ifname].forEach(function (iface) {
+    //     if ('IPv4' !== iface.family || iface.internal !== false) {
+    //       ip = iface.address;
+    //     }
+    //     if (alias >= 1) {
+    //       ip = iface.address;
+    //     } else {
+    //       ip = iface.address;
+    //     }
+    //     ++alias;
+    //   });
+    // });
 		return "http://"+ip+":"+config.port +"/"+ folder +"/" +name;
 	}, randomNumber(){
 		return Math.floor(1000 + Math.random() * 9000);

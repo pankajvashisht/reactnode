@@ -2,17 +2,20 @@ import React, { Component } from "react";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
 import PageTitle from "../../components/common/PageTitle";
 import Button from "../../components/Button/button";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { getPost } from "../../Apis/apis";
 import DeleteData from "../../components/common/DeleteData";
 import StatusUpdate from "../../components/common/StatusUpdate";
 import Input from "../../components/Input/input";
+import Loader from "../../components/common/Loader";
 class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
-      posts: []
+      posts: [],
+      searchtext: "",
+      loading:true
     };
   }
   addPost = () => {
@@ -33,10 +36,22 @@ class Post extends Component {
     getPost()
       .then(data => {
         console.log(data.data.data);
-        this.setState({ posts: data.data.data });
+        this.setState({ posts: data.data.data,loading:false });
+        
       })
-      .catch(err => console.warn(err));
+      .catch(err => this.setState({ loading:false }));
   }
+
+  search = event => {
+    const text = event.target.value;
+    this.setState({ searchtext: text,loading:true });
+    getPost(1, text)
+      .then(data => {
+        console.log(data.data.data);
+        this.setState({ posts: data.data.data,loading:false });
+      })
+      .catch(err =>  this.setState({ loading:false }));
+  };
 
   render() {
     if (this.state.redirect) {
@@ -63,7 +78,21 @@ class Post extends Component {
           <Col>
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">posts</h6>
+                <Row>
+                  <Col md="4">
+                    <h6 className="m-0">Posts</h6>
+                  </Col>
+                  <Col md="4"></Col>
+                  <Col md="4">
+                    <Input
+                      classes="form-control"
+                      name="search"
+                      placeholder="Search"
+                      action={this.search}
+                      value={this.state.searchtext}
+                    />
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody className="p-0 pb-3">
                 <table className="table mb-0">
@@ -93,12 +122,24 @@ class Post extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                    {this.state.loading && (<Loader />)}
                     {this.state.posts.map((post, key) => (
                       <tr key={key}>
                         <td>{key + 1}</td>
                         <td>{post.title}</td>
                         <td>{post.price}</td>
-                        <td>{post.url}</td>
+                        <td>
+                          <Link
+                            to={{
+                              pathname: "/post-details",
+                              state: {
+                                postDetails: post
+                              }
+                            }}
+                          >
+                            View File
+                          </Link>
+                        </td>
                         <td>{this.fileType(post.post_type)}</td>
                         <td>
                           <StatusUpdate

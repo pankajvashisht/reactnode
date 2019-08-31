@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 const apis = "http://localhost:4000/admins";
 const header = {
@@ -7,15 +6,15 @@ const header = {
   }
 };
 let login_datails = "";
-
-if (typeof localStorage.getItem("userInfo") === "string") {
-  login_datails = JSON.parse(localStorage.getItem("userInfo"));
-}
-if (typeof login_datails === "object") {
-  login_datails = JSON.parse(localStorage.getItem("userInfo"));
-  header.headers.token = login_datails.token;
-}
-
+const details = () => {
+  if (typeof localStorage.getItem("userInfo") === "string") {
+    login_datails = JSON.parse(localStorage.getItem("userInfo"));
+  }
+  if (typeof login_datails === "object") {
+    login_datails = JSON.parse(localStorage.getItem("userInfo"));
+    header.headers.token = login_datails.token;
+  }
+};
 export const Adminlogin = ({ email, password }) => {
   return axios.post(`${apis}/login`, {
     email,
@@ -35,11 +34,15 @@ export const addUser = userForm => {
     }
   });
 };
-export const getUser = (page = 1) => {
-  return axios.get(`${apis}/users?token=${login_datails.token}`);
+export const getUser = (page = 1, query = "") => {
+  return axios.get(`${apis}/users?token=${login_datails.token}&q=${query}`);
 };
-export const getPost = (page = 1) => {
-  return axios.get(`${apis}/posts?token=${login_datails.token}`);
+export const getPost = (page = 1, query = "") => {
+  return axios.get(`${apis}/posts?token=${login_datails.token}&q=${query}`);
+};
+export const dashBaord = () => {
+  details();
+  return axios.get(`${apis}/dashboard?token=${login_datails.token}`);
 };
 
 export const updateUser = data => {
@@ -64,6 +67,12 @@ export const deleteUser = data => {
 
 export const checkAuth = () => {
   return axios.get(`${apis}/checkAuth?token=${login_datails.token}`);
+};
+
+export const transaction = (page = 1, query = "") => {
+  return axios.get(
+    `${apis}/transaction?token=${login_datails.token}&q=${query}`
+  );
 };
 
 export const addPost = data => {

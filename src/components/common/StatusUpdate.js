@@ -22,10 +22,9 @@ const StatusUpdate = ({  table, data, onUpdate }) => {
 };
 
 StatusUpdate.propTypes = {
-  children: PropTypes.node.isRequired,
   classes: PropTypes.string.isRequired,
   table: PropTypes.string.isRequired,
-  data: PropTypes.number.isRequired
+  data: PropTypes.object.isRequired
 };
 
 StatusUpdate.defaultProps = {

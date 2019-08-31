@@ -10,93 +10,99 @@ class UserController extends ApiController {
   }
 
   async addUser(req, res) {
-      let required = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        checkexist: 1
-      };
-      let non_required = {
-        device_type: req.body.device_type,
-        device_token: req.body.device_token,
-        authorization_key: app.createToken(),
-        otp: app.randomNumber()
-      };
-      try {
-        let request_data = await apis.vaildation(required, non_required);
-        let insert_id = await DB.save("users", request_data);
-        request_data.id = insert_id;
-        app.success(res, {
-          message: "User signup successfully",
-          data: {
-            authorization_key: request_data.authorization_key
-          }
-        });
+    let required = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      checkexist: 1
+    };
+    let non_required = {
+      device_type: req.body.device_type,
+      device_token: req.body.device_token,
+      authorization_key: app.createToken(),
+      otp: app.randomNumber()
+    };
+    try {
+      let request_data = await apis.vaildation(required, non_required);
+      let insert_id = await DB.save("users", request_data);
+      request_data.id = insert_id;
+      app.success(res, {
+        message: "User signup successfully",
+        data: {
+          authorization_key: request_data.authorization_key
+        }
+      });
       let mail = {
-          to : request_data.email,
-          subject: "Signup User",
-          text: "Your one time password is "+ request_data.otp + " Please Dont share with any one eles"
-      }
+        to: request_data.email,
+        subject: "Signup User",
+        text:
+          "Your one time password is " +
+          request_data.otp +
+          " Please Dont share with any one eles"
+      };
       await app.send_mail(mail);
     } catch (err) {
       app.error(res, err);
     }
   }
 
-  async verifyOtp(req,res){
+  async verifyOtp(req, res) {
     try {
-        let required = {
-            otp : req.body.otp
-        }
-        let non_required = {}
-        
-        let request_data = await super.vaildation(required, non_required);
-        if (request_data.otp != req.body.userInfo.otp) {
-            throw " Invaild Otp ";
-        }
-        req.body.userInfo.status = 1;
-        await DB.save('users', req.body.userInfo);
-        app.success(res , {
-            message:" Otp verify Successfully", 
-            data:await super.userDetails(req.body.userInfo.id)
-        });  
-    }catch(err){  
-      app.error(res , err);
-    }
-}
+      let required = {
+        otp: req.body.otp
+      };
+      let non_required = {};
 
-async forgotPassword(req, res){
-    try {
-        let required = {
-            email : req.body.email,
-            otp : app.randomNumber()
-        }
-        let non_required = {}
-        
-        let request_data = await super.vaildation(required, non_required);
-        let user_info = await DB.find('users', 'first', {
-            conditions : {
-                email: request_data.email
-            },
-            fields : ['id', 'email']
-        });
-        if(!user_info) throw "Email not found";
-        user_info.otp = request_data.otp;
-        await DB.save('users', user_info);
-        let mail = {
-            to : request_data.email,
-            subject: "Forgot Password",
-            text: "Your one time password is "+ request_data.otp + " Please Dont share with any one eles"
-        }
-        await app.send_mail(mail);
-        return app.success(res , {
-            message:"Otp send your register email", 
-            data: []
-        });  
-    }catch(err){  
-      app.error(res , err);
+      let request_data = await super.vaildation(required, non_required);
+      if (request_data.otp != req.body.userInfo.otp) {
+        throw " Invaild Otp ";
+      }
+      req.body.userInfo.status = 1;
+      await DB.save("users", req.body.userInfo);
+      app.success(res, {
+        message: " Otp verify Successfully",
+        data: await super.userDetails(req.body.userInfo.id)
+      });
+    } catch (err) {
+      app.error(res, err);
     }
-}
+  }
+
+  async forgotPassword(req, res) {
+    try {
+      let required = {
+        email: req.body.email,
+        otp: app.randomNumber()
+      };
+      let non_required = {};
+
+      let request_data = await super.vaildation(required, non_required);
+      let user_info = await DB.find("users", "first", {
+        conditions: {
+          email: request_data.email
+        },
+        fields: ["id", "email"]
+      });
+      if (!user_info) throw "Email not found";
+      user_info.otp = request_data.otp;
+      await DB.save("users", user_info);
+      let mail = {
+        to: request_data.email,
+        subject: "Forgot Password",
+        text:
+          "Your one time password is " +
+          request_data.otp +
+          " Please Dont share with any one eles"
+      };
+      await app.send_mail(mail);
+      return app.success(res, {
+        message: "Otp send your register email",
+        data: []
+      });
+    } catch (err) {
+      app.error(res, err);
+    }
+  }
 
   async loginUser(req, res) {
     try {
@@ -135,7 +141,7 @@ async forgotPassword(req, res){
           authorization_key: request_data.authorization_key
         });
         login_details.authorization_key = request_data.authorization_key;
-        if(login_details.profile.length > 0){
+        if (login_details.profile.length > 0) {
           login_details.profile = app.ImageUrl(login_details.profile);
         }
         return app.success(res, {
@@ -148,18 +154,18 @@ async forgotPassword(req, res){
       app.error(res, err);
     }
   }
-  
-  async appInfo(req, res){
-    try{
-        let app_info = await DB.find('app_information', 'all');
-        app.success(res , {
-            message:"App Information", 
-            data: app_info
-        });
-    }catch(err){
-        app.error(res , err);
+
+  async appInfo(req, res) {
+    try {
+      let app_info = await DB.find("app_information", "all");
+      app.success(res, {
+        message: "App Information",
+        data: app_info
+      });
+    } catch (err) {
+      app.error(res, err);
     }
- }
+  }
   async updateProfile(req, res) {
     try {
       let required = {
@@ -178,7 +184,7 @@ async forgotPassword(req, res){
       }
       await DB.save("users", request_data);
       const usersinfo = await super.userDetails(request_data.id);
-      if(usersinfo.profile.length > 0){
+      if (usersinfo.profile.length > 0) {
         usersinfo.profile = app.ImageUrl(usersinfo.profile);
       }
       return app.success(res, {
