@@ -28,7 +28,9 @@ class Dashboard extends Component {
     count: {
       textAlign: "center",
       paddingTop: "20px",
-      color: "white"
+      color: "white",
+      fontSize: "20px",
+      fontFamily: "inherit"
     },
     text: {
       textAlign: "center",

@@ -15,7 +15,7 @@ class Post extends Component {
       redirect: false,
       posts: [],
       searchtext: "",
-      loading:true
+      loading: true
     };
   }
   addPost = () => {
@@ -24,10 +24,14 @@ class Post extends Component {
 
   fileType = type => {
     const statusCheck = () => {
-      return type === 1 ? "badge  badge-success" : "badge badge-info";
+      return type !== 3
+        ? type === 1
+          ? "badge  badge-success"
+          : "badge badge-info"
+        : "badge badge-warning";
     };
     const text = () => {
-      return type === 1 ? "Pdf" : "Audio";
+      return type !== 3 ? (type === 1 ? "Pdf" : "Audio") : "Pdf/Audio";
     };
     return <span className={statusCheck()}>{text()}</span>;
   };
@@ -36,21 +40,20 @@ class Post extends Component {
     getPost()
       .then(data => {
         console.log(data.data.data);
-        this.setState({ posts: data.data.data,loading:false });
-        
+        this.setState({ posts: data.data.data, loading: false });
       })
-      .catch(err => this.setState({ loading:false }));
+      .catch(err => this.setState({ loading: false }));
   }
 
   search = event => {
     const text = event.target.value;
-    this.setState({ searchtext: text,loading:true });
+    this.setState({ searchtext: text, loading: true });
     getPost(1, text)
       .then(data => {
         console.log(data.data.data);
-        this.setState({ posts: data.data.data,loading:false });
+        this.setState({ posts: data.data.data, loading: false });
       })
-      .catch(err =>  this.setState({ loading:false }));
+      .catch(err => this.setState({ loading: false }));
   };
 
   render() {
@@ -122,7 +125,7 @@ class Post extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.loading && (<Loader />)}
+                    {this.state.loading && <Loader />}
                     {this.state.posts.map((post, key) => (
                       <tr key={key}>
                         <td>{key + 1}</td>

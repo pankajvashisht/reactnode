@@ -39,7 +39,7 @@ MainFooter.propTypes = {
 
 MainFooter.defaultProps = {
   contained: false,
-  copyright: "Copyright © 2019 Tiger2Lcc",
+  copyright: "Copyright © 2019 2Tiger LLC",
   menuItems: [
   ]
 };

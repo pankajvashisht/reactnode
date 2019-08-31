@@ -19,20 +19,32 @@ import PageTitle from "../../components/common/PageTitle";
 import Button from "../../components/Button/button";
 import { addPost } from "../../Apis/apis";
 import swal from "sweetalert";
-const types = ["image/*", "application/pdf", "audio/*"];
+import Loader from "../../components/common/Loader";
+const types = ["image/*", "application/pdf", "audio/*", "application/pdf"];
+
 const PostAdd = () => {
   const [userForm, setUserForm] = useState({
-    form: { posttype: "", url: "", price: "", name: "", description: "" },
+    form: {
+      audio: "",
+      sample_audio: "",
+      posttype: "",
+      url: "",
+      price: "",
+      name: "",
+      description: ""
+    },
     validation: {
       posttype: null,
       url: null,
       price: null,
       name: null,
-      description: null
+      description: null,
+      sample_audio: null,
+      audio: null
     }
   });
   const [disabled, setDisabled] = useState(null);
-  const [fileType, setFileType] = useState('image/*');
+  const [fileType, setFileType] = useState("image/*");
   const checkValidation = (field = null) => {
     let validation = false;
     for (let vaild in userForm.validation) {
@@ -74,6 +86,25 @@ const PostAdd = () => {
     setUserForm({ ...userForm });
   };
 
+  const validationRemove = value => {
+    if (value === '1') {
+      delete userForm.form.audio;
+      delete userForm.form.sample_audio;
+      delete userForm.validation.audio;
+      delete userForm.validation.sample_audio;
+    } else if (value === '2') {
+      userForm.form.sample_audio = "";
+      delete userForm.validation.audio;
+      delete userForm.form.audio;
+      userForm.validation.sample_audio = null;
+    } else if (value === '3') {
+      userForm.form.sample_audio = "";
+      userForm.form.audio = "";
+      userForm.validation.audio = null;
+    }
+    setUserForm({ ...userForm });
+  };
+
   const selectImage = e => {
     const file = e.target.files[0];
     const name = e.target.name;
@@ -87,6 +118,7 @@ const PostAdd = () => {
     const name = e.target.name;
     if (name === "posttype") {
       setFileType(types[value]);
+      validationRemove(value);
     }
     userForm.form[name] = value;
     setUserForm({ ...userForm });
@@ -144,6 +176,7 @@ const PostAdd = () => {
                     <FormFeedback> Price field is required</FormFeedback>
                   </Col>
                 </Row>
+                {disabled && (<Loader />)}
                 <Row form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Post Type</label>
@@ -163,12 +196,13 @@ const PostAdd = () => {
                         <option value="">--Please select Post type--</option>
                         <option value="1"> PDF </option>
                         <option value="2"> Audio </option>
+                        <option value="3"> Audio & Pdf </option>
                       </FormSelect>
                       <FormFeedback> Posttype field is required</FormFeedback>
                     </InputGroup>
                   </Col>
                   <Col md="6">
-                    <label htmlFor="fePassword">Select File</label>
+                    <label>Select File</label>
                     <FormInput
                       type="file"
                       placeholder="Password"
@@ -183,6 +217,46 @@ const PostAdd = () => {
                     />
                     <FormFeedback> File field is required</FormFeedback>
                   </Col>
+                </Row>
+                {(userForm.form.posttype === "2" ||
+                  userForm.form.posttype === "3") && (
+                  <Row form>
+                    <Col md="6">
+                      <label>Audio Sample</label>
+                      <FormInput
+                        type="file"
+                        placeholder="Password"
+                        valid={userForm.validation.sample_audio}
+                        accept="audio/*"
+                        invalid={
+                          !userForm.validation.sample_audio &&
+                          userForm.validation.sample_audio != null
+                        }
+                        onChange={selectImage}
+                        name="sample_audio"
+                      />
+                      <FormFeedback> Sample field is required</FormFeedback>
+                    </Col>
+                    {userForm.form.posttype === "3" ? (
+                      <Col md="6">
+                        <label>Audio File</label>
+                        <FormInput
+                          type="file"
+                          valid={userForm.validation.audio}
+                          accept="audio/*"
+                          invalid={
+                            !userForm.validation.audio &&
+                            userForm.validation.audio != null
+                          }
+                          onChange={selectImage}
+                          name="audio"
+                        />
+                        <FormFeedback> Audio field is required</FormFeedback>
+                      </Col>
+                    ) : null}
+                  </Row>
+                )}
+                <Row form>
                   <Col md="12">
                     <label htmlFor="fePassword">Description</label>
                     <FormTextarea

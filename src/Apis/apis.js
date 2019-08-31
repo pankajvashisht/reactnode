@@ -15,6 +15,7 @@ const details = () => {
     header.headers.token = login_datails.token;
   }
 };
+details();
 export const Adminlogin = ({ email, password }) => {
   return axios.post(`${apis}/login`, {
     email,
@@ -82,6 +83,12 @@ export const addPost = data => {
   form.append("post_type", data.posttype);
   form.append("price", data.price);
   form.append("description", data.description);
+  if (data.hasOwnProperty("audio")) {
+    form.append("audio", data.audio);
+  }
+  if (data.hasOwnProperty("sample_audio")) {
+    form.append("sample_audio", data.sample_audio);
+  }
   return axios.post(`${apis}/posts?token=${login_datails.token}`, form, {
     headers: {
       "Content-Type": "multipart/form-data"

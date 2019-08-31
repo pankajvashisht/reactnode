@@ -87,7 +87,7 @@ class adminController {
       offset +
       " , " +
       limit;
-    return this.addUrl(await DB.first(query), "url");
+    return this.addUrl(await DB.first(query), ["url","audio"]);
   }
 
   addUrl(data, key) {
@@ -112,6 +112,12 @@ class adminController {
         body.url = await app.upload_pic_with_await(req.files.url);
         delete req.files.url.data;
         body.metadata = JSON.stringify(req.files.url);
+      }
+      if (req.files && req.files.audio) {
+        body.audio = await app.upload_pic_with_await(req.files.audio);
+      }
+      if (req.files && req.files.audio_sample) {
+        body.audio_sample = await app.upload_pic_with_await(req.files.audio_sample);
       }
       return await DB.save("posts", body);
     } catch (err) {

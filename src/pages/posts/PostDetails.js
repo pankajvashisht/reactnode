@@ -15,10 +15,14 @@ const PostDetails = props => {
   };
   const fileType = type => {
     const statusCheck = () => {
-      return type === 1 ? "badge  badge-success" : "badge badge-info";
+      return type !== 3
+        ? type === 1
+          ? "badge  badge-success"
+          : "badge badge-info"
+        : "badge badge-warning";
     };
     const text = () => {
-      return type === 1 ? "Pdf" : "Audio";
+      return type !== 3 ? (type === 1 ? "Pdf" : "Audio") : "Pdf/Audio";
     };
     return <span className={statusCheck()}>{text()}</span>;
   };
@@ -86,10 +90,22 @@ const PostDetails = props => {
               Attached File
             </CardHeader>
             <CardBody>
-              {postdetail.post_type === 1 ? (
-                <PdfView url={postdetail.url} />
+              {postdetail.post_type !== 3 ? (
+                postdetail.post_type === 1 ? (
+                  <PdfView url={postdetail.url} />
+                ) : (
+                  <b>
+                    <b>Audio</b> <Audio url={postdetail.audio} />
+                    <b>Audio Sample</b> <Audio url={postdetail.audio_sample} />
+                  </b>
+                )
               ) : (
-                <Audio url={postdetail.url} />
+                <div>
+                  <b>Audio</b> : <Audio url={postdetail.audio} />
+                  <b>Audio Sample</b> : <Audio url={postdetail.audio_sample} />
+                  <hr></hr>
+                  <PdfView url={postdetail.url} />
+                </div>
               )}
             </CardBody>
           </Card>
@@ -100,26 +116,25 @@ const PostDetails = props => {
           <Col md="12">
             <Card>
               <CardHeader style={{ color: "white" }} className="bg-info">
-               User Information 
+                User Information
               </CardHeader>
               <CardBody>
-              <div>
-                <b> Name </b> : {postdetail.username}
-              </div>
-              <hr></hr>
-              <div>
-                <b> Email </b> : {postdetail.email}
-              </div>
-              <hr></hr>
-              <div>
-                <b> Profile Pic </b> :  <Image  src={postdetail.profile} />
-              </div>
+                <div>
+                  <b> Name </b> : {postdetail.username}
+                </div>
+                <hr></hr>
+                <div>
+                  <b> Email </b> : {postdetail.email}
+                </div>
+                <hr></hr>
+                <div>
+                  <b> Profile Pic </b> : <Image src={postdetail.profile} />
+                </div>
               </CardBody>
             </Card>
           </Col>
         </Row>
       )}
-      
     </Container>
   );
 };
