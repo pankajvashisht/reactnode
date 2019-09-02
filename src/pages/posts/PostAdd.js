@@ -31,7 +31,8 @@ const PostAdd = () => {
       url: "",
       price: "",
       name: "",
-      description: ""
+      description: "",
+      cover_pic: ""
     },
     validation: {
       posttype: null,
@@ -40,7 +41,8 @@ const PostAdd = () => {
       name: null,
       description: null,
       sample_audio: null,
-      audio: null
+      audio: null,
+      cover_pic: null
     }
   });
   const [disabled, setDisabled] = useState(null);
@@ -87,17 +89,17 @@ const PostAdd = () => {
   };
 
   const validationRemove = value => {
-    if (value === '1') {
+    if (value === "1") {
       delete userForm.form.audio;
       delete userForm.form.sample_audio;
       delete userForm.validation.audio;
       delete userForm.validation.sample_audio;
-    } else if (value === '2') {
+    } else if (value === "2") {
       userForm.form.sample_audio = "";
       delete userForm.validation.audio;
       delete userForm.form.audio;
       userForm.validation.sample_audio = null;
-    } else if (value === '3') {
+    } else if (value === "3") {
       userForm.form.sample_audio = "";
       userForm.form.audio = "";
       userForm.validation.audio = null;
@@ -176,7 +178,25 @@ const PostAdd = () => {
                     <FormFeedback> Price field is required</FormFeedback>
                   </Col>
                 </Row>
-                {disabled && (<Loader />)}
+                {disabled && <Loader />}
+                <Row form>
+                  <Col md="12">
+                    <label>Cover Pic</label>
+                    <FormInput
+                      type="file"
+                      valid={userForm.validation.cover_pic}
+                      accept="image/*"
+                      invalid={
+                        !userForm.validation.cover_pic &&
+                        userForm.validation.cover_pic != null
+                      }
+                      onChange={selectImage}
+                      name="cover_pic"
+                    />
+                    <FormFeedback> Cover Pic field is required</FormFeedback>
+                  </Col>
+                </Row>
+                <hr></hr>
                 <Row form>
                   <Col md="6" className="form-group">
                     <label htmlFor="feEmailAddress">Post Type</label>

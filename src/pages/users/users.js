@@ -125,7 +125,7 @@ class User extends Component {
                             data={user}
                             table="users"
                             onUpdate={data => {
-                              this.setState((this.state.users[key] = data));
+                              this.setState(this.state.users[key] = data);
                             }}
                           />
                         </td>

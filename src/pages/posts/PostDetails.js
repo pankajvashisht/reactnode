@@ -111,6 +111,20 @@ const PostDetails = props => {
           </Card>
         </Col>
       </Row>
+      {postdetail.cover_pic.length > 0 && (
+        <Row style={{ marginTop: "10px" }}>
+          <Col md="12">
+            <Card>
+              <CardHeader style={{ color: "white" }} className="bg-info">
+                Cover Picture
+              </CardHeader>
+              <CardBody>
+              <Image src={postdetail.cover_pic} width="100%" height="375" />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      )}
       {postdetail.hasOwnProperty("profile") && (
         <Row style={{ marginTop: "10px" }}>
           <Col md="12">

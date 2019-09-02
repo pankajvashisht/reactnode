@@ -27,6 +27,9 @@ module.exports = {
         if (value.audio.length > 0) {
           result[key].audio = app.ImageUrl(value.audio);
         }
+        if (value.cover_pic.length > 0) {
+          result[key].cover_pic = app.ImageUrl(value.cover_pic);
+        }
       });
       return app.success(res, {
         message: " Posts ",
@@ -57,6 +60,15 @@ module.exports = {
       let result = await DB.first(query);
       result.forEach((value, key) => {
         result[key].url = app.ImageUrl(value.default_url);
+        if (value.sample_audio.length > 0) {
+          result[key].sample_audio = app.ImageUrl(value.sample_audio);
+        }
+        if (value.audio.length > 0) {
+          result[key].audio = app.ImageUrl(value.audio);
+        }
+        if (value.cover_pic.length > 0) {
+          result[key].cover_pic = app.ImageUrl(value.cover_pic);
+        }
       });
       return app.success(res, {
         message: " Posts ",

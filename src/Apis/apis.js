@@ -83,6 +83,7 @@ export const addPost = data => {
   form.append("post_type", data.posttype);
   form.append("price", data.price);
   form.append("description", data.description);
+  form.append("cover_pic", data.cover_pic);
   if (data.hasOwnProperty("audio")) {
     form.append("audio", data.audio);
   }

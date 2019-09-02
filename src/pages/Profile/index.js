@@ -9,7 +9,7 @@ const Profile = () => {
   useEffect(() => {
     const login_datails = JSON.parse(localStorage.getItem("userInfo"));
     UpdateUserInfo([login_datails]);
-  });
+  },[]);
 
   return (
     <Container fluid className="main-content-container px-4">

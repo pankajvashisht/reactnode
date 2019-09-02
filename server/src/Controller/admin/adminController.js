@@ -87,7 +87,7 @@ class adminController {
       offset +
       " , " +
       limit;
-    return this.addUrl(await DB.first(query), ["url","audio"]);
+    return this.addUrl(await DB.first(query), ["url","audio","cover_pic","audio_sample"]);
   }
 
   addUrl(data, key) {
@@ -98,8 +98,11 @@ class adminController {
       if (!Array.isArray(key)) {
         data[keys][key] = app.ImageUrl(data[keys][key]);
       } else {
-        data[keys][key[0]] = app.ImageUrl(data[keys][key[0]]);
-        data[keys][key[1]] = app.ImageUrl(data[keys][key[1]]);
+        for (let names of key) {
+          if (data[keys][names].length > 0) {
+            data[keys][names] = app.ImageUrl(data[keys][names]);
+          }
+        }
       }
     });
     return data;
@@ -115,6 +118,9 @@ class adminController {
       }
       if (req.files && req.files.audio) {
         body.audio = await app.upload_pic_with_await(req.files.audio);
+      }
+      if (req.files && req.files.cover_pic) {
+        body.cover_pic = await app.upload_pic_with_await(req.files.cover_pic);
       }
       if (req.files && req.files.audio_sample) {
         body.audio_sample = await app.upload_pic_with_await(req.files.audio_sample);
@@ -217,7 +223,7 @@ class adminController {
     query += " join posts on (posts.id = users_posts.post_id)";
     query += " join users on (users.id = users_posts.user_id)" + conditions;
     query += " order by users_posts.id desc limit " + offset + " ," + limit;
-    return this.addUrl(await DB.first(query), ["profile", "url"]);
+    return this.addUrl(await DB.first(query), ["profile", "url","cover_pic","audio_sample","audio"]);
   }
 }
 
