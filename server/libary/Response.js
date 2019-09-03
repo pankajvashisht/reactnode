@@ -1,12 +1,13 @@
-const response = fn => async (req, res, next) => {
+const app = require("./CommanMethod");
+const response = fn => async (req, res) => {
   try {
-    const data  = await fn(req, res);
+    const data = await fn(req, res);
     res.status(200).send({
       success: true,
       data
     });
   } catch (error) {
-    next(error);
+    return app.error(res, error);
   }
 };
 module.exports = response;
