@@ -17,7 +17,9 @@ module.exports = {
       query +=
         "(select count(*) from users_posts where user_id = " +
         request_data.user_id +
-        " and post_id = posts.id) as is_buy from posts where status = 1 and post_type = " +
+        " and post_id = posts.id) as is_buy,IFNULL((select count(*) from favourites where user_id = " +
+        request_data.user_id +
+        " and post_id = posts.id),0) as is_fav from posts where status = 1 and post_type = " +
         request_data.post_type;
       query += " order by posts.id desc limit " + offset + " , 20";
       let result = await DB.first(query);
@@ -34,7 +36,7 @@ module.exports = {
         }
       });
       return app.success(res, {
-        message: " Posts ",
+        message: "Posts",
         data: result
       });
     } catch (err) {
@@ -61,6 +63,36 @@ module.exports = {
       return app.error(res, err);
     }
   },
+  favourites: async (req, res) => {
+    let required = {
+      user_id: req.body.user_id,
+      post_id: req.body.post_id
+    };
+    try {
+      const request_data = await apis.vaildation(required, {});
+      const is_fav = await DB.find("favourites", {
+        conditions: {
+          post_id: request_data.post_id,
+          user_id: request_data.user_id
+        }
+      });
+      let message = "";
+      if (is_fav.length > 0) {
+        let query = "delete from favourites where id = " + is_fav[0].id;
+        await DB.first(query);
+        message = "Post Unfav successfully";
+      } else {
+        await DB.save("favourites", request_data);
+        message = "Post fav successfully";
+      }
+      return app.success(res, {
+        message: message,
+        data: []
+      });
+    } catch (err) {
+      return app.error(res, err);
+    }
+  },
   myposts: async (req, res) => {
     let required = {
       user_id: req.body.user_id,
@@ -73,7 +105,9 @@ module.exports = {
       query +=
         "(select count(*) from users_posts where user_id = " +
         request_data.user_id +
-        " and post_id = posts.id) as is_buy from users_posts";
+        " and post_id = posts.id) as is_buy,IFNULL((select count(*) from favourites where user_id = " +
+        request_data.user_id +
+        " and post_id = posts.id),0) as is_fav from users_posts";
       query += " join posts on (posts.id = users_posts.post_id)";
       query +=
         " where posts.status = 1 and users_posts.status =1 and users_posts.user_id=" +
@@ -82,8 +116,8 @@ module.exports = {
       let result = await DB.first(query);
       result.forEach((value, key) => {
         result[key].url = app.ImageUrl(value.default_url);
-        if (value.sample_audio.length > 0) {
-          result[key].sample_audio = app.ImageUrl(value.sample_audio);
+        if (value.audio_sample.length > 0) {
+          result[key].audio_sample = app.ImageUrl(value.audio_sample);
         }
         if (value.audio.length > 0) {
           result[key].audio = app.ImageUrl(value.audio);
@@ -94,6 +128,47 @@ module.exports = {
       });
       return app.success(res, {
         message: " Posts ",
+        data: result
+      });
+    } catch (err) {
+      return app.error(res, err);
+    }
+  },
+  favPost: async (req, res) => {
+    let required = {
+      user_id: req.body.user_id,
+      offset: req.params.offset
+    };
+    try {
+      let request_data = await apis.vaildation(required, {});
+      let offset = (request_data.offset - 1) * 20;
+      let query = "select posts.*, ";
+      query +=
+        "(select count(*) from users_posts where user_id = " +
+        request_data.user_id +
+        " and post_id = posts.id) as is_buy,IFNULL((select count(*) from favourites where user_id = " +
+        request_data.user_id +
+        " and post_id = posts.id),0) as is_fav from favourites";
+      query += " join posts on (posts.id = favourites.post_id)";
+      query +=
+        " where posts.status = 1  and favourites.user_id=" +
+        request_data.user_id;
+      query += " order by posts.id desc limit " + offset + " , 20";
+      let result = await DB.first(query);
+      result.forEach((value, key) => {
+        result[key].url = app.ImageUrl(value.default_url);
+        if (value.audio_sample.length > 0) {
+          result[key].audio_sample = app.ImageUrl(value.audio_sample);
+        }
+        if (value.audio.length > 0) {
+          result[key].audio = app.ImageUrl(value.audio);
+        }
+        if (value.cover_pic.length > 0) {
+          result[key].cover_pic = app.ImageUrl(value.cover_pic);
+        }
+      });
+      return app.success(res, {
+        message: "fav Posts ",
         data: result
       });
     } catch (err) {
@@ -150,7 +225,9 @@ const getPostBytype = async (type, user_id, offset) => {
     query +=
       "(select count(*) from users_posts where user_id = " +
       user_id +
-      " and post_id = posts.id) as is_buy from posts where status = 1 and post_type =  " +
+      " and post_id = posts.id) as is_buy, IFNULL((select count(*) from favourites where user_id = " +
+      user_id +
+      " and post_id = posts.id), 0 ) as is_fav from posts where status = 1 and post_type =  " +
       type;
     query += " order by posts.id desc limit " + offset + " , 10";
     let pdf = await DB.first(query);

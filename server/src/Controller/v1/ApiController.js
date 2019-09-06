@@ -107,8 +107,10 @@ class ApiController {
         "id",
         "name",
         "email",
+        "phone",
         "authorization_key",
-        "profile"
+        "profile",
+        "status"
       ]
     });
   }

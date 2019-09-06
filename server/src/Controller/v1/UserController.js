@@ -14,6 +14,7 @@ class UserController extends ApiController {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
+      phone: req.body.phone,
       checkexist: 1
     };
     let non_required = {
@@ -24,6 +25,11 @@ class UserController extends ApiController {
     };
     try {
       let request_data = await apis.vaildation(required, non_required);
+      if (req.files && req.files.profile) {
+        request_data.profile = await app.upload_pic_with_await(
+          req.files.profile
+        );
+      }
       let insert_id = await DB.save("users", request_data);
       request_data.id = insert_id;
       app.success(res, {
@@ -127,7 +133,9 @@ class UserController extends ApiController {
           "password",
           "email",
           "authorization_key",
-          "profile"
+          "profile",
+          "phone",
+          "status"
         ]
       });
       if (login_details) {

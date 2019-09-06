@@ -20,6 +20,8 @@ router.get("/mypost/:offset([0-9]+)?", UserAuth, PostController.myposts);
 router.get("/home/:offset([0-9]+)?", UserAuth, PostController.homePost);
 router.post("/post", UserAuth, PostController.buyPost);
 router.post("/user/verifiy", UserAuth, user.verifyOtp);
+router.post("/favourite", UserAuth, PostController.favourites);
+router.get("/favourite/:offset([0-9]+)?", UserAuth, PostController.favPost);
 router.post("/user/forgot_password", user.forgotPassword);
 router.get("/app_info", user.appInfo);
 
