@@ -21,7 +21,6 @@ export default class UserActions extends React.Component {
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
-    console.log(this.state.information);
   }
 
   logout = () => {
@@ -44,21 +43,31 @@ export default class UserActions extends React.Component {
     }
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
-        <DropdownToggle style={{cursor:"pointer"}}  caret tag={NavLink} className="text-nowrap px-3">
+        <DropdownToggle
+          style={{ cursor: 'pointer' }}
+          caret
+          tag={NavLink}
+          className="text-nowrap px-3"
+        >
           <img
             className="user-avatar rounded-circle mr-2"
-            src={require("./../../../../images/avatars/0.jpg")}
+            src={require('./../../../../images/avatars/0.jpg')}
             alt="User Avatar"
-          />{" "}
-          <span className="d-none d-md-inline-block">{(this.state.information !=null)?this.state.information.name:null}</span>
+          />{' '}
+          <span className="d-none d-md-inline-block">
+            {this.state.information != null
+              ? this.state.information.name
+              : null}
+          </span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="profile">
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
-          <DropdownItem tag={Link} to="transaction">
+          {this.state.information.admin_role === 1?( <DropdownItem tag={Link} to="transaction">
             <i className="material-icons">&#xE896;</i> Transactions
-          </DropdownItem>
+          </DropdownItem>):null  }
+
           <DropdownItem divider />
           <DropdownItem onClick={this.logout} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout

@@ -1,67 +1,66 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
-import PageTitle from "../../components/common/PageTitle";
-import Button from "../../components/Button/button";
-import { Redirect } from "react-router-dom";
-import { getUser } from "../../Apis/apis";
-import DeleteData from "../../components/common/DeleteData";
-import StatusUpdate from "../../components/common/StatusUpdate";
-import Image from "../../components/common/Image";
-import Input from "../../components/Input/input";
-import Loader from "../../components/common/Loader";
-class User extends Component {
+import React, { Component } from 'react';
+import { Container, Row, Col, Card, CardHeader, CardBody } from 'shards-react';
+import PageTitle from '../../components/common/PageTitle';
+import Button from '../../components/Button/button';
+import { Redirect } from 'react-router-dom';
+import { getAdmin } from '../../Apis/apis';
+import DeleteData from '../../components/common/DeleteData';
+import StatusUpdate from '../../components/common/StatusUpdate';
+import Image from '../../components/common/Image';
+import Input from '../../components/Input/input';
+import Loader from '../../components/common/Loader';
+class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
       users: [],
-      searchtext:'',
-      loading:true
+      searchtext: '',
+      loading: true,
     };
   }
 
   componentWillMount() {
-    getUser()
-      .then(data => {
-        console.log(data.data.data);
-        this.setState({ users: data.data.data,loading:false });
+    getAdmin()
+      .then((data) => {
+        this.setState({ users: data.data.data, loading: false });
       })
-      .catch(err => this.setState({ oading:false }));
+      .catch((err) => this.setState({ oading: false }));
   }
 
-  addUser = () => {
+  addAdmin = () => {
     this.setState({ redirect: true });
   };
-  search = event => {
-    const text = event.target.value
-    this.setState({searchtext:text,loading:true})
-    getUser(1, text)
-      .then(data => {
+  search = (event) => {
+    const text = event.target.value;
+    this.setState({ searchtext: text, loading: true });
+    getAdmin(1, text)
+      .then((data) => {
         console.log(data.data.data);
-        this.setState({ users: data.data.data,loading:false });
+        this.setState({ users: data.data.data, loading: false });
       })
-      .catch(err => this.setState({ loading:false }));
-  }
+      .catch((err) => this.setState({ loading: false }));
+  };
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="add-user" />;
+      return <Redirect to="add-admin" />;
     }
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
             sm="4"
-            title="Users listing"
-            subtitle="Rigister Users"
+            title="Admin listing"
+            subtitle="Rigister Admins"
             className="text-sm-left"
           />
         </Row>
         <Row noGutters className="page-header py-4 pull-right">
           <Button
             classes="btn btn-info "
-            children="Add User"
-            action={this.addUser}
+            children="Add Admin"
+            action={this.addAdmin}
           />
         </Row>
 
@@ -69,7 +68,7 @@ class User extends Component {
           <Col>
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-              <Row>
+                <Row>
                   <Col md="4">
                     <h6 className="m-0">Active User</h6>
                   </Col>
@@ -110,7 +109,7 @@ class User extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                  {this.state.loading && (<Loader />)}
+                    {this.state.loading && <Loader />}
                     {this.state.users.map((user, key) => (
                       <tr key={key}>
                         <td>{key + 1}</td>
@@ -123,16 +122,16 @@ class User extends Component {
                           <StatusUpdate
                             key={key}
                             data={user}
-                            table="users"
-                            onUpdate={data => {
-                              this.setState(this.state.users[key] = data);
+                            table="admins"
+                            onUpdate={(data) => {
+                              this.setState((this.state.users[key] = data));
                             }}
                           />
                         </td>
                         <td>
                           <DeleteData
                             key={key}
-                            table="users"
+                            table="admins"
                             data={user.id}
                             ondelete={() => {
                               this.setState(this.state.users.splice(key, 1));
@@ -153,4 +152,4 @@ class User extends Component {
   }
 }
 
-export default User;
+export default Admin;

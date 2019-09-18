@@ -3,7 +3,7 @@ import { Nav } from "shards-react";
 
 import SidebarNavItem from "./SidebarNavItem";
 import { Store } from "../../../flux";
-
+import subAdmin from '../../../data/subadmin-nav-items';
 class SidebarNavItems extends React.Component {
   constructor(props) {
     super(props)
@@ -16,6 +16,10 @@ class SidebarNavItems extends React.Component {
   }
 
   componentWillMount() {
+    let login_datails = JSON.parse(localStorage.getItem('userInfo'));
+    if (login_datails.admin_role === 0) {
+      this.setState({ navItems: subAdmin() });
+    }
     Store.addChangeListener(this.onChange);
   }
 

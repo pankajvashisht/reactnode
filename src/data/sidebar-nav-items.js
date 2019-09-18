@@ -1,40 +1,45 @@
 export default function() {
   return [
     {
-      title: "Dashboard",
-      to: "/",
+      title: 'Dashboard',
+      to: '/',
       htmlBefore: '<i class="material-icons">edit</i>',
-      htmlAfter: ""
+      htmlAfter: '',
     },
     {
-      title: "Add User",
+      title: 'Sub Admin',
+      htmlBefore: '<i class="material-icons">supervisor_account</i>',
+      to: '/sub-admin',
+    },
+    {
+      title: 'Add User',
       htmlBefore: '<i class="material-icons">person_add</i>',
-      to: "/add-user",
+      to: '/add-user',
     },
     {
-      title: "Users",
+      title: 'Users',
       htmlBefore: '<i class="material-icons">people</i>',
-      to: "/users",
+      to: '/users',
     },
     {
-      title: "Add Posts",
+      title: 'Add Posts',
       htmlBefore: '<i class="material-icons">note_add</i>',
-      to: "/add-post",
+      to: '/add-post',
     },
     {
-      title: "Posts",
+      title: 'Posts',
       htmlBefore: '<i class="material-icons">local_activity</i>',
-      to: "/posts",
+      to: '/posts',
     },
     {
-      title: "Trsansaction",
+      title: 'Trsansaction',
       htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
-      to: "/transaction",
+      to: '/transaction',
     },
     {
-      title: "User Profile",
+      title: 'User Profile',
       htmlBefore: '<i class="material-icons">person</i>',
-      to: "/profile",
-    }
+      to: '/profile',
+    },
   ];
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-const apis = "http://localhost:4000/admins";
+const apis = 'http://18.221.216.40:4000/admins';
 const header = {
   headers: {
     token: ""
@@ -35,8 +35,24 @@ export const addUser = userForm => {
     }
   });
 };
+
+export const addAdmin = userForm => {
+  let form = new FormData();
+  form.append("name", userForm.name);
+  form.append("password", userForm.password);
+  form.append("email", userForm.email);
+  form.append("profile", userForm.profile);
+  return axios.post(`${apis}/admins?token=${login_datails.token}`, form, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
+};
 export const getUser = (page = 1, query = "") => {
   return axios.get(`${apis}/users?token=${login_datails.token}&q=${query}`);
+};
+export const getAdmin = (page = 1, query = "") => {
+  return axios.get(`${apis}/admins?token=${login_datails.token}&q=${query}`);
 };
 export const getPost = (page = 1, query = "") => {
   return axios.get(`${apis}/posts?token=${login_datails.token}&q=${query}`);
@@ -84,6 +100,7 @@ export const addPost = data => {
   form.append("price", data.price);
   form.append("description", data.description);
   form.append("cover_pic", data.cover_pic);
+  form.append('user_id', login_datails.id);
   if (data.hasOwnProperty("audio")) {
     form.append("audio", data.audio);
   }
