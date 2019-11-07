@@ -10,9 +10,9 @@ import "./asset/styles/shards-dashboards.1.1.0.min.css";
 
 
 export default () => {
-  const [title,updateTitle] = useState('Home'); 
+  const [title,updateTitle] = useState('Home');
   useEffect(() => {
-    document.title = `2TigersLCC-${title}`;
+    document.title = `READIO-${title}`;
   })
    return(
           <Router basename="admin">

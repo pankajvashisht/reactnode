@@ -98,7 +98,6 @@ class ApiController {
     }
   }
   async userDetails(id) {
-    console.log("ddsfdsf", id);
     return await DB.find("users", "first", {
       conditions: {
         id: id
@@ -107,8 +106,11 @@ class ApiController {
         "id",
         "name",
         "email",
+        "phone",
         "authorization_key",
-        "profile"
+        "profile",
+        "status",
+        "(select count(id) from users_posts where user_id="+id+") as total_purchase"
       ]
     });
   }

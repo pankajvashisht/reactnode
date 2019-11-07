@@ -8,18 +8,27 @@ class Dashboard extends Component {
   state = {
     total_users: 0,
     total_posts: 0,
-    total_amount: 0
+    total_amount: 0,
+    admin_role:1
   };
   componentWillMount() {
+    let login_datails = JSON.parse(localStorage.getItem('userInfo'));
+    if (login_datails.admin_role === 0) {
+      this.setState({ admin_role: 0 });
+    }
     dashBaord()
       .then(data => {
         let final = data.data.data;
         final = Object.values(final);
         this.setState({
-          total_amount: final[2],
           total_posts: final[0],
-          total_users: final[1]
         });
+        if (login_datails.admin_role === 1) {
+           this.setState({
+             total_amount: final[2],
+             total_users: final[1],
+           });
+        }
       })
       .catch(err => console.warn(err));
   }
@@ -52,36 +61,42 @@ class Dashboard extends Component {
           />
         </Row>
         <Row>
-          <Col className="col-lg mb-4">
-            <Card className="bg-info" small>
-              <Link to="users">
-                <div style={this.style.count}>
-                  <b>Users</b>
-                </div>
-                <div style={this.style.text}>{this.state.total_users}</div>
-              </Link>
+          {this.state.admin_role ===1 ? (
+            <Card className="col-lg mb-4">
+              <Card className="bg-info" small>
+                <Link to="users">
+                  <div style={this.style.count}>
+                    <b>Users</b>
+                  </div>
+                  <div style={this.style.text}>{this.state.total_users}</div>
+                </Link>
+              </Card>
             </Card>
-          </Col>
+          ):null}
+          {!this.state.admin_role && <Col className="col-lg mb-4"></Col>}
           <Col className="col-lg mb-4">
             <Card className="bg-danger" small>
-            <Link to="posts">
-              <div style={this.style.count}>
-                <b>Posts</b>
-              </div>
-              <div style={this.style.text}>{this.state.total_posts}</div>
+              <Link to="posts">
+                <div style={this.style.count}>
+                  <b>Posts</b>
+                </div>
+                <div style={this.style.text}>{this.state.total_posts}</div>
               </Link>
             </Card>
           </Col>
-          <Col className="col-lg mb-4">
-            <Card className="bg-warning" small>
-            <Link to="transaction">
-              <div style={this.style.count}>
-                <b>Transaction Amount</b>
-              </div>
-              <div style={this.style.text}>{this.state.total_amount}</div>
-              </Link>
-            </Card>
-          </Col>
+          {!this.state.admin_role && <Col className="col-lg mb-4"></Col>}
+          {this.state.admin_role ===1? (
+            <Col className="col-lg mb-4">
+              <Card className="bg-warning" small>
+                <Link to="transaction">
+                  <div style={this.style.count}>
+                    <b>Transaction Amount</b>
+                  </div>
+                  <div style={this.style.text}>{this.state.total_amount}</div>
+                </Link>
+              </Card>
+            </Col>
+          ):null}
         </Row>
       </Container>
     );

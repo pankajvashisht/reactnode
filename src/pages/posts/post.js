@@ -31,7 +31,7 @@ class Post extends Component {
         : "badge badge-warning";
     };
     const text = () => {
-      return type !== 3 ? (type === 1 ? "Pdf" : "Audio") : "Pdf/Audio";
+      return type !== 3 ? (type === 1 ? "Epub" : "Audio") : "Epub/Audio";
     };
     return <span className={statusCheck()}>{text()}</span>;
   };
@@ -108,6 +108,12 @@ class Post extends Component {
                         Title
                       </th>
                       <th scope="col" className="border-0">
+                        Added By
+                      </th>
+                      <th scope="col" className="border-0">
+                        Author Name
+                      </th>
+                      <th scope="col" className="border-0">
                         Price
                       </th>
                       <th scope="col" className="border-0">
@@ -130,14 +136,16 @@ class Post extends Component {
                       <tr key={key}>
                         <td>{key + 1}</td>
                         <td>{post.title}</td>
+                        <td>{post.name}</td>
+                        <td>{post.author_name}</td>
                         <td>{post.price}</td>
                         <td>
                           <Link
                             to={{
-                              pathname: "/post-details",
+                              pathname: '/post-details',
                               state: {
-                                postDetails: post
-                              }
+                                postDetails: post,
+                              },
                             }}
                           >
                             View File
@@ -148,7 +156,7 @@ class Post extends Component {
                           <StatusUpdate
                             data={post}
                             table="posts"
-                            onUpdate={data => {
+                            onUpdate={(data) => {
                               this.setState((this.state.posts[key] = data));
                             }}
                           />

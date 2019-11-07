@@ -29,12 +29,11 @@ const withTracker = (WrappedComponent, options = {}) => {
       const page = this.props.location.pathname + this.props.location.search;
       if(page !== '/login'){
         let login_datails = localStorage.getItem('userInfo');
-        
+
         if (typeof login_datails === 'string') {
           login_datails = JSON.parse(localStorage.getItem('userInfo'));
         }
         if (login_datails === null) {
-          console.log("pankaj");
           this.setState({redriect:true});
         }
       }
@@ -42,7 +41,7 @@ const withTracker = (WrappedComponent, options = {}) => {
     }
 
     componentDidUpdate(prevProps) {
-    
+
       const currentPage =
         prevProps.location.pathname + prevProps.location.search;
       const nextPage =

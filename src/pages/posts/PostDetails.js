@@ -1,44 +1,52 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
-import PageTitle from "../../components/common/PageTitle";
-import PdfView from "../../components/common/PdfView";
-import Audio from "../../components/common/Audio";
-import Image from "../../components/common/Image";
-
-const PostDetails = props => {
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, CardHeader, CardBody } from 'shards-react';
+import PageTitle from '../../components/common/PageTitle';
+import PdfView from '../../components/common/PdfView';
+import Audio from '../../components/common/Audio';
+import Image from '../../components/common/Image';
+import StarRatings from 'react-star-ratings';
+import { review } from '../../Apis/apis';
+const PostDetails = (props) => {
   const [postdetail] = useState({ ...props.location.state.postDetails });
-  const dates = dates => {
+  const [rating, setRating] = useState([]);
+  useEffect(() => {
+    review(postdetail.id).then((data) => {
+      const response = data.data.data;
+      setRating(response);
+    });
+  }, []);
+  const dates = (dates) => {
     var date = new Date(dates * 1000);
     return (
-      date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
+      date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
     );
   };
-  const fileType = type => {
+  const fileType = (type) => {
     const statusCheck = () => {
       return type !== 3
         ? type === 1
-          ? "badge  badge-success"
-          : "badge badge-info"
-        : "badge badge-warning";
+          ? 'badge  badge-success'
+          : 'badge badge-info'
+        : 'badge badge-warning';
     };
     const text = () => {
-      return type !== 3 ? (type === 1 ? "Pdf" : "Audio") : "Pdf/Audio";
+      return type !== 3 ? (type === 1 ? 'Epub' : 'Audio') : 'Epub/Audio';
     };
     return <span className={statusCheck()}>{text()}</span>;
   };
-  const status = type => {
+  const status = (type) => {
     const statusCheck = () => {
-      return type === 1 ? "badge  badge-success" : "badge badge-danger";
+      return type === 1 ? 'badge  badge-success' : 'badge badge-danger';
     };
     const text = () => {
-      return type === 1 ? "Active" : "Deactive";
+      return type === 1 ? 'Active' : 'Deactive';
     };
     return <span className={statusCheck()}>{text()}</span>;
   };
   return (
     <Container
       fluid
-      style={{ marginButtom: "20px" }}
+      style={{ marginButtom: '20px' }}
       className="main-content-container px-4"
     >
       <Row noGutters className="page-header py-4">
@@ -52,7 +60,7 @@ const PostDetails = props => {
       <Row>
         <Col md="12">
           <Card>
-            <CardHeader className="bg-info" style={{ color: "white" }}>
+            <CardHeader className="bg-info" style={{ color: 'white' }}>
               Post Details
             </CardHeader>
             <CardBody className="p-3">
@@ -62,6 +70,9 @@ const PostDetails = props => {
               <hr></hr>
               <div>
                 <b> Description </b> : {postdetail.description}
+              </div>
+              <div>
+                <b> Author Name </b> : {postdetail.author_name}
               </div>
               <hr></hr>
               <div>
@@ -83,10 +94,10 @@ const PostDetails = props => {
           </Card>
         </Col>
       </Row>
-      <Row style={{ marginTop: "10px" }}>
+      <Row style={{ marginTop: '10px' }}>
         <Col md="12">
           <Card>
-            <CardHeader style={{ color: "white" }} className="bg-info">
+            <CardHeader style={{ color: 'white' }} className="bg-info">
               Attached File
             </CardHeader>
             <CardBody>
@@ -111,11 +122,25 @@ const PostDetails = props => {
           </Card>
         </Col>
       </Row>
-      {postdetail.hasOwnProperty("profile") && (
-        <Row style={{ marginTop: "10px" }}>
+      {postdetail.cover_pic.length > 0 && (
+        <Row style={{ marginTop: '10px' }}>
           <Col md="12">
             <Card>
-              <CardHeader style={{ color: "white" }} className="bg-info">
+              <CardHeader style={{ color: 'white' }} className="bg-info">
+                Cover Picture
+              </CardHeader>
+              <CardBody>
+                <Image src={postdetail.cover_pic} width="100%" height="375" />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      )}
+      {postdetail.hasOwnProperty('profile') && (
+        <Row style={{ marginTop: '10px' }}>
+          <Col md="12">
+            <Card>
+              <CardHeader style={{ color: 'white' }} className="bg-info">
                 User Information
               </CardHeader>
               <CardBody>
@@ -135,6 +160,34 @@ const PostDetails = props => {
           </Col>
         </Row>
       )}
+      <Row style={{ marginTop: '10px' }}>
+        <Col md="12">
+          <Card>
+            <CardHeader style={{ color: 'white' }} className="bg-info">
+              Reviews
+            </CardHeader>
+            <CardBody>
+              {rating.map((data) => (
+                <Card style={{ marginBottom: '10px' }}>
+                  <CardBody>
+                    <div>{data.comment}
+                    <br/>
+                    </div>
+                    <StarRatings
+                      rating={data.rating}
+                      starRatedColor="blue"
+                      numberOfStars={5}
+                      starDimension="15px"
+                      starSpacing="5px"
+                      name="rating"
+                    />
+                  </CardBody>
+                </Card>
+              ))}
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 };

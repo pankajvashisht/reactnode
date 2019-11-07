@@ -28,7 +28,7 @@ class User extends Component {
       })
       .catch(err => this.setState({ oading:false }));
   }
-  
+
   addUser = () => {
     this.setState({ redirect: true });
   };
@@ -40,7 +40,7 @@ class User extends Component {
         console.log(data.data.data);
         this.setState({ users: data.data.data,loading:false });
       })
-      .catch(err => this.setState({ oading:false }));
+      .catch(err => this.setState({ loading:false }));
   }
 
   render() {
@@ -125,7 +125,7 @@ class User extends Component {
                             data={user}
                             table="users"
                             onUpdate={data => {
-                              this.setState((this.state.users[key] = data));
+                              this.setState(this.state.users[key] = data);
                             }}
                           />
                         </td>
