@@ -16,22 +16,11 @@ import 'react-quill/dist/quill.snow.css';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { AppInfo, updateInfo } from '../../Apis/apis';
-const quillModules = {
-	toolbar: [
-		['bold', 'italic', 'underline', 'strike', 'blockquote'],
-		[
-			{ list: 'ordered' },
-			{ list: 'bullet' },
-			{ indent: '-1' },
-			{ indent: '+1' },
-		],
-		['link', 'image'],
-		['clean'],
-	],
-};
 const Settings = () => {
 	const [options, setOptions] = useState([]);
-	const [seleted, setSeletced] = useState({});
+	const [seleted, setSeletced] = useState({
+		value: '',
+	});
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		getInfomations();
@@ -41,7 +30,8 @@ const Settings = () => {
 			.then(({ data }) => {
 				setOptions(data.data);
 				if (data.data.length > 0) {
-					setSeletced({ ...data.data[0] });
+					const selectedData = data.data[0];
+					setSeletced({ ...selectedData });
 				}
 			})
 			.catch(({ message }) => {
@@ -55,6 +45,10 @@ const Settings = () => {
 		setLoading(true);
 		updateInfo(seleted)
 			.then(() => {
+				const option = options;
+				const index = option.findIndex(seleted);
+				option[index] = seleted;
+				setOptions(option);
 				swal('success', 'Information updated Successfully', 'success');
 			})
 			.catch(({ message }) => {
@@ -66,7 +60,7 @@ const Settings = () => {
 	};
 	const handleInput = ({ target: { name, value } }) => {
 		const texts = options.find((item) => item.title === value);
-		setSeletced({ texts });
+		setSeletced({ ...texts });
 	};
 	return (
 		<Container fluid className='main-content-container px-4'>
@@ -93,40 +87,39 @@ const Settings = () => {
 							<Row form>
 								<Col md='12'>
 									<label htmlFor='fePassword'>Select Option</label>
-									<FormSelect onChange={handleInput} name='title'>
+									<FormSelect
+										onChange={handleInput}
+										value={seleted.title}
+										name='title'
+									>
 										<option value=''>--Please select Type--</option>
 										{options.map((value, key) => (
-											<option
-												value={value.title}
-												key={key}
-												selected={seleted.title === value.title}
-											>
-												{value}
+											<option value={value.title} key={key}>
+												{value.title}
 											</option>
 										))}
 									</FormSelect>
 									<FormFeedback> Select Type Field is required</FormFeedback>
 								</Col>
 							</Row>
+							<hr></hr>
 							<Row form>
 								<Col md='12'>
 									<label htmlFor='fePassword'>Edit Content</label>
 									<ReactQuill
-										toolbar={quillModules}
 										value={seleted.value}
-										onChange={(value) =>
-											handleInput({ target: { name: 'description', value } })
-										}
+										onChange={(value) => setSeletced({ ...seleted, value })}
 									/>
 								</Col>
 							</Row>
 							<hr></hr>
-							<Button
-								classes='btn btn-info text-center'
-								type='button'
-								children='Save'
-								onClick={updateContent}
-							/>
+							<center>
+								<Button
+									classes='btn btn-info text-center'
+									children='Save'
+									action={updateContent}
+								/>
+							</center>
 						</Col>
 					</Row>
 				</ListGroupItem>

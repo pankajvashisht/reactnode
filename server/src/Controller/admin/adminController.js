@@ -205,8 +205,8 @@ class adminController {
 		return await DB.first(`select * from app_information`);
 	}
 
-	async updateAppInfo() {
-		const { body } = req;
+	async updateAppInfo(Request) {
+		const { body } = Request;
 		return await DB.save('app_information', body);
 	}
 
