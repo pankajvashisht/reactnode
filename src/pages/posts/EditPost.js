@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	Container,
 	FormFeedback,
@@ -17,37 +18,28 @@ import {
 } from 'shards-react';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
-import { addPost } from '../../Apis/apis';
+import { EditPostAPI } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
 const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];
 
-const PostAdd = () => {
+const EditPost = ({
+	location: {
+		state: { post = {} },
+	},
+}) => {
+	console.log(post);
+	const history = useHistory();
 	const [userForm, setUserForm] = useState({
 		form: {
-			audio: '',
-			sample_audio: '',
-			posttype: '',
-			url: '',
-			price: '',
-			name: '',
-			description: '',
-			cover_pic: '',
-			author_name: '',
-			soical_media_name: '',
-			genre: '',
-			ismb: '',
-			rating: '',
+			...post,
 		},
 		validation: {
-			posttype: null,
+			post_type: null,
 			url: null,
 			price: null,
-			name: null,
+			title: null,
 			description: null,
-			sample_audio: null,
-			audio: null,
-			cover_pic: null,
 			author_name: null,
 			soical_media_name: null,
 			genre: null,
@@ -76,15 +68,15 @@ const PostAdd = () => {
 			return false;
 		}
 		setDisabled(true);
-		addPost({ ...userForm.form })
+		EditPostAPI({ ...userForm.form })
 			.then((data) => {
 				setDisabled(false);
-				swal('success', 'Post Add successfully', 'success');
+				history.push('/posts');
+				swal('success', 'Post Edit successfully', 'success');
 				reset();
 			})
 			.catch((err) => {
 				setDisabled(false);
-				console.log(err.response);
 				swal('Error', 'Some went wrong', 'error');
 			});
 	};
@@ -127,7 +119,7 @@ const PostAdd = () => {
 	const handleInput = (e) => {
 		const value = e.target.value;
 		const name = e.target.name;
-		if (name === 'posttype') {
+		if (name === 'post_type') {
 			setFileType(types[value]);
 			validationRemove(value);
 		}
@@ -140,14 +132,14 @@ const PostAdd = () => {
 			<Row noGutters className='page-header py-4'>
 				<PageTitle
 					sm='4'
-					title='Posts'
-					subtitle='Add Post'
+					title={`Edit Post ${userForm.form.title}`}
+					subtitle='Edit Post'
 					className='text-sm-left'
 				/>
 			</Row>
 			<Card small>
 				<CardHeader className='border-bottom'>
-					<h6 className='m-0'>Add Post</h6>
+					<h6 className='m-0'>Edit Post {userForm.form.title}</h6>
 				</CardHeader>
 				<ListGroupItem className='p-3'>
 					<Row>
@@ -160,11 +152,11 @@ const PostAdd = () => {
 											type='text'
 											placeholder='Title'
 											name='name'
-											value={userForm.form.name}
-											valid={userForm.validation.name}
+											value={userForm.form.title}
+											valid={userForm.validation.title}
 											invalid={
-												userForm.validation.name === false &&
-												userForm.validation.name != null
+												userForm.validation.title === false &&
+												userForm.validation.title != null
 											}
 											onChange={handleInput}
 										/>
@@ -240,26 +232,138 @@ const PostAdd = () => {
 												name='genre'
 											>
 												<option value=''>--Please select Genre--</option>
-												<option value='Children'> Children </option>
-												<option value='Contemporary'> Contemporary </option>
-												<option value='Fantasy'> Fantasy </option>
-												<option value='Futuristic'> Futuristic </option>
-												<option value='Historical'> Historical </option>
-												<option value='Inspiration/Self-help'>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Children'
+												>
+													{' '}
+													Children{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Contemporary'
+															? true
+															: false
+													}
+													value='Contemporary'
+												>
+													{' '}
+													Contemporary{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Fantasy'
+												>
+													{' '}
+													Fantasy{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Futuristic'
+												>
+													{' '}
+													Futuristic{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Historical'
+												>
+													{' '}
+													Historical{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Inspiration/Self-help'
+												>
 													{' '}
 													Inspiration/Self-help{' '}
 												</option>
-												<option value='Paranormal'> Paranormal </option>
-												<option value='Romance'> Romance </option>
-												<option value='Science Fiction'>
+												<option
+													selected={
+														userForm.form.genre === 'Children' ? true : false
+													}
+													value='Paranormal'
+												>
+													{' '}
+													Paranormal{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Romance' ? true : false
+													}
+													value='Romance'
+												>
+													{' '}
+													Romance{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Science Fiction'
+															? true
+															: false
+													}
+													value='Science Fiction'
+												>
 													{' '}
 													Science Fiction{' '}
 												</option>
-												<option value='Speculative'> Speculative </option>
-												<option value='Spirituality'> Spirituality </option>
-												<option value='Urban'> Urban </option>
-												<option value='Western'> Western </option>
-												<option value='Young Adult'> Young Adult </option>
+												<option
+													selected={
+														userForm.form.genre === 'Speculative' ? true : false
+													}
+													value='Speculative'
+												>
+													{' '}
+													Speculative{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Spirituality'
+															? true
+															: false
+													}
+													value='Spirituality'
+												>
+													{' '}
+													Spirituality{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Urban' ? true : false
+													}
+													value='Urban'
+												>
+													{' '}
+													Urban{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Western' ? true : false
+													}
+													value='Western'
+												>
+													{' '}
+													Western{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.genre === 'Young Adult' ? true : false
+													}
+													value='Young Adult'
+												>
+													{' '}
+													Young Adult{' '}
+												</option>
 											</FormSelect>
 											<FormFeedback> Genre field is required</FormFeedback>
 										</InputGroup>
@@ -283,26 +387,85 @@ const PostAdd = () => {
 												name='rating'
 											>
 												<option value=''>--Please select Rating--</option>
-												<option value='Children'> Children </option>
-												<option value='Tweens (9 to 12)'>
+												<option
+													selected={
+														userForm.form.rating === 'Children' ? true : false
+													}
+													value='Children'
+												>
+													{' '}
+													Children{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.rating === 'Tweens (9 to 12)'
+															? true
+															: false
+													}
+													value='Tweens (9 to 12)'
+												>
 													{' '}
 													Tweens (9 to 12){' '}
 												</option>
-												<option value='Teens (13 to 17)'>
+												<option
+													selected={
+														userForm.form.rating === 'Teens (13 to 17)'
+															? true
+															: false
+													}
+													value='Teens (13 to 17)'
+												>
 													{' '}
 													Teens (13 to 17){' '}
 												</option>
-												<option value='Adult (18 and Up)'>
+												<option
+													selected={
+														userForm.form.rating === 'Adult (18 and Up)'
+															? true
+															: false
+													}
+													value='Adult (18 and Up)'
+												>
 													{' '}
 													Adult (18 and Up){' '}
 												</option>
-												<option value='Clean'> Clean </option>
-												<option value='Profanity'> Profanity </option>
-												<option value='Graphic Situations'>
+												<option
+													selected={
+														userForm.form.rating === 'Clean' ? true : false
+													}
+													value='Clean'
+												>
+													{' '}
+													Clean{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.rating === 'Profanity' ? true : false
+													}
+													value='Profanity'
+												>
+													{' '}
+													Profanity{' '}
+												</option>
+												<option
+													selected={
+														userForm.form.rating === 'Graphic Situations'
+															? true
+															: false
+													}
+													value='Graphic Situations'
+												>
 													{' '}
 													Graphic Situations{' '}
 												</option>
-												<option value='Mature (Adult Content)'>
+												<option
+													selected={
+														userForm.form.rating === 'Mature (Adult Content)'
+															? true
+															: false
+													}
+													value='Mature (Adult Content)'
+												>
 													{' '}
 													Mature (Adult Content){' '}
 												</option>
@@ -339,19 +502,35 @@ const PostAdd = () => {
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
 											<FormSelect
-												valid={userForm.validation.posttype}
+												valid={userForm.validation.post_type}
 												invalid={
-													!userForm.validation.posttype &&
-													userForm.validation.posttype != null
+													!userForm.validation.post_type &&
+													userForm.validation.post_type != null
 												}
 												onChange={handleInput}
-												name='posttype'
+												name='post_type'
 											>
 												<option value=''>--Please select Post type--</option>
-												<option value='1'> EPub/PDF </option>
-												<option value='3'> Audio/PDF </option>
+												<option
+													selected={
+														userForm.form.post_type === 1 ? true : false
+													}
+													value='1'
+												>
+													{' '}
+													EPub / pdf
+												</option>
+												<option
+													selected={
+														userForm.form.post_type === 3 ? true : false
+													}
+													value='3'
+												>
+													{' '}
+													Audio/ PDF
+												</option>
 											</FormSelect>
-											<FormFeedback> Posttype field is required</FormFeedback>
+											<FormFeedback> post Type field is required</FormFeedback>
 										</InputGroup>
 									</Col>
 									<Col md='6'>
@@ -371,8 +550,8 @@ const PostAdd = () => {
 										<FormFeedback> File field is required</FormFeedback>
 									</Col>
 								</Row>
-								{(userForm.form.posttype === '2' ||
-									userForm.form.posttype === '3') && (
+								{(userForm.form.post_type === '2' ||
+									userForm.form.post_type === '3') && (
 									<Row form>
 										<Col md='6'>
 											<label>Audio Sample</label>
@@ -390,7 +569,7 @@ const PostAdd = () => {
 											/>
 											<FormFeedback> Sample field is required</FormFeedback>
 										</Col>
-										{userForm.form.posttype === '3' ? (
+										{userForm.form.post_type === '3' ? (
 											<Col md='6'>
 												<label>Audio File</label>
 												<FormInput
@@ -414,6 +593,7 @@ const PostAdd = () => {
 										<label htmlFor='fePassword'>ISBN</label>
 										<FormInput
 											type='text'
+											value={userForm.form.ismb}
 											placeholder='ISBN'
 											rows='5'
 											valid={userForm.validation.description}
@@ -435,6 +615,7 @@ const PostAdd = () => {
 												!userForm.validation.description &&
 												userForm.validation.description != null
 											}
+											value={userForm.form.description}
 											onChange={handleInput}
 											name='description'
 										/>
@@ -445,7 +626,7 @@ const PostAdd = () => {
 								<Button
 									classes='btn btn-info text-center'
 									type='submit'
-									children='Add Post'
+									children='Update Post'
 									disabled={disabled}
 								/>
 							</Form>
@@ -457,4 +638,4 @@ const PostAdd = () => {
 	);
 };
 
-export default PostAdd;
+export default EditPost;

@@ -110,6 +110,7 @@ class ApiController {
         "authorization_key",
         "profile",
         "status",
+        "dob",
         "(select count(id) from users_posts where user_id="+id+") as total_purchase"
       ]
     });

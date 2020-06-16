@@ -1,6 +1,8 @@
 const ApiController = require('./ApiController');
 const app = require('../../../libary/CommanMethod');
 const Db = require('../../../libary/sqlBulider');
+const resize = require('../../../config/resize');
+const config = require('../../../config/config');
 let apis = new ApiController();
 let DB = new Db();
 module.exports = {
@@ -40,6 +42,32 @@ module.exports = {
         data: result,
       });
     } catch (err) {
+      return app.error(res, err);
+    }
+  },
+  setImageSize: async (req, res) => {
+    const widthString = req.query.width || 422;
+    const heightString = req.query.height || 513;
+    const format = req.query.format || 'png';
+    const fileName = req.query.fileName;
+    try {
+      if (!fileName){
+        throw {message:"fileName is required",code: 400};
+      }
+      // Parse to integer if possible
+      let width, height
+      if (widthString) {
+        width = parseInt(widthString)
+      }
+      if (heightString) {
+        height = parseInt(heightString)
+      }
+      // Set the content-type of the response
+      res.type(`image/${format || 'png'}`)
+      console.log(config.root_path+'/uploads/'+fileName);
+      // Get the resized image
+      resize(config.root_path+'/uploads/'+fileName, format, width, height).pipe(res);
+  } catch (err) {
       return app.error(res, err);
     }
   },

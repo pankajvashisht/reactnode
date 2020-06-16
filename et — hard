@@ -1,0 +1,31 @@
+[33mcommit 2a09a2b85013e7220dbeedd7778c2176513153c5[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Reflog: HEAD@{0} (root <root@ip-172-31-18-184.us-east-2.compute.internal>)
+Reflog message: rebase finished: returning to refs/heads/master
+Author: pankaj <pankaj@ucreate.co.in>
+Date:   Wed Sep 18 13:21:40 2019 +0530
+
+    sub admin
+
+[33mcommit 2a09a2b85013e7220dbeedd7778c2176513153c5[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Reflog: HEAD@{1} (root <root@ip-172-31-18-184.us-east-2.compute.internal>)
+Reflog message: pull -r: checkout 2a09a2b85013e7220dbeedd7778c2176513153c5
+Author: pankaj <pankaj@ucreate.co.in>
+Date:   Wed Sep 18 13:21:40 2019 +0530
+
+    sub admin
+
+[33mcommit 72baf7d4d5d74268ee37f2bc17470520e80554ce[m
+Reflog: HEAD@{2} (root <root@ip-172-31-18-184.us-east-2.compute.internal>)
+Reflog message: commit: add new feature
+Author: root <root@ip-172-31-18-184.us-east-2.compute.internal>
+Date:   Thu Nov 7 17:58:27 2019 +0000
+
+    add new feature
+
+[33mcommit 11e4d91c60bca05e3a39126a9045cd530cf62481[m
+Reflog: HEAD@{3} (Ubuntu <ubuntu@ip-172-31-18-184.us-east-2.compute.internal>)
+Reflog message: clone: from https://github.com/pankajvashisht-ucreate/reactnode.git
+Author: pankaj <pankaj@ucreate.co.in>
+Date:   Sat Aug 31 20:39:51 2019 +0530
+
+    add new feature

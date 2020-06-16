@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Card, CardHeader, CardBody } from 'shards-react';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 import { getAdmin } from '../../Apis/apis';
 import DeleteData from '../../components/common/DeleteData';
 import StatusUpdate from '../../components/common/StatusUpdate';
@@ -101,6 +101,9 @@ class Admin extends Component {
                         Profile
                       </th>
                       <th scope="col" className="border-0">
+                        View Transaction
+                      </th>
+                      <th scope="col" className="border-0">
                         Status
                       </th>
                       <th scope="col" className="border-0">
@@ -117,6 +120,14 @@ class Admin extends Component {
                         <td>{user.email}</td>
                         <td>
                           <Image key={key} src={user.profile} />
+                        </td>
+                        <td>
+                          <Link  to={{
+                              pathname: '/transaction',
+                              state: {
+                                postDetails: user,
+                              },
+                            }}>View Transaction</Link>
                         </td>
                         <td>
                           <StatusUpdate

@@ -6,6 +6,7 @@ import Audio from '../../components/common/Audio';
 import Image from '../../components/common/Image';
 import StarRatings from 'react-star-ratings';
 import { review } from '../../Apis/apis';
+import { EpubView } from "react-reader";
 const PostDetails = (props) => {
   const [postdetail] = useState({ ...props.location.state.postDetails });
   const [rating, setRating] = useState([]);
@@ -20,6 +21,9 @@ const PostDetails = (props) => {
     return (
       date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
     );
+  };
+  const pdfURL = (pdf) => {
+    return pdf.replace("+zip","")
   };
   const fileType = (type) => {
     const statusCheck = () => {
@@ -103,7 +107,13 @@ const PostDetails = (props) => {
             <CardBody>
               {postdetail.post_type !== 3 ? (
                 postdetail.post_type === 1 ? (
-                  <PdfView url={postdetail.url} />
+                  <EpubView
+                  url={pdfURL(postdetail.url)}
+                  title={"Alice in wonderland"}
+                  location={"epubcfi(/6/2[cover]!/6)"}
+                  locationChanged={epubcifi => console.log(epubcifi)}
+                />
+                  // <PdfView url={pdfURL(postdetail.url)} />
                 ) : (
                   <b>
                     <b>Audio</b> <Audio url={postdetail.audio} />
@@ -115,7 +125,7 @@ const PostDetails = (props) => {
                   <b>Audio</b> : <Audio url={postdetail.audio} />
                   <b>Audio Sample</b> : <Audio url={postdetail.audio_sample} />
                   <hr></hr>
-                  <PdfView url={postdetail.url} />
+                  <PdfView url={pdfURL(postdetail.url)} />
                 </div>
               )}
             </CardBody>

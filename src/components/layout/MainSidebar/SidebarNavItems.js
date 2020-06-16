@@ -1,56 +1,50 @@
-import React from "react";
-import { Nav } from "shards-react";
+import React from 'react';
+import { Nav } from 'shards-react';
 
-import SidebarNavItem from "./SidebarNavItem";
-import { Store } from "../../../flux";
+import SidebarNavItem from './SidebarNavItem';
+import { Store } from '../../../flux';
 import subAdmin from '../../../data/subadmin-nav-items';
 class SidebarNavItems extends React.Component {
-  constructor(props) {
-    super(props)
+	constructor(props) {
+		super(props);
+		this.state = {
+			navItems: Store.getSidebarItems(),
+		};
+		this.onChange = this.onChange.bind(this);
+	}
 
-    this.state = {
-      navItems: Store.getSidebarItems()
-    };
+	componentWillMount() {
+		const login_datails = JSON.parse(localStorage.getItem('userInfo'));
+		if (typeof login_datails !== 'null') {
+			if (login_datails.admin_role !== 0) {
+				this.setState({ navItems: subAdmin[login_datails.admin_role] });
+			}
+		}
+		Store.addChangeListener(this.onChange);
+	}
+	componentWillUnmount() {
+		Store.removeChangeListener(this.onChange);
+	}
 
-    this.onChange = this.onChange.bind(this);
-  }
+	onChange() {
+		this.setState({
+			...this.state,
+			navItems: Store.getSidebarItems(),
+		});
+	}
 
-  componentWillMount() {
-    let login_datails = JSON.parse(localStorage.getItem('userInfo'));
-    if (typeof login_datails  !== 'null') {
-       if (
-         login_datails.admin_role === 0
-       ) {
-         this.setState({ navItems: subAdmin() });
-       }
-    }
-
-    Store.addChangeListener(this.onChange);
-  }
-
-  componentWillUnmount() {
-    Store.removeChangeListener(this.onChange);
-  }
-
-  onChange() {
-    this.setState({
-      ...this.state,
-      navItems: Store.getSidebarItems()
-    });
-  }
-
-  render() {
-    const { navItems: items } = this.state;
-    return (
-      <div className="nav-wrapper">
-        <Nav className="nav--no-borders flex-column">
-          {items.map((item, idx) => (
-            <SidebarNavItem key={idx} item={item} />
-          ))}
-        </Nav>
-      </div>
-    )
-  }
+	render() {
+		const { navItems: items } = this.state;
+		return (
+			<div className='nav-wrapper'>
+				<Nav className='nav--no-borders flex-column'>
+					{items.map((item, idx) => (
+						<SidebarNavItem key={idx} item={item} />
+					))}
+				</Nav>
+			</div>
+		);
+	}
 }
 
 export default SidebarNavItems;

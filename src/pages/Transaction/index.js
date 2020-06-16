@@ -6,12 +6,14 @@ import { transaction } from "../../Apis/apis";
 import StatusUpdate from "../../components/common/StatusUpdate";
 import Input from "../../components/Input/input";
 import Loader from "../../components/common/Loader";
+import { CSVLink } from 'react-csv'
 class Transaction extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
       transaction: [],
+      exportdata: [],
       searchtext:"",
       loading:true
     };
@@ -32,9 +34,25 @@ class Transaction extends Component {
 
   componentDidMount() {
     transaction()
-      .then(data => {
-        console.log(data.data.data);
-        this.setState({ transaction: data.data.data,loading:false });
+      .then(response => {
+        const { data } = response.data;
+        this.setState({ transaction: data,loading:false });
+        if(data.length > 0){
+          const newExcal = [];
+          data.map(val => {
+            const excal = {
+              title:val.title,
+              price:val.price,
+              AuthorName:val.author_name,
+              post_type:val.post_type === 1 ? 'EPUB':'AUDIO',
+              Genre:val.genre,
+              ISMB:val.ismb
+            };
+            newExcal.push(excal);
+          });
+          console.log(newExcal);
+          this.setState({ exportdata: newExcal });
+        }
       })
       .catch(err => this.setState({ loading:false}));
   }
@@ -62,7 +80,11 @@ class Transaction extends Component {
             subtitle="All Transaction"
             className="text-sm-left"
           />
+        <button className="btn btn-danger float-right" style={{margin: "10px", marginLeft: "636px"}}>
+            <CSVLink data={this.state.exportdata} filename="record.csv">Export</CSVLink>
+        </button>
         </Row>
+       
         <Row>
           <Col>
             <Card small className="mb-4">
