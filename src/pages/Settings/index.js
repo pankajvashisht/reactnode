@@ -18,10 +18,9 @@ import Button from '../../components/Button/button';
 import { AppInfo, updateInfo } from '../../Apis/apis';
 const Settings = () => {
 	const [options, setOptions] = useState([]);
-	const [seleted, setSeletced] = useState({
-		value: '',
-	});
+	const [seleted, setSeletced] = useState({});
 	const [loading, setLoading] = useState(true);
+	const [editorText, setEditorText] = useState('');
 	useEffect(() => {
 		getInfomations();
 	}, []);
@@ -31,6 +30,7 @@ const Settings = () => {
 				setOptions(data.data);
 				if (data.data.length > 0) {
 					const selectedData = data.data[0];
+					setEditorText(selectedData.value);
 					setSeletced({ ...selectedData });
 				}
 			})
@@ -43,11 +43,13 @@ const Settings = () => {
 	};
 	const updateContent = () => {
 		setLoading(true);
-		updateInfo(seleted)
+		const changeText = { ...seleted };
+		changeText.value = editorText;
+		updateInfo(changeText)
 			.then(() => {
 				const option = options;
-				const index = option.findIndex(seleted);
-				option[index] = seleted;
+				const index = option.findIndex((item) => changeText.id === item.id);
+				option[index] = changeText;
 				setOptions(option);
 				swal('success', 'Information updated Successfully', 'success');
 			})
@@ -60,6 +62,7 @@ const Settings = () => {
 	};
 	const handleInput = ({ target: { name, value } }) => {
 		const texts = options.find((item) => item.title === value);
+		setEditorText(texts.value);
 		setSeletced({ ...texts });
 	};
 	return (
@@ -107,8 +110,8 @@ const Settings = () => {
 								<Col md='12'>
 									<label htmlFor='fePassword'>Edit Content</label>
 									<ReactQuill
-										value={seleted.value}
-										onChange={(value) => setSeletced({ ...seleted, value })}
+										value={editorText}
+										onChange={(value) => setEditorText(value)}
 									/>
 								</Col>
 							</Row>
