@@ -195,6 +195,9 @@ class adminController {
 		if (users.length > 0) {
 			throw 'Email Already exits Please choice different';
 		}
+		if (req.auth.admin_role === 1) {
+			body.admin_role = 2;
+		}
 		if (req.files && req.files.profile) {
 			body.profile = await app.upload_pic_with_await(req.files.profile);
 		}

@@ -15,18 +15,22 @@ import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { addAdmin } from '../../Apis/apis';
 import { getLoginInfo } from '../../utils/store';
+import Loader from '../../components/common/Loader';
 import swal from 'sweetalert';
 const formValue = {
 	name: '',
 	email: '',
 	password: '',
 	profile: '',
-	admin_type: '',
+	admin_type: getLoginInfo().admin_role === 1 ? 2 : '',
 };
 const AddAdmin = () => {
-	const [userForm, setUserForm] = useState(formValue);
+	const [userForm, setUserForm] = useState({ ...formValue });
 	const [disabled, setDisabled] = useState(false);
-	let [vaildForm, setVaildForm] = useState(formValue);
+	if (getLoginInfo().admin_role === 1) {
+		delete formValue.admin_type;
+	}
+	const [vaildForm, setVaildForm] = useState(formValue);
 	const checkValidation = () => {
 		return Object.values(userForm).some((item) => item.length === 0);
 	};
@@ -45,6 +49,10 @@ const AddAdmin = () => {
 			return false;
 		}
 		setDisabled(true);
+		console.log(getLoginInfo().admin_role);
+		if (getLoginInfo().admin_role === 1) {
+			userForm.admin_role = 2;
+		}
 		addAdmin(userForm)
 			.then(() => {
 				swal('success', 'Admin Add successfully', 'success');
@@ -89,6 +97,7 @@ const AddAdmin = () => {
 					<h6 className='m-0'>Add Admin</h6>
 				</CardHeader>
 				<ListGroupItem className='p-3'>
+					{disabled && <Loader />}
 					<Row>
 						<Col>
 							<Form onSubmit={addadmin}>
