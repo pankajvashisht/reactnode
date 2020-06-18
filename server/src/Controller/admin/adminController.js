@@ -220,7 +220,7 @@ class adminController {
 		const { admin_role } = req.auth;
 		let conditions = `where admin_role != 0`;
 		if (admin_role === 1) {
-			conditions = `where admin_role = 2`;
+			conditions = `where admin_role = 2 and admin_id=${req.admin_id}`;
 		}
 		if (req.query.q.length > 0 && req.query.q !== 'undefined') {
 			conditions += ` and  name like '%${req.query.q}%' or email like '%${req.query.q}%'`;
