@@ -20,54 +20,20 @@ import Button from '../../components/Button/button';
 import { addPost } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
-const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];
-
+import { types, formFields, errorFields } from './constants';
+import {
+	checkAllRequiredFields,
+	checkRequiredField,
+} from '../../utils/validations';
 const PostAdd = () => {
-	const [userForm, setUserForm] = useState({
-		form: {
-			audio: '',
-			sample_audio: '',
-			posttype: '',
-			url: '',
-			price: '',
-			name: '',
-			description: '',
-			cover_pic: '',
-			author_name: '',
-			soical_media_name: '',
-			genre: '',
-			ismb: '',
-			rating: '',
-		},
-		validation: {
-			posttype: null,
-			url: null,
-			price: null,
-			name: null,
-			description: null,
-			sample_audio: null,
-			audio: null,
-			cover_pic: null,
-			author_name: null,
-			soical_media_name: null,
-			genre: null,
-			rating: null,
-		},
-	});
+	const [userForm, setUserForm] = useState(formFields);
+	const [errors, setErros] = useState(errorFields);
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
-	const checkValidation = (field = null) => {
-		let validation = false;
-		for (let vaild in userForm.validation) {
-			if (userForm.form[vaild] === '') {
-				validation = true;
-				userForm.validation[vaild] = false;
-			} else {
-				userForm.validation[vaild] = true;
-			}
-		}
-		setUserForm({ ...userForm });
-		return validation;
+	const checkValidation = () => {
+		const errorObject = checkAllRequiredFields(errorFields, formFields);
+		setErros({ ...errors, ...errorObject });
+		return Object.values(errorObject).some((item) => item.lenght !== 0);
 	};
 
 	const addNewPost = (event) => {
@@ -88,52 +54,55 @@ const PostAdd = () => {
 				swal('Error', 'Some went wrong', 'error');
 			});
 	};
+	const checkError = ({ target: { name, value } }) => {
+		setErros({ ...errors, ...checkRequiredField(name, value) });
+	};
+
+	const removeError = ({ target: { name } }) => {
+		setErros({ ...errors, [name]: '' });
+	};
 
 	const reset = () => {
-		for (let vaild in userForm.validation) {
-			userForm.validation[vaild] = null;
-			userForm.form[vaild] = '';
-		}
-		setUserForm({ ...userForm });
+		setErros({ ...formFields });
+		setUserForm({ ...errorFields });
 	};
 
 	const validationRemove = (value) => {
 		if (value === '1') {
-			delete userForm.form.audio;
-			delete userForm.form.sample_audio;
-			delete userForm.validation.audio;
-			delete userForm.validation.sample_audio;
+			delete errors.audio;
+			delete errors.sample_audio;
+			delete userForm.audio;
+			delete errors.sample_audio;
 		} else if (value === '2') {
-			userForm.form.sample_audio = '';
-			delete userForm.validation.audio;
-			delete userForm.form.audio;
-			userForm.validation.sample_audio = null;
+			userForm.sample_audio = '';
+			delete errors.audio;
+			delete userForm.audio;
 		} else if (value === '3') {
-			userForm.form.sample_audio = '';
-			userForm.form.audio = '';
-			userForm.validation.audio = null;
+			userForm.sample_audio = '';
+			errors.audio = '';
+			userForm.audio = '';
 		}
+		setErros({ ...errors });
 		setUserForm({ ...userForm });
 	};
 
-	const selectImage = (e) => {
-		const file = e.target.files[0];
-		const name = e.target.name;
-		userForm.form[name] = file;
-		setUserForm({ ...userForm });
-		checkValidation();
+	const selectImage = ({ target: { name, files } }) => {
+		const file = files[0];
+		if (name === 'sample_audio') {
+			const fileSize = file.size / 1024 / 1024;
+			if (fileSize > 2.5) {
+				setErros({ ...errors, [name]: 'Audio should be less then 2.5' });
+			}
+		}
+		setUserForm({ ...userForm, [name]: file });
 	};
 
-	const handleInput = (e) => {
-		const value = e.target.value;
-		const name = e.target.name;
+	const handleInput = ({ target: { name, value } }) => {
 		if (name === 'posttype') {
 			setFileType(types[value]);
 			validationRemove(value);
 		}
-		userForm.form[name] = value;
-		setUserForm({ ...userForm });
-		checkValidation();
+		setUserForm({ ...userForm, [name]: value });
 	};
 	return (
 		<Container fluid className='main-content-container px-4'>
@@ -154,36 +123,47 @@ const PostAdd = () => {
 						<Col>
 							<Form onSubmit={addNewPost}>
 								<Row form>
-									<Col md='6' className='form-group'>
+									<Col md='4' className='form-group'>
 										<label htmlFor='feEmailAddress'>Title</label>
 										<FormInput
 											type='text'
 											placeholder='Title'
 											name='name'
-											value={userForm.form.name}
-											valid={userForm.validation.name}
-											invalid={
-												userForm.validation.name === false &&
-												userForm.validation.name != null
-											}
+											onBlur={checkError}
+											onFocus={removeError}
+											value={userForm.name}
+											valid={userForm.name}
+											invalid={errors.name}
 											onChange={handleInput}
 										/>
 										<FormFeedback> Title field is required</FormFeedback>
 									</Col>
-									<Col md='6'>
+									<Col md='4'>
 										<label htmlFor='fePassword'>Price</label>
 										<FormInput
 											type='number'
 											placeholder='Price (e.g. 1.99)'
 											step='any'
-											value={userForm.form.price}
-											valid={userForm.validation.price}
-											invalid={
-												!userForm.validation.price &&
-												userForm.validation.price != null
-											}
+											value={userForm.price}
+											valid={userForm.price}
+											invalid={errors.price}
+											onBlur={checkError}
+											onFocus={removeError}
 											onChange={handleInput}
 											name='price'
+										/>
+										<FormFeedback> {errors.price}</FormFeedback>
+									</Col>
+									<Col md='4'>
+										<label htmlFor='fePassword'>Sale On Price</label>
+										<FormInput
+											type='number'
+											placeholder='Price (e.g. 1.99)'
+											step='any'
+											value={userForm.sale_price}
+											valid={userForm.sale_price}
+											onChange={handleInput}
+											name='sale_price'
 										/>
 										<FormFeedback> Price field is required</FormFeedback>
 									</Col>
@@ -194,50 +174,47 @@ const PostAdd = () => {
 										<label>Cover Pic</label>
 										<FormInput
 											type='file'
-											valid={userForm.validation.cover_pic}
+											valid={userForm.cover_pic}
 											accept='image/*'
-											invalid={
-												!userForm.validation.cover_pic &&
-												userForm.validation.cover_pic != null
-											}
+											invalid={errors.cover_pic}
 											onChange={selectImage}
+											onBlur={checkError}
+											onFocus={removeError}
 											name='cover_pic'
 										/>
-										<FormFeedback> Cover Pic field is required</FormFeedback>
+										<FormFeedback> {errors.cover_pic}</FormFeedback>
 									</Col>
 									<Col md='6'>
 										<label htmlFor='fePassword'>Author name</label>
 										<FormInput
 											type='text'
 											placeholder='Author Name'
-											value={userForm.form.author_name}
-											valid={userForm.validation.author_name}
-											invalid={
-												!userForm.validation.author_name &&
-												userForm.validation.author_name != null
-											}
+											value={userForm.author_name}
+											valid={userForm.author_name}
+											invalid={errors.author_name}
 											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
 											name='author_name'
 										/>
-										<FormFeedback> Author name field is required</FormFeedback>
+										<FormFeedback> {errors.author_name}</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>
 								<Row form>
-									<Col md='4' className='form-group'>
+									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>Genre</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
 											<FormSelect
-												valid={userForm.validation.genre}
-												invalid={
-													!userForm.validation.genre &&
-													userForm.validation.genre != null
-												}
+												valid={userForm.genre}
+												invalid={errors.genre}
 												onChange={handleInput}
 												name='genre'
+												onBlur={checkError}
+												onFocus={removeError}
 											>
 												<option value=''>--Please select Genre--</option>
 												<option value='Children'> Children </option>
@@ -264,7 +241,30 @@ const PostAdd = () => {
 											<FormFeedback> Genre field is required</FormFeedback>
 										</InputGroup>
 									</Col>
-									<Col md='4' className='form-group'>
+									<Col>
+										<label htmlFor='feEmailAddress'>Fiction</label>
+										<InputGroup className='mb-3'>
+											<InputGroupAddon type='prepend'>
+												<InputGroupText>Options</InputGroupText>
+											</InputGroupAddon>
+											<FormSelect
+												valid={userForm.fiction}
+												invalid={errors.fiction}
+												onChange={handleInput}
+												name='fiction'
+												onBlur={checkError}
+												onFocus={removeError}
+											>
+												<option value=''>--Please select Fiction--</option>
+												<option value='fiction'> Fiction </option>
+												<option value='unfiction'> UnFiction </option>
+											</FormSelect>
+											<FormFeedback> Fiction field is required</FormFeedback>
+										</InputGroup>
+									</Col>
+								</Row>
+								<Row>
+									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>
 											Please select applicable Ratings
 										</label>
@@ -273,13 +273,12 @@ const PostAdd = () => {
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
 											<FormSelect
-												valid={userForm.validation.rating}
-												invalid={
-													!userForm.validation.rating &&
-													userForm.validation.rating != null
-												}
+												valid={userForm.rating}
+												invalid={errors.rating}
 												multiple={true}
 												onChange={handleInput}
+												onBlur={checkError}
+												onFocus={removeError}
 												name='rating'
 											>
 												<option value=''>--Please select Rating--</option>
@@ -310,17 +309,16 @@ const PostAdd = () => {
 											<FormFeedback> Rating field is required</FormFeedback>
 										</InputGroup>
 									</Col>
-									<Col md='4'>
+									<Col md='6'>
 										<label htmlFor='fePassword'>Social Media Name</label>
 										<FormInput
 											type='text'
 											placeholder='Social Media Name'
-											value={userForm.form.soical_media_name}
-											valid={userForm.validation.soical_media_name}
-											invalid={
-												!userForm.validation.soical_media_name &&
-												userForm.validation.soical_media_name != null
-											}
+											value={userForm.soical_media_name}
+											valid={userForm.soical_media_name}
+											invalid={errors.soical_media_name}
+											onBlur={checkError}
+											onFocus={removeError}
 											onChange={handleInput}
 											name='soical_media_name'
 										/>
@@ -339,13 +337,12 @@ const PostAdd = () => {
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
 											<FormSelect
-												valid={userForm.validation.posttype}
-												invalid={
-													!userForm.validation.posttype &&
-													userForm.validation.posttype != null
-												}
+												valid={userForm.posttype}
+												invalid={errors.posttype}
 												onChange={handleInput}
 												name='posttype'
+												onBlur={checkError}
+												onFocus={removeError}
 											>
 												<option value=''>--Please select Post type--</option>
 												<option value='1'> EPub/PDF </option>
@@ -359,49 +356,45 @@ const PostAdd = () => {
 										<FormInput
 											type='file'
 											placeholder='Password'
-											valid={userForm.validation.url}
+											valid={userForm.url}
 											accept={fileType}
-											invalid={
-												!userForm.validation.url &&
-												userForm.validation.url != null
-											}
+											invalid={errors.url}
+											onBlur={checkError}
+											onFocus={removeError}
 											onChange={selectImage}
 											name='url'
 										/>
 										<FormFeedback> File field is required</FormFeedback>
 									</Col>
 								</Row>
-								{(userForm.form.posttype === '2' ||
-									userForm.form.posttype === '3') && (
+								{(userForm.posttype === '2' || userForm.posttype === '3') && (
 									<Row form>
 										<Col md='6'>
 											<label>Audio Sample</label>
 											<FormInput
 												type='file'
 												placeholder='Password'
-												valid={userForm.validation.sample_audio}
+												valid={userForm.sample_audio}
 												accept='audio/*'
-												invalid={
-													!userForm.validation.sample_audio &&
-													userForm.validation.sample_audio != null
-												}
+												invalid={errors.sample_audio}
 												onChange={selectImage}
+												onBlur={checkError}
+												onFocus={removeError}
 												name='sample_audio'
 											/>
-											<FormFeedback> Sample field is required</FormFeedback>
+											<FormFeedback> {errors.sample_audio}</FormFeedback>
 										</Col>
-										{userForm.form.posttype === '3' ? (
+										{userForm.posttype === '3' ? (
 											<Col md='6'>
 												<label>Audio File</label>
 												<FormInput
 													type='file'
-													valid={userForm.validation.audio}
+													valid={userForm.audio}
 													accept='audio/*'
-													invalid={
-														!userForm.validation.audio &&
-														userForm.validation.audio != null
-													}
+													invalid={errors.audio}
 													onChange={selectImage}
+													onBlur={checkError}
+													onFocus={removeError}
 													name='audio'
 												/>
 												<FormFeedback> Audio field is required</FormFeedback>
@@ -416,7 +409,7 @@ const PostAdd = () => {
 											type='text'
 											placeholder='ISBN'
 											rows='5'
-											valid={userForm.validation.description}
+											valid={userForm.description}
 											onChange={handleInput}
 											name='ismb'
 										/>
@@ -430,12 +423,11 @@ const PostAdd = () => {
 											type='file'
 											placeholder='Synopsis'
 											rows='5'
-											valid={userForm.validation.description}
-											invalid={
-												!userForm.validation.description &&
-												userForm.validation.description != null
-											}
+											valid={userForm.description}
+											invalid={errors.description}
 											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
 											name='description'
 										/>
 										<FormFeedback> Synopsis field is required</FormFeedback>

@@ -1,23 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Image from "./Image";
-const style ={
-    marginLeft: "33%",
-    height: "300px",
-    width: "300px",
-    position:"absolute"
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactLoading from 'react-loading';
+const style = {
+	marginLeft: '33%',
+	height: '300px',
+	width: '300px',
+	position: 'fixed',
+	zIndex: 999,
 };
-const Loader = () => (<Image style={style} src={require('../../images/loader.gif')} />);
+const Loader = () => (
+	<div style={style}>
+		<ReactLoading type='spin' color='#ffff00' />
+	</div>
+);
 Loader.propTypes = {
-  src: PropTypes.string.isRequired
+	src: PropTypes.string.isRequired,
 };
 
 Loader.defaultProps = {
-  circle: null,
-  classes: "",
-  alt: "image",
-  height: "50",
-  width: "50"
+	circle: null,
+	classes: '',
+	alt: 'image',
+	height: '50',
+	width: '50',
 };
 
 export default Loader;
