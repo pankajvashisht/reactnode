@@ -88,7 +88,7 @@ class adminController {
 		let limit = req.params.limit !== undefined ? req.params.limit : 20;
 		offset = (offset - 1) * limit;
 		let conditions = '';
-		if (req.auth.admin_role != 1) {
+		if (req.auth.admin_role !== 0) {
 			conditions = ' where posts.user_id = ' + req.auth.id;
 		}
 		if (req.query.q.length > 0) {
