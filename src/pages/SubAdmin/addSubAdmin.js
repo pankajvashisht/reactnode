@@ -14,6 +14,7 @@ import {
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { addAdmin } from '../../Apis/apis';
+import { getLoginInfo } from '../../utils/store';
 import swal from 'sweetalert';
 const formValue = {
 	name: '',
@@ -165,11 +166,20 @@ const AddAdmin = () => {
 											onChange={handleInput}
 											onBlur={checkError}
 											onFocus={removeError}
+											disabled={getLoginInfo().admin_role}
 											name='admin_type'
 										>
 											<option value=''>--Please select Admin Type--</option>
 											<option value='1'> Second Level Admin </option>
-											<option value='2'> Third Level Admin </option>
+											<option
+												selected={
+													getLoginInfo().admin_role === 1 ? true : false
+												}
+												value='2'
+											>
+												{' '}
+												Third Level Admin{' '}
+											</option>
 										</FormSelect>
 										<FormFeedback> Admin Type Field is required</FormFeedback>
 									</Col>

@@ -83,6 +83,8 @@ export const addPost = (data) => {
 	form.append('price', data.price);
 	form.append('description', data.description);
 	form.append('cover_pic', data.cover_pic);
+	form.append('fiction', data.fiction);
+	form.append('sale_price', data.sale_price);
 	form.append('user_id', loginId());
 	form.append('author_name', data.author_name);
 	form.append('soical_media_name', data.soical_media_name);
@@ -115,6 +117,8 @@ export const EditPostAPI = (data) => {
 	form.append('genre', data.genre);
 	form.append('ismb', data.ismb);
 	form.append('rating', data.rating);
+	form.append('fiction', data.fiction);
+	form.append('sale_price', data.sale_price);
 	if (data.hasOwnProperty('id')) {
 		form.append('id', data.id);
 	}

@@ -39,7 +39,6 @@ class Post extends Component {
 	componentDidMount() {
 		getPost()
 			.then((data) => {
-				console.log(data.data.data);
 				this.setState({ posts: data.data.data, loading: false });
 			})
 			.catch((err) => this.setState({ loading: false }));

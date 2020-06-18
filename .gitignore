@@ -11,7 +11,7 @@ server/public/uploads
 
 # production
 /build
-
+/build.zip
 # misc
 .DS_Store
 .env.local

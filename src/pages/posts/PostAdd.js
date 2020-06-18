@@ -31,7 +31,7 @@ const PostAdd = () => {
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
 	const checkValidation = () => {
-		const errorObject = checkAllRequiredFields(errorFields, formFields);
+		const errorObject = checkAllRequiredFields(errorFields, userForm);
 		setErros({ ...errors, ...errorObject });
 		return Object.values(errorObject).some((item) => item.lenght !== 0);
 	};
