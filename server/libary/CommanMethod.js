@@ -253,4 +253,7 @@ module.exports = {
 	randomNumber() {
 		return Math.floor(1000 + Math.random() * 9000);
 	},
+	convertTime(date) {
+		return Math.round(new Date(date).getTime(), 0);
+	},
 };

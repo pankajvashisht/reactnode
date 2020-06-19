@@ -148,6 +148,9 @@ class adminController {
 		if (body.id) {
 			sendPush({ id: body.id, price: body.price });
 		}
+		if (body.released_date) {
+			body.released_date = app.convertTime(body.released_date);
+		}
 		delete body.url;
 		delete body.cover_pic;
 		delete body.audio_sample;
