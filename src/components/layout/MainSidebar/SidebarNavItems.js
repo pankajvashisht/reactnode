@@ -15,6 +15,7 @@ class SidebarNavItems extends React.Component {
 
 	componentWillMount() {
 		const login_datails = JSON.parse(localStorage.getItem('userInfo'));
+		// eslint-disable-next-line valid-typeof
 		if (typeof login_datails !== 'null') {
 			if (login_datails.admin_role !== 0) {
 				this.setState({ navItems: subAdmin[login_datails.admin_role] });

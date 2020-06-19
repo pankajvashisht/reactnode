@@ -116,7 +116,7 @@ const AddAdmin = () => {
 											onFocus={removeError}
 											onChange={handleInput}
 										/>
-										<FormFeedback> Nmae Field is required</FormFeedback>
+										<FormFeedback> Name Field is required</FormFeedback>
 									</Col>
 									<Col md='6'>
 										<label htmlFor='fePassword'>Password</label>

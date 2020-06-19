@@ -88,6 +88,8 @@ export const addPost = (data) => {
 	form.append('user_id', loginId());
 	form.append('author_name', data.author_name);
 	form.append('soical_media_name', data.soical_media_name);
+	form.append('rsb', data.rsb);
+	form.append('released_date', data.released_date);
 	form.append('genre', data.genre);
 	form.append('ismb', data.ismb);
 	form.append('rating', data.rating);

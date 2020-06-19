@@ -24,6 +24,7 @@ import { types, formFields, errorFields } from './constants';
 import {
 	checkAllRequiredFields,
 	checkRequiredField,
+	dateFormate,
 } from '../../utils/validations';
 const PostAdd = () => {
 	const [userForm, setUserForm] = useState(formFields);
@@ -97,10 +98,13 @@ const PostAdd = () => {
 		setUserForm({ ...userForm, [name]: file });
 	};
 
-	const handleInput = ({ target: { name, value } }) => {
+	const handleInput = ({ target: { name, value }, target }) => {
 		if (name === 'posttype') {
 			setFileType(types[value]);
 			validationRemove(value);
+		}
+		if (name === 'rsb') {
+			value = target.checked ? 1 : 0;
 		}
 		setUserForm({ ...userForm, [name]: value });
 	};
@@ -123,7 +127,7 @@ const PostAdd = () => {
 						<Col>
 							<Form onSubmit={addNewPost}>
 								<Row form>
-									<Col md='4' className='form-group'>
+									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>Title</label>
 										<FormInput
 											type='text'
@@ -138,7 +142,7 @@ const PostAdd = () => {
 										/>
 										<FormFeedback> Title field is required</FormFeedback>
 									</Col>
-									<Col md='4'>
+									<Col md='6'>
 										<label htmlFor='fePassword'>Price</label>
 										<FormInput
 											type='number'
@@ -154,7 +158,20 @@ const PostAdd = () => {
 										/>
 										<FormFeedback> {errors.price}</FormFeedback>
 									</Col>
-									<Col md='4'>
+								</Row>
+								<Row>
+									<Col md='6'>
+										<label htmlFor='fePassword'>RSB</label>
+										<FormInput
+											type='checkbox'
+											value={userForm.rsb}
+											valid={userForm.rsb}
+											onChange={handleInput}
+											name='rsb'
+										/>
+										<FormFeedback> {errors.rsb}</FormFeedback>
+									</Col>
+									<Col md='6'>
 										<label htmlFor='fePassword'>Sale On Price</label>
 										<FormInput
 											type='number'
@@ -403,7 +420,7 @@ const PostAdd = () => {
 									</Row>
 								)}
 								<Row form>
-									<Col md='12'>
+									<Col md='6'>
 										<label htmlFor='fePassword'>ISBN</label>
 										<FormInput
 											type='text'
@@ -413,6 +430,22 @@ const PostAdd = () => {
 											onChange={handleInput}
 											name='ismb'
 										/>
+									</Col>
+									<Col md='6'>
+										<label htmlFor='fePassword'>Released Date</label>
+										<FormInput
+											type='date'
+											placeholder='released_date'
+											rows='5'
+											max={dateFormate()}
+											valid={userForm.released_date}
+											invalid={errors.released_date}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='released_date'
+										/>
+										<FormFeedback>Released Date field is required</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

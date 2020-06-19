@@ -14,6 +14,8 @@ export const formFields = {
 	rating: '',
 	sale_price: '',
 	fiction: '',
+	released_date: '',
+	rsb: '',
 };
 
 export const errorFields = {
@@ -30,6 +32,7 @@ export const errorFields = {
 	genre: '',
 	rating: '',
 	fiction: '',
+	released_date: '',
 };
 
 export const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];
