@@ -35,8 +35,6 @@ const EditPost = ({
 	},
 }) => {
 	const history = useHistory();
-	post.posttype = post.post_type;
-	post.name = post.title;
 	post.released_date =
 		post.released_date === 0
 			? Math.round(new Date().getTime() / 1000, 0)
@@ -108,10 +106,13 @@ const EditPost = ({
 		setUserForm({ ...userForm, [name]: file });
 	};
 
-	const handleInput = ({ target: { name, value } }) => {
-		if (name === 'posttype') {
+	const handleInput = ({ target: { name, value }, target }) => {
+		if (name === 'post_type') {
 			setFileType(types[value]);
 			validationRemove(value);
+		}
+		if (name === 'rsb') {
+			value = target.checked ? 1 : 0;
 		}
 		setUserForm({ ...userForm, [name]: value });
 	};
@@ -134,12 +135,12 @@ const EditPost = ({
 						<Col>
 							<Form onSubmit={addNewPost}>
 								<Row form>
-									<Col md='4' className='form-group'>
+									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>Title</label>
 										<FormInput
 											type='text'
 											placeholder='Title'
-											name='name'
+											name='title'
 											onBlur={checkError}
 											onFocus={removeError}
 											value={userForm.title}
@@ -149,7 +150,7 @@ const EditPost = ({
 										/>
 										<FormFeedback> Title field is required</FormFeedback>
 									</Col>
-									<Col md='4'>
+									<Col md='6'>
 										<label htmlFor='fePassword'>Price</label>
 										<FormInput
 											type='number'
@@ -165,7 +166,24 @@ const EditPost = ({
 										/>
 										<FormFeedback> {errors.price}</FormFeedback>
 									</Col>
-									<Col md='4'>
+								</Row>
+								<Row>
+									<Col md='6'>
+										<FormInput
+											type='checkbox'
+											className='form-check-input'
+											valid={userForm.rsb}
+											checked={userForm.rsb === 1 ? true : false}
+											onChange={handleInput}
+											style={{
+												width: '40%',
+											}}
+											name='rsb'
+										/>
+										<label htmlFor='fePassword'>RSB</label>
+										<FormFeedback> {errors.rsb}</FormFeedback>
+									</Col>
+									<Col md='6'>
 										<label htmlFor='fePassword'>Sale On Price</label>
 										<FormInput
 											type='number'
@@ -402,7 +420,6 @@ const EditPost = ({
 												valid={userForm.rating}
 												invalid={errors.rating}
 												multiple={true}
-												value={userForm.rating}
 												onChange={handleInput}
 												onBlur={checkError}
 												onFocus={removeError}
@@ -521,13 +538,13 @@ const EditPost = ({
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
 											<FormSelect
-												valid={userForm.posttype}
-												invalid={errors.posttype}
+												valid={userForm.post_type}
+												invalid={errors.post_type}
 												onChange={handleInput}
-												name='posttype'
+												name='post_type'
 												onBlur={checkError}
 												onFocus={removeError}
-												value={userForm.posttype}
+												value={userForm.post_type}
 											>
 												<option value=''>--Please select Post type--</option>
 												<option

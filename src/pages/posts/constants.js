@@ -36,10 +36,10 @@ export const errorFields = {
 };
 
 export const errorEditFields = {
-	posttype: '',
+	post_type: '',
 	url: '',
 	price: '',
-	name: '',
+	title: '',
 	description: '',
 	author_name: '',
 	soical_media_name: '',
