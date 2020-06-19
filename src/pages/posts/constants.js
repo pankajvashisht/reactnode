@@ -35,4 +35,18 @@ export const errorFields = {
 	released_date: '',
 };
 
+export const errorEditFields = {
+	posttype: '',
+	url: '',
+	price: '',
+	name: '',
+	description: '',
+	author_name: '',
+	soical_media_name: '',
+	genre: '',
+	rating: '',
+	fiction: '',
+	released_date: '',
+};
+
 export const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];

@@ -21,10 +21,12 @@ import Button from '../../components/Button/button';
 import { EditPostAPI } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
-import { types, errorFields } from './constants';
+import { types, errorEditFields } from './constants';
 import {
 	checkAllRequiredFields,
 	checkRequiredField,
+	dateFormate,
+	convertDate,
 } from '../../utils/validations';
 
 const EditPost = ({
@@ -33,16 +35,22 @@ const EditPost = ({
 	},
 }) => {
 	const history = useHistory();
+	post.posttype = post.post_type;
+	post.name = post.title;
+	post.released_date =
+		post.released_date === 0
+			? Math.round(new Date().getTime() / 1000, 0)
+			: post.released_date;
 	const [userForm, setUserForm] = useState({
 		...post,
 	});
-	const [errors, setErros] = useState(errorFields);
+	const [errors, setErros] = useState(errorEditFields);
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
 	const checkValidation = () => {
-		const errorObject = checkAllRequiredFields(errorFields, userForm);
+		const errorObject = checkAllRequiredFields(errorEditFields, userForm);
 		setErros({ ...errors, ...errorObject });
-		return Object.values(errorObject).some((item) => item.lenght !== 0);
+		return !Object.values(errorObject).every((item) => !item);
 	};
 	const checkError = ({ target: { name, value } }) => {
 		setErros({ ...errors, ...checkRequiredField(name, value) });
@@ -58,7 +66,7 @@ const EditPost = ({
 			return false;
 		}
 		setDisabled(true);
-		EditPostAPI({ ...userForm.form })
+		EditPostAPI({ ...userForm })
 			.then(() => {
 				setDisabled(false);
 				history.push('/posts');
@@ -592,7 +600,7 @@ const EditPost = ({
 									</Row>
 								)}
 								<Row form>
-									<Col md='12'>
+									<Col md='6'>
 										<label htmlFor='fePassword'>ISBN</label>
 										<FormInput
 											type='text'
@@ -603,6 +611,23 @@ const EditPost = ({
 											name='ismb'
 											value={userForm.ismb}
 										/>
+									</Col>
+									<Col md='6'>
+										<label htmlFor='fePassword'>Released Date</label>
+										<FormInput
+											type='date'
+											placeholder='released_date'
+											rows='5'
+											max={dateFormate()}
+											value={convertDate(userForm.released_date)}
+											valid={userForm.released_date}
+											invalid={errors.released_date}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='released_date'
+										/>
+										<FormFeedback>Released Date field is required</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

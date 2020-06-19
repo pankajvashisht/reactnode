@@ -32,7 +32,7 @@ export default function () {
 			to: '/posts',
 		},
 		{
-			title: 'Trsansaction',
+			title: 'Transaction',
 			htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
 			to: '/transaction',
 		},

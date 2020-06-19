@@ -161,14 +161,18 @@ const PostAdd = () => {
 								</Row>
 								<Row>
 									<Col md='6'>
-										<label htmlFor='fePassword'>RSB</label>
 										<FormInput
 											type='checkbox'
+											className='form-check-input'
 											value={userForm.rsb}
 											valid={userForm.rsb}
 											onChange={handleInput}
+											style={{
+												width: '40%',
+											}}
 											name='rsb'
 										/>
+										<label htmlFor='fePassword'>RSB</label>
 										<FormFeedback> {errors.rsb}</FormFeedback>
 									</Col>
 									<Col md='6'>

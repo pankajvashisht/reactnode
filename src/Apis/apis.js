@@ -121,6 +121,7 @@ export const EditPostAPI = (data) => {
 	form.append('rating', data.rating);
 	form.append('fiction', data.fiction);
 	form.append('sale_price', data.sale_price);
+	form.append('released_date', data.released_date);
 	if (data.hasOwnProperty('id')) {
 		form.append('id', data.id);
 	}

@@ -11,11 +11,20 @@ export const checkAllRequiredFields = (fields, values) =>
 
 export const dateFormate = () => {
 	var dtToday = new Date();
-
 	var month = dtToday.getMonth() + 1;
 	var day = dtToday.getDate();
 	var year = dtToday.getFullYear();
+	if (month < 10) month = '0' + month.toString();
+	if (day < 10) day = '0' + day.toString();
+	return `${year}-${month}-${day}`;
+};
 
+export const convertDate = (date) => {
+	date = isNaN(date) ? date : date * 1000;
+	var dtToday = new Date(date);
+	var month = dtToday.getMonth() + 1;
+	var day = dtToday.getDate();
+	var year = dtToday.getFullYear();
 	if (month < 10) month = '0' + month.toString();
 	if (day < 10) day = '0' + day.toString();
 	return `${year}-${month}-${day}`;
