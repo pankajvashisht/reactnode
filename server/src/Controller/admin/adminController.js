@@ -100,11 +100,11 @@ class adminController {
 					req.query.q +
 					"%'";
 			} else {
-				" where title like '%" +
-					req.query.q +
-					"%' or description like '%" +
-					req.query.q +
-					"%'";
+				conditions += `where title like '%" 
+					${req.query.q}
+					"%' or description like '%" 
+					${req.query.q}
+					"%'`;
 			}
 		}
 		let query =
