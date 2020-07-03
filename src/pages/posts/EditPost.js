@@ -532,7 +532,7 @@ const EditPost = ({
 								<hr></hr>
 								<Row form>
 									<Col md='6' className='form-group'>
-										<label htmlFor='feEmailAddress'>Post Type</label>
+										<label htmlFor='feEmailAddress'> EPub or Audio </label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
@@ -562,7 +562,10 @@ const EditPost = ({
 													Audio/ PDF
 												</option>
 											</FormSelect>
-											<FormFeedback> Posttype field is required</FormFeedback>
+											<FormFeedback>
+												{' '}
+												EPub or Audio field is required
+											</FormFeedback>
 										</InputGroup>
 									</Col>
 									<Col md='6'>

@@ -302,7 +302,10 @@ const PostAdd = () => {
 												onFocus={removeError}
 												name='rating'
 											>
-												<option value=''>--Please select Rating--</option>
+												<option value=''>
+													--Please select ALL applicable Ratings, press Ctrl
+													Keyt OR Command Key & select options--
+												</option>
 												<option value='Children'> Children </option>
 												<option value='Tweens (9 to 12)'>
 													{' '}
@@ -352,7 +355,7 @@ const PostAdd = () => {
 								<hr></hr>
 								<Row form>
 									<Col md='6' className='form-group'>
-										<label htmlFor='feEmailAddress'>Post Type</label>
+										<label htmlFor='feEmailAddress'> EPub or Audio </label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
@@ -369,7 +372,10 @@ const PostAdd = () => {
 												<option value='1'> EPub/PDF </option>
 												<option value='3'> Audio/PDF </option>
 											</FormSelect>
-											<FormFeedback> Posttype field is required</FormFeedback>
+											<FormFeedback>
+												{' '}
+												EPub or Audio field is required
+											</FormFeedback>
 										</InputGroup>
 									</Col>
 									<Col md='6'>
