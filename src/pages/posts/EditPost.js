@@ -184,7 +184,7 @@ const EditPost = ({
 										<FormFeedback> {errors.rsb}</FormFeedback>
 									</Col>
 									<Col md='6'>
-										<label htmlFor='fePassword'>Sale On Price</label>
+										<label htmlFor='fePassword'>Sale Price</label>
 										<FormInput
 											type='number'
 											placeholder='Price (e.g. 1.99)'
@@ -396,11 +396,11 @@ const EditPost = ({
 												</option>
 												<option
 													selected={
-														userForm.fiction === 'unfiction' ? true : false
+														userForm.fiction === 'Nonfiction' ? true : false
 													}
-													value='unfiction'
+													value='nonfiction'
 												>
-													UnFiction
+													Nonfiction
 												</option>
 											</FormSelect>
 											<FormFeedback> Fiction field is required</FormFeedback>

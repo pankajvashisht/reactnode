@@ -124,7 +124,7 @@ class Transaction extends Component {
 												Username
 											</th>
 											<th scope='col' className='border-0'>
-												Pan Number
+												Pen Number
 											</th>
 											<th scope='col' className='border-0'>
 												File
