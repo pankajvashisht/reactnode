@@ -42,6 +42,7 @@ const EditPost = ({
 	const [userForm, setUserForm] = useState({
 		...post,
 	});
+	console.log(userForm);
 	const [errors, setErros] = useState(errorEditFields);
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
@@ -114,6 +115,9 @@ const EditPost = ({
 		if (name === 'rsb') {
 			value = target.checked ? 1 : 0;
 		}
+		if (name === 'lbr') {
+			value = target.checked ? 1 : 0;
+		}
 		setUserForm({ ...userForm, [name]: value });
 	};
 	return (
@@ -168,7 +172,7 @@ const EditPost = ({
 									</Col>
 								</Row>
 								<Row>
-									<Col md='6'>
+									<Col md='3'>
 										<FormInput
 											type='checkbox'
 											className='form-check-input'
@@ -182,6 +186,21 @@ const EditPost = ({
 										/>
 										<label htmlFor='fePassword'>RSB</label>
 										<FormFeedback> {errors.rsb}</FormFeedback>
+									</Col>
+									<Col md='3'>
+										<FormInput
+											type='checkbox'
+											className='form-check-input'
+											valid={userForm.lbr}
+											checked={userForm.lbr === 1 ? true : false}
+											onChange={handleInput}
+											style={{
+												width: '40%',
+											}}
+											name='lbr'
+										/>
+										<label htmlFor='fePassword'>LBR</label>
+										<FormFeedback> {errors.lbr}</FormFeedback>
 									</Col>
 									<Col md='6'>
 										<label htmlFor='fePassword'>On Sale Price</label>
@@ -669,6 +688,7 @@ const EditPost = ({
 										<FormFeedback> Synopsis field is required</FormFeedback>
 									</Col>
 								</Row>
+								<hr></hr>
 								<Row form>
 									<Col md='12'>
 										<label htmlFor='fePassword'>Peek</label>
@@ -682,6 +702,7 @@ const EditPost = ({
 											onBlur={checkError}
 											onFocus={removeError}
 											name='peek'
+											value={userForm.peek}
 										/>
 										<FormFeedback> Peek field is required</FormFeedback>
 									</Col>

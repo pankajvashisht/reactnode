@@ -106,6 +106,9 @@ const PostAdd = () => {
 		if (name === 'rsb') {
 			value = target.checked ? 1 : 0;
 		}
+		if (name === 'lbr') {
+			value = target.checked ? 1 : 0;
+		}
 		setUserForm({ ...userForm, [name]: value });
 	};
 	return (
@@ -491,6 +494,7 @@ const PostAdd = () => {
 										<FormFeedback> Synopsis field is required</FormFeedback>
 									</Col>
 								</Row>
+								<hr></hr>
 								<Row form>
 									<Col md='12'>
 										<label htmlFor='fePassword'>Peek</label>
