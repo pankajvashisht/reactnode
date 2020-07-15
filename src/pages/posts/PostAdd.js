@@ -92,7 +92,7 @@ const PostAdd = () => {
 		if (name === 'sample_audio') {
 			const fileSize = file.size / 1024 / 1024;
 			if (fileSize > 2.5) {
-				setErros({ ...errors, [name]: 'Audio should be less then 2.5' });
+				setErros({ ...errors, [name]: 'Audio should be less then 2.5 mb' });
 			}
 		}
 		setUserForm({ ...userForm, [name]: file });
@@ -160,7 +160,7 @@ const PostAdd = () => {
 									</Col>
 								</Row>
 								<Row>
-									<Col md='6'>
+									<Col md='3'>
 										<FormInput
 											type='checkbox'
 											className='form-check-input'
@@ -175,8 +175,23 @@ const PostAdd = () => {
 										<label htmlFor='fePassword'>RSB</label>
 										<FormFeedback> {errors.rsb}</FormFeedback>
 									</Col>
+									<Col md='3'>
+										<FormInput
+											type='checkbox'
+											className='form-check-input'
+											value={userForm.lbr}
+											valid={userForm.lbr}
+											onChange={handleInput}
+											style={{
+												width: '40%',
+											}}
+											name='lbr'
+										/>
+										<label htmlFor='fePassword'>LBR</label>
+										<FormFeedback> {errors.lbr}</FormFeedback>
+									</Col>
 									<Col md='6'>
-										<label htmlFor='fePassword'>Sale Price</label>
+										<label htmlFor='fePassword'>On Sale Price</label>
 										<FormInput
 											type='number'
 											placeholder='Price (e.g. 1.99)'
@@ -474,6 +489,23 @@ const PostAdd = () => {
 											name='description'
 										/>
 										<FormFeedback> Synopsis field is required</FormFeedback>
+									</Col>
+								</Row>
+								<Row form>
+									<Col md='12'>
+										<label htmlFor='fePassword'>Peek</label>
+										<FormTextarea
+											type='file'
+											placeholder='Copy and Paste first six pages of Chapter One.'
+											rows='5'
+											valid={userForm.peek}
+											invalid={errors.peek}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='peek'
+										/>
+										<FormFeedback> Peek field is required</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

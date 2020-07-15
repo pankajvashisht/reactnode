@@ -178,7 +178,6 @@ class adminController {
 			}
 			return await DB.save('users', body);
 		} catch (err) {
-			console.log(JSON.stringify(err));
 			throw new Error(JSON.stringify(err));
 		}
 	}
@@ -335,7 +334,7 @@ const sendPush = async ({ id, price }) => {
 			id,
 		},
 	});
-	if (parseFloat(price) !== post.price) {
+	if (post.price > parseFloat(price)) {
 		const allUsers = await DB.first(
 			`select users.device_token, users.device_type from favourites join users on (favourites.user_id = users.id) where post_id = ${id} and device_token != ''`
 		);

@@ -100,7 +100,7 @@ const EditPost = ({
 		if (name === 'sample_audio') {
 			const fileSize = file.size / 1024 / 1024;
 			if (fileSize > 2.5) {
-				setErros({ ...errors, [name]: 'Audio should be less then 2.5' });
+				setErros({ ...errors, [name]: 'Audio should be less then 2.5 mb' });
 			}
 		}
 		setUserForm({ ...userForm, [name]: file });
@@ -184,7 +184,7 @@ const EditPost = ({
 										<FormFeedback> {errors.rsb}</FormFeedback>
 									</Col>
 									<Col md='6'>
-										<label htmlFor='fePassword'>Sale Price</label>
+										<label htmlFor='fePassword'>On Sale Price</label>
 										<FormInput
 											type='number'
 											placeholder='Price (e.g. 1.99)'
@@ -667,6 +667,23 @@ const EditPost = ({
 											value={userForm.description}
 										/>
 										<FormFeedback> Synopsis field is required</FormFeedback>
+									</Col>
+								</Row>
+								<Row form>
+									<Col md='12'>
+										<label htmlFor='fePassword'>Peek</label>
+										<FormTextarea
+											type='file'
+											placeholder='Copy and Paste first six pages of Chapter One.'
+											rows='5'
+											valid={userForm.peek}
+											invalid={errors.peek}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='peek'
+										/>
+										<FormFeedback> Peek field is required</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

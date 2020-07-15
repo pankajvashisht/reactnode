@@ -103,11 +103,11 @@ const AddAdmin = () => {
 							<Form onSubmit={addadmin}>
 								<Row form>
 									<Col md='6' className='form-group'>
-										<label htmlFor='feEmailAddress'>Name</label>
+										<label htmlFor='feEmailAddress'>Name & Publisher</label>
 										<FormInput
 											id='feEmailAddress'
 											type='text'
-											placeholder='Name'
+											placeholder='Name & Publisher'
 											name='name'
 											value={userForm.name}
 											valid={userForm.name}

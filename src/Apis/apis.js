@@ -93,6 +93,8 @@ export const addPost = (data) => {
 	form.append('genre', data.genre);
 	form.append('ismb', data.ismb);
 	form.append('rating', data.rating);
+	form.append('peek', data.peek);
+	form.append('lbr', data.lbr);
 	if (data.hasOwnProperty('id')) {
 		form.append('id', data.id);
 	}
@@ -122,6 +124,8 @@ export const EditPostAPI = (data) => {
 	form.append('fiction', data.fiction);
 	form.append('sale_price', data.sale_price);
 	form.append('rsb', data.rsb);
+	form.append('peek', data.peek);
+	form.append('lbr', data.lbr);
 	if (isNaN(data.released_date))
 		form.append('released_date', data.released_date);
 	if (data.hasOwnProperty('id')) {

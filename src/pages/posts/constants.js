@@ -16,6 +16,8 @@ export const formFields = {
 	fiction: '',
 	released_date: '',
 	rsb: '',
+	peek: '',
+	lbr: 0,
 };
 
 export const errorFields = {
@@ -33,6 +35,7 @@ export const errorFields = {
 	rating: '',
 	fiction: '',
 	released_date: '',
+	peek: '',
 };
 
 export const errorEditFields = {
@@ -47,6 +50,7 @@ export const errorEditFields = {
 	rating: '',
 	fiction: '',
 	released_date: '',
+	peek: '',
 };
 
 export const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];
