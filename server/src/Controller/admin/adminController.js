@@ -341,7 +341,7 @@ const sendPush = async ({ id, price }) => {
 		allUsers.forEach((user) => {
 			app.send_push({
 				token: user.device_token,
-				message: `Owner change the price of the book now new price is ${price}`,
+				message: `Author has changed the price the E-book/Audio Book , New price is $${price}`,
 				data: post,
 			});
 		});
