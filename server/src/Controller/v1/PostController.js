@@ -453,6 +453,13 @@ module.exports = {
 		try {
 			const request_data = await apis.vaildation(required);
 			let insertId = await DB.save('users_posts', request_data);
+			if (parseInt(request_data.coupon_id) !== 0) {
+				const { coupon_id, user_id } = request_data;
+				DB.save('apply_coupons', {
+					coupon_id,
+					user_id,
+				});
+			}
 			return app.success(res, {
 				message: 'buy successfully',
 				data: await postDetails(insertId),
