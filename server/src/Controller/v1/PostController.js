@@ -414,17 +414,44 @@ module.exports = {
 			return app.error(res, err);
 		}
 	},
+	checkCoupon: async (req, res) => {
+		const required = {
+			coupon: req.body.coupon,
+			user_id: req.body.user_id,
+		};
+		try {
+			const requestData = await apis.vaildation(required, {});
+			const { user_id, coupon } = requestData;
+			const data = await DB.first(
+				`select * from coupons where name = ${coupon} and (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) = 0 limit 1`
+			);
+			if (data.length === 0) {
+				throw { message: 'Invaild coupon code', code: 400 };
+			}
+			if (app.currentTime > data[0].end_time) {
+				throw { message: 'Coupon was expired', code: 400 };
+			}
+			return app.success(res, {
+				message: 'post details',
+				data: data[0],
+			});
+		} catch (err) {
+			return app.error(res, err);
+		}
+	},
 	buyPost: async (req, res) => {
-		let required = {
+		const required = {
 			user_id: req.body.user_id,
 			post_id: req.body.post_id,
 			payment_type: req.body.payment_type,
 			payment_details: req.body.payment_details,
 			amount: req.body.amount,
 			status: req.body.status,
+			coupon_id: req.body.coupon_id || 0,
+			discount: req.body.discount || 0,
 		};
 		try {
-			let request_data = await apis.vaildation(required);
+			const request_data = await apis.vaildation(required);
 			let insertId = await DB.save('users_posts', request_data);
 			return app.success(res, {
 				message: 'buy successfully',
