@@ -14,7 +14,6 @@ const config = require('../config/config');
 const payment = require('../config/payment');
 const fs = require('fs');
 const crypto = require('crypto');
-const os = require('os');
 const FCM = require('fcm-node');
 module.exports = {
 	send_mail: function (object) {
@@ -50,7 +49,7 @@ module.exports = {
 				if (unlink) {
 				}
 
-				let upload_path = appRoot + '/public/' + folder_name;
+				let upload_path = global.appRoot + '/public/' + folder_name;
 				let image = file;
 				let image_array = image.mimetype.split('/');
 				let extension = image_array[image_array.length - 1];
@@ -68,32 +67,6 @@ module.exports = {
 			}
 		} catch (err) {
 			throw { code: 415, message: err };
-		}
-	},
-
-	upload_pic: async function () {
-		const fileUpload = require('express-fileupload');
-		if (!file) {
-			return false; // if not getting the image
-		} else {
-			if (unlink) {
-			}
-			let upload_path = config.root_path;
-			if (folder_name.length) {
-				upload_path + folder_name;
-			}
-			let image = file;
-			let image_array = image.mimetype.split('/');
-			let extension = image_array[image_array.length - 1];
-			var timestamp = parseInt(new Date().getTime());
-			image.mv(upload_path + '/' + timestamp + '.' + extension, function (err) {
-				if (err) {
-					console.log(err);
-				} else {
-					console.log('file_uploaded');
-				}
-			});
-			return timestamp + '.' + extension;
 		}
 	},
 	send_push: function (data) {
@@ -232,22 +205,7 @@ module.exports = {
 		return this.createHash(token);
 	},
 	ImageUrl(name, folder = 'uploads') {
-		const networkInterfaces = os.networkInterfaces();
 		let ip = '18.221.216.40';
-		// Object.keys(networkInterfaces).forEach(function (ifname) {
-		//   var alias = 0;
-		//   networkInterfaces[ifname].forEach(function (iface) {
-		//     if ('IPv4' !== iface.family || iface.internal !== false) {
-		//       ip = iface.address;
-		//     }
-		//     if (alias >= 1) {
-		//       ip = iface.address;
-		//     } else {
-		//       ip = iface.address;
-		//     }
-		//     ++alias;
-		//   });
-		// });
 		return 'http://' + ip + ':' + config.port + '/' + folder + '/' + name;
 	},
 	randomNumber() {
@@ -255,5 +213,15 @@ module.exports = {
 	},
 	convertTime(date) {
 		return Math.round(new Date(date).getTime() / 1000, 0);
+	},
+	createRandomNubmer(length = 5) {
+		let result = '';
+		let characters =
+			'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let charactersLength = characters.length;
+		for (let i = 0; i < length; i++) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		}
+		return result;
 	},
 };

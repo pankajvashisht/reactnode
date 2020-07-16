@@ -37,6 +37,11 @@ export default function () {
 			to: '/transaction',
 		},
 		{
+			title: 'Coupne',
+			htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
+			to: '/copnen',
+		},
+		{
 			title: 'User Profile',
 			htmlBefore: '<i class="material-icons">person</i>',
 			to: '/profile',

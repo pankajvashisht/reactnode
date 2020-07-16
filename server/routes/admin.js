@@ -40,4 +40,10 @@ router
 router
 	.route('/review/:post_id([0-9]+)/:limit([0-9]+)?')
 	.get(response(admin.getReview));
+router
+	.route('/coupon/:offset([0-9]+)?/:limit([0-9]+)?')
+	.get(response(admin.getCoupons))
+	.post(response(admin.addCoupon))
+	.put(response(admin.updateData))
+	.delete(response(admin.deleteData));
 module.exports = router;

@@ -264,6 +264,19 @@ class adminController {
 		return true;
 	}
 
+	async addCoupon(Request) {
+		const { body } = Request;
+		body.name = app.createRandomNubmer(6);
+		return await DB.save('coupons', body);
+	}
+
+	async getCoupons(Request) {
+		let { offset = 1, limit = 100 } = Request.params;
+		offset = (offset - 1) * limit;
+		const query = `select * from coupons order by id desc limit ${offset}, ${limit}`;
+		return await DB.first(query);
+	}
+
 	async dashboard(req) {
 		const totals = {
 			posts: 0,
