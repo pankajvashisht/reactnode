@@ -266,7 +266,9 @@ class adminController {
 
 	async addCoupon(Request) {
 		const { body } = Request;
-		body.name = app.createRandomNubmer(6);
+		if (!body.id) {
+			body.name = app.createRandomNubmer(6);
+		}
 		return await DB.save('coupons', body);
 	}
 

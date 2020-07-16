@@ -95,6 +95,9 @@ class Coupons extends Component {
 												End Date
 											</th>
 											<th scope='col' className='border-0'>
+												Discount
+											</th>
+											<th scope='col' className='border-0'>
 												Status
 											</th>
 											<th scope='col' className='border-0'>
@@ -110,6 +113,7 @@ class Coupons extends Component {
 												<td>{user.name}</td>
 												<td>{convertDate(user.start_time)}</td>
 												<td>{convertDate(user.end_time)}</td>
+												<td>{user.discount} %</td>
 												<td>
 													<StatusUpdate
 														key={key}
