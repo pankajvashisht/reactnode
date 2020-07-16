@@ -423,7 +423,7 @@ module.exports = {
 			const requestData = await apis.vaildation(required, {});
 			const { user_id, coupon } = requestData;
 			const data = await DB.first(
-				`select * from coupons where name = ${coupon} and (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) = 0 limit 1`
+				`select * from coupons where name = '${coupon}' and (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) = 0 limit 1`
 			);
 			if (data.length === 0) {
 				throw { message: 'Invaild coupon code', code: 400 };
