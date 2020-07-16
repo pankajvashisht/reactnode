@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-	Container,
-	Row,
-	Col,
-	Card,
-	CardHeader,
-	CardBody,
-	Input,
-} from 'shards-react';
+import { Container, Row, Col, Card, CardHeader, CardBody } from 'shards-react';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { Link } from 'react-router-dom';
@@ -16,6 +8,7 @@ import DeleteData from '../../components/common/DeleteData';
 import StatusUpdate from '../../components/common/StatusUpdate';
 import Loader from '../../components/common/Loader';
 import { convertDate } from '../../utils/validations';
+import Input from '../../components/Input/input';
 class Coupons extends Component {
 	constructor(props) {
 		super(props);

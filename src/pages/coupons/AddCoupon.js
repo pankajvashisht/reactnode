@@ -21,7 +21,7 @@ const formValue = {
 	end_time: '',
 	discount: '',
 };
-const AddAdmin = () => {
+const AddCoupon = () => {
 	const [couponForm, setCouponForm] = useState({ ...formValue });
 	const [disabled, setDisabled] = useState(false);
 	const [vaildForm, setVaildForm] = useState(formValue);
@@ -136,7 +136,7 @@ const AddAdmin = () => {
 											onChange={handleInput}
 											onBlur={checkError}
 											onFocus={removeError}
-											name='email'
+											name='discount'
 										/>
 										<FormFeedback> {vaildForm.discount}</FormFeedback>
 									</Col>
@@ -157,4 +157,4 @@ const AddAdmin = () => {
 	);
 };
 
-export default AddAdmin;
+export default AddCoupon;

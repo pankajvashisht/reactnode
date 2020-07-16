@@ -1,4 +1,4 @@
 import AddCoupon from './AddCoupon';
 import Coupons from './coupons';
-
-export { AddCoupon, Coupons };
+import EditCoupon from './EditCoupon';
+export { AddCoupon, Coupons, EditCoupon };

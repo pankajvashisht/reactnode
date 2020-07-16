@@ -37,9 +37,14 @@ export default function () {
 			to: '/transaction',
 		},
 		{
-			title: 'Coupne',
-			htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
-			to: '/copnen',
+			title: 'Add Coupon',
+			htmlBefore: '<i class="material-icons">addchart</i>',
+			to: '/add-coupon',
+		},
+		{
+			title: 'Coupons',
+			htmlBefore: '<i class="material-icons">card_giftcard</i>',
+			to: '/coupons',
 		},
 		{
 			title: 'User Profile',

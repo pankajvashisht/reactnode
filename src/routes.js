@@ -11,7 +11,7 @@ import { AddAdmin, Admin } from './pages/SubAdmin';
 import Profile from './pages/Profile';
 import Transaction from './pages/Transaction';
 import Settings from './pages/Settings';
-
+import { Coupons, AddCoupon, EditCoupon } from './pages/coupons';
 const isLogin = () => {
 	let login_datails = localStorage.getItem('userInfo');
 	if (typeof login_datails === 'string') {
@@ -55,6 +55,27 @@ export default [
 		page: 'add-users',
 		layout: DefaultLayout,
 		component: AddUser,
+		auth: true,
+	},
+	{
+		path: '/add-coupon',
+		page: 'add-coupon',
+		layout: DefaultLayout,
+		component: AddCoupon,
+		auth: true,
+	},
+	{
+		path: '/edit-coupon',
+		page: 'edit-coupon',
+		layout: DefaultLayout,
+		component: EditCoupon,
+		auth: true,
+	},
+	{
+		path: '/coupons',
+		page: 'coupons',
+		layout: DefaultLayout,
+		component: Coupons,
 		auth: true,
 	},
 	{
