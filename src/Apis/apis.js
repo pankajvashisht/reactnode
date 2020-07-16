@@ -75,6 +75,12 @@ export const updateInfo = (data) => {
 export const AppInfo = () => {
 	return axios.get(`/app-info`);
 };
+export const addCoupons = (data) => {
+	return axios.post(`/coupon`, data);
+};
+export const getCoupons = (query) => {
+	return axios.get(`/coupon?q=${query}`);
+};
 export const addPost = (data) => {
 	var form = new FormData();
 	form.append('title', data.name || data.title);

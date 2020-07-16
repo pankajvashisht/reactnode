@@ -29,3 +29,6 @@ export const convertDate = (date) => {
 	if (day < 10) day = '0' + day.toString();
 	return `${year}-${month}-${day}`;
 };
+export const convertTime = (date) => {
+	return Math.round(new Date(date).getTime() / 1000, 0);
+};

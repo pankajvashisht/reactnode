@@ -272,8 +272,13 @@ class adminController {
 
 	async getCoupons(Request) {
 		let { offset = 1, limit = 100 } = Request.params;
+		const { q = '' } = Request;
+		let conditions = ``;
+		if (q) {
+			conditions = `where name like  '%${q}%' or discount like  '%${q}%'`;
+		}
 		offset = (offset - 1) * limit;
-		const query = `select * from coupons order by id desc limit ${offset}, ${limit}`;
+		const query = `select * from coupons ${conditions} order by id desc limit ${offset}, ${limit}`;
 		return await DB.first(query);
 	}
 

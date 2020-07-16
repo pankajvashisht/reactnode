@@ -214,6 +214,9 @@ module.exports = {
 	convertTime(date) {
 		return Math.round(new Date(date).getTime() / 1000, 0);
 	},
+	get currentTime() {
+		return Math.round(new Date().getTime() / 1000, 0);
+	},
 	createRandomNubmer(length = 5) {
 		let result = '';
 		let characters =
