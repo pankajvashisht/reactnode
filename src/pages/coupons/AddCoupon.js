@@ -20,6 +20,7 @@ const formValue = {
 	start_time: '',
 	end_time: '',
 	discount: '',
+	name: '',
 };
 const AddCoupon = () => {
 	const [couponForm, setCouponForm] = useState({ ...formValue });
@@ -87,6 +88,24 @@ const AddCoupon = () => {
 					<Row>
 						<Col>
 							<Form onSubmit={addCoupon}>
+								<Row form>
+									<Col md='12' className='form-group'>
+										<label htmlFor='name'>Name</label>
+										<FormInput
+											id='name'
+											type='text'
+											placeholder='Coupon Name'
+											value={couponForm.name}
+											valid={couponForm.name}
+											invalid={vaildForm.name}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='name'
+										/>
+										<FormFeedback> {vaildForm.name}</FormFeedback>
+									</Col>
+								</Row>
 								<Row form>
 									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>State date</label>

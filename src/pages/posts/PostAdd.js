@@ -497,7 +497,7 @@ const PostAdd = () => {
 								<hr></hr>
 								<Row form>
 									<Col md='12'>
-										<label htmlFor='fePassword'>Peek</label>
+										<label htmlFor='fePassword'>Peek Inside</label>
 										<FormTextarea
 											type='file'
 											placeholder='Copy and Paste first six pages of Chapter One.'
@@ -509,7 +509,7 @@ const PostAdd = () => {
 											onFocus={removeError}
 											name='peek'
 										/>
-										<FormFeedback> Peek field is required</FormFeedback>
+										<FormFeedback> Peek Inside field is required</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

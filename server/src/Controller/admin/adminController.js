@@ -266,15 +266,12 @@ class adminController {
 
 	async addCoupon(Request) {
 		const { body } = Request;
-		if (!body.id) {
-			body.name = app.createRandomNubmer(6);
-		}
 		return await DB.save('coupons', body);
 	}
 
 	async getCoupons(Request) {
 		let { offset = 1, limit = 100 } = Request.params;
-		const { q = '' } = Request;
+		const { q = '' } = Request.query;
 		let conditions = ``;
 		if (q) {
 			conditions = `where name like  '%${q}%' or discount like  '%${q}%'`;

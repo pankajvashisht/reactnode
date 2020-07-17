@@ -22,8 +22,10 @@ module.exports = {
 				request_data.user_id +
 				' and post_id = posts.id) as is_buy,IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as rating,IFNULL((select count(*) from favourites where user_id = ' +
 				request_data.user_id +
-				' and post_id = posts.id),0) as is_fav from posts where status = 1 and post_type = ' +
-				request_data.post_type;
+				' and post_id = posts.id),0) as is_fav from posts where status = 1 ';
+			if (request_data.post_type) {
+				query += `and post_type = ${request_data.post_type}`;
+			}
 			if (search.length > 0) {
 				query += ` and (title like '%${search}%' or description like '%${search}%' or price like '%${search}%')`;
 			}
