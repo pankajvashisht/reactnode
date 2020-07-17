@@ -273,7 +273,7 @@ class adminController {
 		let { offset = 1, limit = 100 } = Request.params;
 		const { q = '' } = Request.query;
 		let conditions = ``;
-		if (q) {
+		if (q !== 'undefined' && q.length > 0) {
 			conditions = `where name like  '%${q}%' or discount like  '%${q}%'`;
 		}
 		offset = (offset - 1) * limit;
