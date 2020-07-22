@@ -20,7 +20,7 @@ module.exports = {
 			query +=
 				'(select count(*) from users_posts where user_id = ' +
 				request_data.user_id +
-				' and post_id = posts.id) as is_buy,IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as rating,IFNULL((select count(*) from favourites where user_id = ' +
+				' and post_id = posts.id) as is_buy,IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as post_rating,IFNULL((select count(*) from favourites where user_id = ' +
 				request_data.user_id +
 				' and post_id = posts.id),0) as is_fav from posts where status = 1 ';
 			if (request_data.post_type) {
@@ -500,7 +500,7 @@ const post_details = async (post_id, user_id) => {
 		query +=
 			'(select count(*) from users_posts where user_id = ' +
 			user_id +
-			' and post_id = posts.id) as is_buy, IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as rating,IFNULL((select count(*) from favourites where user_id = ' +
+			' and post_id = posts.id) as is_buy, IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as post_rating,IFNULL((select count(*) from favourites where user_id = ' +
 			user_id +
 			' and post_id = posts.id), 0 ) as is_fav from posts where id =  ' +
 			post_id;
@@ -529,7 +529,7 @@ const getPostBytype = async (type, user_id, offset) => {
 		query +=
 			'(select count(*) from users_posts where user_id = ' +
 			user_id +
-			' and post_id = posts.id) as is_buy, IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as rating,IFNULL((select count(*) from favourites where user_id = ' +
+			' and post_id = posts.id) as is_buy, IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as post_rating,IFNULL((select count(*) from favourites where user_id = ' +
 			user_id +
 			' and post_id = posts.id), 0 ) as is_fav from posts where status = 1 and post_type =  ' +
 			type;
