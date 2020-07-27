@@ -420,18 +420,41 @@ module.exports = {
 		const required = {
 			coupon: req.body.coupon,
 			user_id: req.body.user_id,
+			post_id: req.body.post_id,
 		};
 		try {
 			const requestData = await apis.vaildation(required, {});
-			const { user_id, coupon } = requestData;
+			const { user_id, coupon, post_id } = requestData;
+			const postDetails = await DB.find('posts', 'first', {
+				conditions: {
+					id: post_id,
+				},
+			});
+			if (!postDetails) {
+				throw { message: 'Invaild post id', code: 400 };
+			}
+			let coupon_type = '';
+			if (postDetails.rsb === 1 && postDetails.lbr === 1) {
+				coupon_type = '';
+			} else if (postDetails.rsb === 1 && postDetails.lbr !== 1) {
+				coupon_type = `and coupon_type = 'rsb'`;
+			} else if (postDetails.lbr === 1 && postDetails.rsb !== 1) {
+				coupon_type = `and coupon_type = 'lbr'`;
+			} else {
+				throw { message: 'coupon not apply on this post', code: 400 };
+			}
 			const data = await DB.first(
-				`select * from coupons where name = '${coupon}' and (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) = 0 limit 1`
+				`select * from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 4 ${coupon_type} limit 1`
 			);
+
 			if (data.length === 0) {
 				throw { message: 'Invaild coupon code', code: 400 };
 			}
 			if (app.currentTime > data[0].end_time) {
 				throw { message: 'Coupon was expired', code: 400 };
+			}
+			if (3 > postDetails.price) {
+				throw { message: 'Coupon code not apply in this price', code: 400 };
 			}
 			return app.success(res, {
 				message: 'post details',

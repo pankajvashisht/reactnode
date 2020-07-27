@@ -9,6 +9,7 @@ import {
 	FormInput,
 	Card,
 	CardHeader,
+	FormSelect,
 } from 'shards-react';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
@@ -21,6 +22,7 @@ const formValue = {
 	end_time: '',
 	discount: '',
 	name: '',
+	coupon_type: '',
 };
 const AddCoupon = () => {
 	const [couponForm, setCouponForm] = useState({ ...formValue });
@@ -142,7 +144,7 @@ const AddCoupon = () => {
 									</Col>
 								</Row>
 								<Row form>
-									<Col md='12' className='form-group'>
+									<Col md='6' className='form-group'>
 										<label htmlFor='discount'>Discount</label>
 										<FormInput
 											id='discount'
@@ -158,6 +160,24 @@ const AddCoupon = () => {
 											name='discount'
 										/>
 										<FormFeedback> {vaildForm.discount}</FormFeedback>
+									</Col>
+									<Col md='6' className='form-group'>
+										<label htmlFor='discount'>Coupon Type</label>
+										<FormSelect
+											type='select'
+											value={couponForm.coupon_type}
+											valid={couponForm.coupon_type}
+											invalid={vaildForm.coupon_type}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='coupon_type'
+										>
+											<option value=''>--Please select type--</option>
+											<option value='rsb'>RSB</option>
+											<option value='lbr'>LBR</option>
+										</FormSelect>
+										<FormFeedback> {vaildForm.coupon_type}</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>
