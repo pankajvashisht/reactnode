@@ -182,6 +182,12 @@ const EditCoupon = ({
 												RSB
 											</option>
 											<option
+												selected={couponForm.coupon_type === 'discount'}
+												value='discount'
+											>
+												Discount
+											</option>
+											<option
 												selected={couponForm.coupon_type === 'lbr'}
 												value='lbr'
 											>

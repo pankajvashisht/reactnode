@@ -174,6 +174,8 @@ const AddCoupon = () => {
 											name='coupon_type'
 										>
 											<option value=''>--Please select type--</option>
+											<option value='discount'>Discount</option>
+
 											<option value='rsb'>RSB</option>
 											<option value='lbr'>LBR</option>
 										</FormSelect>

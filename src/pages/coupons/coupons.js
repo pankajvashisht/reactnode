@@ -9,6 +9,11 @@ import StatusUpdate from '../../components/common/StatusUpdate';
 import Loader from '../../components/common/Loader';
 import { convertDate } from '../../utils/validations';
 import Input from '../../components/Input/input';
+const coupon_type = {
+	discount: 'Discount',
+	rsb: 'RSB',
+	lbr: 'LBR',
+};
 class Coupons extends Component {
 	constructor(props) {
 		super(props);
@@ -114,6 +119,7 @@ class Coupons extends Component {
 												<td>{convertDate(user.start_time)}</td>
 												<td>{convertDate(user.end_time)}</td>
 												<td>{user.discount} %</td>
+												<td>{coupon_type[user.coupon_type]}</td>
 												<td>
 													<StatusUpdate
 														key={key}
