@@ -18,6 +18,7 @@ export const formFields = {
 	rsb: '',
 	peek: '',
 	lbr: 0,
+	pages: '',
 };
 
 export const errorFields = {
@@ -36,6 +37,7 @@ export const errorFields = {
 	fiction: '',
 	released_date: '',
 	peek: '',
+	pages: '',
 };
 
 export const errorEditFields = {

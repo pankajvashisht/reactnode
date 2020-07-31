@@ -209,7 +209,7 @@ const PostAdd = () => {
 								</Row>
 								{disabled && <Loader />}
 								<Row form>
-									<Col md='6'>
+									<Col md='4'>
 										<label>Cover Pic</label>
 										<FormInput
 											type='file'
@@ -223,7 +223,7 @@ const PostAdd = () => {
 										/>
 										<FormFeedback> {errors.cover_pic}</FormFeedback>
 									</Col>
-									<Col md='6'>
+									<Col md='4'>
 										<label htmlFor='fePassword'>Author name</label>
 										<FormInput
 											type='text'
@@ -237,6 +237,22 @@ const PostAdd = () => {
 											name='author_name'
 										/>
 										<FormFeedback> {errors.author_name}</FormFeedback>
+									</Col>
+									<Col md='4'>
+										<label htmlFor='fePassword'>Pages</label>
+										<FormInput
+											type='number'
+											placeholder='Pages'
+											min={1}
+											value={userForm.pages}
+											valid={userForm.pages}
+											invalid={errors.pages}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='pages'
+										/>
+										<FormFeedback> {errors.pages}</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>
@@ -281,7 +297,10 @@ const PostAdd = () => {
 										</InputGroup>
 									</Col>
 									<Col>
-										<label htmlFor='feEmailAddress'>Fiction</label>
+										<label htmlFor='feEmailAddress'>
+											Genre Type (you have the drop down selection correct with
+											the only 2 options)
+										</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
@@ -294,7 +313,7 @@ const PostAdd = () => {
 												onBlur={checkError}
 												onFocus={removeError}
 											>
-												<option value=''>--Please select Fiction--</option>
+												<option value=''>--Please select genre type --</option>
 												<option value='fiction'> Fiction </option>
 												<option value='nonfiction'> Nonfiction </option>
 											</FormSelect>
@@ -305,7 +324,8 @@ const PostAdd = () => {
 								<Row>
 									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>
-											Please select applicable Ratings
+											Please select ALL applicable Ratings, press Ctrl Key OR
+											Command Key & select options
 										</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
@@ -320,10 +340,6 @@ const PostAdd = () => {
 												onFocus={removeError}
 												name='rating'
 											>
-												<option value=''>
-													--Please select ALL applicable Ratings, press Ctrl
-													Keyt OR Command Key & select options--
-												</option>
 												<option value='Children'> Children </option>
 												<option value='Tweens (9 to 12)'>
 													{' '}
@@ -387,8 +403,8 @@ const PostAdd = () => {
 												onFocus={removeError}
 											>
 												<option value=''>--Please select Post type--</option>
-												<option value='1'> EPub/PDF </option>
-												<option value='3'> Audio/PDF </option>
+												<option value='1'> EPub </option>
+												<option value='3'> Audio/EPub </option>
 											</FormSelect>
 											<FormFeedback>
 												{' '}

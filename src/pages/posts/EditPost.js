@@ -218,7 +218,7 @@ const EditPost = ({
 								</Row>
 								{disabled && <Loader />}
 								<Row form>
-									<Col md='6'>
+									<Col md='4'>
 										<label>Cover Pic</label>
 										<FormInput
 											type='file'
@@ -232,7 +232,7 @@ const EditPost = ({
 										/>
 										<FormFeedback> {errors.cover_pic}</FormFeedback>
 									</Col>
-									<Col md='6'>
+									<Col md='4'>
 										<label htmlFor='fePassword'>Author name</label>
 										<FormInput
 											type='text'
@@ -246,6 +246,22 @@ const EditPost = ({
 											name='author_name'
 										/>
 										<FormFeedback> {errors.author_name}</FormFeedback>
+									</Col>
+									<Col md='4'>
+										<label htmlFor='fePassword'>Pages</label>
+										<FormInput
+											type='number'
+											placeholder='Pages'
+											min={1}
+											value={userForm.pages}
+											valid={userForm.pages}
+											invalid={errors.pages}
+											onChange={handleInput}
+											onBlur={checkError}
+											onFocus={removeError}
+											name='pages'
+										/>
+										<FormFeedback> {errors.pages}</FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>
@@ -390,7 +406,11 @@ const EditPost = ({
 										</InputGroup>
 									</Col>
 									<Col>
-										<label htmlFor='feEmailAddress'>Fiction</label>
+										<label htmlFor='feEmailAddress'>
+											{' '}
+											Genre Type (you have the drop down selection correct with
+											the only 2 options)
+										</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
@@ -404,7 +424,7 @@ const EditPost = ({
 												onBlur={checkError}
 												onFocus={removeError}
 											>
-												<option value=''>--Please select Fiction--</option>
+												<option value=''>--Please select Genre Type--</option>
 												<option
 													selected={
 														userForm.fiction === 'fiction' ? true : false
@@ -429,7 +449,8 @@ const EditPost = ({
 								<Row>
 									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>
-											Please select applicable Ratings
+											Please select ALL applicable Ratings, press Ctrl Key OR
+											Command Key & select options
 										</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
@@ -571,14 +592,14 @@ const EditPost = ({
 													value='1'
 												>
 													{' '}
-													EPub / pdf
+													EPub
 												</option>
 												<option
 													selected={userForm.post_type === 3 ? true : false}
 													value='3'
 												>
 													{' '}
-													Audio/ PDF
+													Audio/ EPub
 												</option>
 											</FormSelect>
 											<FormFeedback>
