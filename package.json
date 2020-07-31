@@ -39,7 +39,7 @@
 		"reactstrap": "^8.0.1",
 		"shards-react": "^1.0.3",
 		"sharp": "^0.23.4",
-		"stripe": "^7.9.1",
+		"stripe": "^7.15.0",
 		"sweetalert": "^2.1.2"
 	},
 	"scripts": {

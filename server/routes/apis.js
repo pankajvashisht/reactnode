@@ -3,6 +3,7 @@ const router = express.Router();
 const {
 	UserController,
 	PostController,
+	PaymentController,
 } = require('../src/Controller/v1/index');
 const { UserAuth, cross } = require('../src/middleware/index');
 let user = new UserController();
@@ -21,6 +22,7 @@ router.get('/home/:offset([0-9]+)?', UserAuth, PostController.homePost);
 router.post('/post', UserAuth, PostController.buyPost);
 router.post('/user/verifiy', UserAuth, user.verifyOtp);
 router.post('/favourite', UserAuth, PostController.favourites);
+router.post('/stripe-secert', UserAuth, PaymentController.createStripeSecert);
 router.get('/resize', PostController.setImageSize);
 router.get('/myPost/:offset([0-9]+)?', UserAuth, PostController.myPost);
 router.get(
