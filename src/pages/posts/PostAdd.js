@@ -297,10 +297,7 @@ const PostAdd = () => {
 										</InputGroup>
 									</Col>
 									<Col>
-										<label htmlFor='feEmailAddress'>
-											Genre Type (you have the drop down selection correct with
-											the only 2 options)
-										</label>
+										<label htmlFor='feEmailAddress'>Genre Type</label>
 										<InputGroup className='mb-3'>
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>

@@ -101,6 +101,7 @@ export const addPost = (data) => {
 	form.append('rating', data.rating);
 	form.append('peek', data.peek);
 	form.append('lbr', data.lbr);
+	form.append('pages', data.pages);
 	if (data.hasOwnProperty('id')) {
 		form.append('id', data.id);
 	}
@@ -132,6 +133,7 @@ export const EditPostAPI = (data) => {
 	form.append('rsb', data.rsb);
 	form.append('peek', data.peek);
 	form.append('lbr', data.lbr);
+	form.append('pages', data.pages);
 	if (isNaN(data.released_date))
 		form.append('released_date', data.released_date);
 	if (data.hasOwnProperty('id')) {
