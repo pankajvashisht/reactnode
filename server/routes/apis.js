@@ -7,7 +7,7 @@ const {
 } = require('../src/Controller/v1/index');
 const { UserAuth, cross } = require('../src/middleware/index');
 let user = new UserController();
-
+console.log(PaymentController);
 router.use(cross);
 router.get('/', function (req, res) {
 	res.send(' APi workings ');
