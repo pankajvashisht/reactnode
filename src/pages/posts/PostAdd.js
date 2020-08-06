@@ -401,7 +401,7 @@ const PostAdd = () => {
 											>
 												<option value=''>--Please select Post type--</option>
 												<option value='1'> EPub </option>
-												<option value='3'> Audio/EPub </option>
+												<option value='3'> Audio </option>
 											</FormSelect>
 											<FormFeedback>
 												{' '}

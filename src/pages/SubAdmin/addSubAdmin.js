@@ -21,7 +21,6 @@ const formValue = {
 	name: '',
 	email: '',
 	password: '',
-	profile: '',
 	admin_type: getLoginInfo().admin_role === 1 ? 2 : '',
 };
 const AddAdmin = () => {
@@ -163,8 +162,6 @@ const AddAdmin = () => {
 											valid={userForm.profile}
 											invalid={vaildForm.profile}
 											onChange={selectImage}
-											onBlur={checkError}
-											onFocus={removeError}
 											name='profile'
 										/>
 										<FormFeedback> profile Field is required</FormFeedback>

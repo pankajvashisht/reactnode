@@ -595,7 +595,7 @@ const EditPost = ({
 													value='3'
 												>
 													{' '}
-													Audio/ EPub
+													Audio
 												</option>
 											</FormSelect>
 											<FormFeedback>
