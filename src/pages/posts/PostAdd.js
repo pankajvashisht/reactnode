@@ -32,19 +32,26 @@ const PostAdd = () => {
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
 	const checkValidation = () => {
-		const errorObject = checkAllRequiredFields(errorFields, userForm);
+		const errorObject = checkAllRequiredFields(errors, userForm);
 		setErros({ ...errors, ...errorObject });
-		return Object.values(errorObject).some((item) => item.lenght !== 0);
+		let checking = false;
+		Object.keys(errorObject).forEach((item) => {
+			if (errorObject[item]) {
+				checking = true;
+			}
+		});
+		return checking;
 	};
 
 	const addNewPost = (event) => {
 		event.preventDefault();
+		console.log(checkValidation());
 		if (checkValidation()) {
 			return false;
 		}
 		setDisabled(true);
-		addPost({ ...userForm.form })
-			.then((data) => {
+		addPost({ ...userForm })
+			.then(() => {
 				setDisabled(false);
 				swal('success', 'Post Add successfully', 'success');
 				reset();
@@ -73,7 +80,7 @@ const PostAdd = () => {
 			delete errors.audio;
 			delete errors.sample_audio;
 			delete userForm.audio;
-			delete errors.sample_audio;
+			delete userForm.sample_audio;
 		} else if (value === '2') {
 			userForm.sample_audio = '';
 			delete errors.audio;
@@ -81,8 +88,10 @@ const PostAdd = () => {
 		} else if (value === '3') {
 			userForm.sample_audio = '';
 			errors.audio = '';
+			errors.sample_audio = '';
 			userForm.audio = '';
 		}
+		console.log(errors);
 		setErros({ ...errors });
 		setUserForm({ ...userForm });
 	};

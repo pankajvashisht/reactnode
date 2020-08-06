@@ -15,7 +15,7 @@ export const formFields = {
 	sale_price: '',
 	fiction: '',
 	released_date: '',
-	rsb: '',
+	rsb: 0,
 	peek: '',
 	lbr: 0,
 	pages: '',
