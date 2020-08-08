@@ -15,6 +15,7 @@ import {
 	InputGroup,
 	FormTextarea,
 } from 'shards-react';
+import DatePicker from 'react-date-picker';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { addPost } from '../../Apis/apis';
@@ -483,17 +484,25 @@ const PostAdd = () => {
 									</Col>
 									<Col md='6'>
 										<label htmlFor='fePassword'>Released Date</label>
-										<FormInput
-											type='date'
-											placeholder='released_date'
-											rows='5'
-											max={dateFormate()}
-											valid={userForm.released_date}
-											invalid={errors.released_date}
-											onChange={handleInput}
-											onBlur={checkError}
-											onFocus={removeError}
-											name='released_date'
+										<DatePicker
+											onChange={(value) =>
+												handleInput({
+													target: { value, name: 'released_date' },
+												})
+											}
+											onBlur={(value) =>
+												checkError({ target: { name: 'released_date', value } })
+											}
+											onFocus={() =>
+												removeError({
+													target: { name: 'released_date' },
+												})
+											}
+											value={userForm.released_date}
+											className={`form-control date-picker ${
+												userForm.released_date ? 'is-valid' : ''
+											} ${errors.released_date ? 'is-invalid' : ''}`}
+											maxDate={new Date()}
 										/>
 										<FormFeedback>Released Date field is required</FormFeedback>
 									</Col>
