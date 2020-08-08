@@ -140,12 +140,17 @@ const PostDetails = (props) => {
 								Cover Picture
 							</CardHeader>
 							<CardBody>
-								<Image
-									src={postdetail.cover_pic}
-									width='100%'
-									height='360px'
-									style={{ objectFit: 'cover' }}
-								/>
+								<div
+									style={{
+										width: '100%',
+										height: '300px',
+										backgroundImage: `url(${postdetail.cover_pic})`,
+										backgroundSize: 'contain',
+										backgroundRepeat: 'no-repeat',
+										backgroundPosition: '50% 50%',
+										objectFit: 'cover',
+									}}
+								></div>
 							</CardBody>
 						</Card>
 					</Col>
