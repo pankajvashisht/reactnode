@@ -42,7 +42,6 @@ export const errorFields = {
 
 export const errorEditFields = {
 	post_type: '',
-	url: '',
 	price: '',
 	title: '',
 	description: '',

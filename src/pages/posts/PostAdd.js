@@ -82,11 +82,14 @@ const PostAdd = () => {
 			delete errors.sample_audio;
 			delete userForm.audio;
 			delete userForm.sample_audio;
+			errors.url = '';
 		} else if (value === '2') {
 			userForm.sample_audio = '';
 			delete errors.audio;
 			delete userForm.audio;
 		} else if (value === '3') {
+			delete errors.url;
+			userForm.url = '';
 			userForm.sample_audio = '';
 			errors.audio = '';
 			errors.sample_audio = '';
@@ -419,21 +422,23 @@ const PostAdd = () => {
 											</FormFeedback>
 										</InputGroup>
 									</Col>
-									<Col md='6'>
-										<label>Select File</label>
-										<FormInput
-											type='file'
-											placeholder='Password'
-											valid={userForm.url}
-											accept={fileType}
-											invalid={errors.url}
-											onBlur={checkError}
-											onFocus={removeError}
-											onChange={selectImage}
-											name='url'
-										/>
-										<FormFeedback> File field is required</FormFeedback>
-									</Col>
+									{userForm.posttype === '1' && (
+										<Col md='6'>
+											<label>Select File</label>
+											<FormInput
+												type='file'
+												placeholder='Password'
+												valid={userForm.url}
+												accept={fileType}
+												invalid={errors.url}
+												onBlur={checkError}
+												onFocus={removeError}
+												onChange={selectImage}
+												name='url'
+											/>
+											<FormFeedback> File field is required</FormFeedback>
+										</Col>
+									)}
 								</Row>
 								{(userForm.posttype === '2' || userForm.posttype === '3') && (
 									<Row form>

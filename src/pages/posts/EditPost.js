@@ -83,6 +83,7 @@ const EditPost = ({
 			delete errors.sample_audio;
 			delete userForm.audio;
 			delete errors.sample_audio;
+			errors.url = '';
 		} else if (value === '2') {
 			userForm.sample_audio = '';
 			delete errors.audio;
@@ -91,6 +92,8 @@ const EditPost = ({
 			userForm.sample_audio = '';
 			errors.audio = '';
 			userForm.audio = '';
+			delete errors.url;
+			userForm.url = '';
 		}
 		setErros({ ...errors });
 		setUserForm({ ...userForm });
