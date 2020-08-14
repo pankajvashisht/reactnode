@@ -36,6 +36,7 @@
 		"react-reader": "^0.17.11",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.1.1",
+		"react-select": "^3.1.0",
 		"react-star-ratings": "^2.3.0",
 		"reactstrap": "^8.0.1",
 		"shards-react": "^1.0.3",

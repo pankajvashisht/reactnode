@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
 	Container,
@@ -21,7 +21,8 @@ import Button from '../../components/Button/button';
 import { EditPostAPI } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
-import { types, errorEditFields } from './constants';
+import { types, errorEditFields, options } from './constants';
+import Select from 'react-select';
 import {
 	checkAllRequiredFields,
 	checkRequiredField,
@@ -42,7 +43,7 @@ const EditPost = ({
 	const [userForm, setUserForm] = useState({
 		...post,
 	});
-	console.log(userForm);
+
 	const [errors, setErros] = useState(errorEditFields);
 	const [disabled, setDisabled] = useState(null);
 	const [fileType, setFileType] = useState('image/*');
@@ -51,8 +52,19 @@ const EditPost = ({
 		setErros({ ...errors, ...errorObject });
 		return !Object.values(errorObject).every((item) => !item);
 	};
+	useEffect(() => {
+		const rating = post.rating.split(',');
+		const selectedOption = rating.map((value) => {
+			return { label: value, value };
+		});
+		setUserForm({ ...post, rating: selectedOption });
+	}, [post]);
 	const checkError = ({ target: { name, value } }) => {
 		setErros({ ...errors, ...checkRequiredField(name, value) });
+	};
+	const setSelected = (value) => {
+		if (value.length > 0) setErros({ ...errors, rating: '' });
+		setUserForm({ ...userForm, rating: value });
 	};
 
 	const removeError = ({ target: { name } }) => {
@@ -455,98 +467,25 @@ const EditPost = ({
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
-											<FormSelect
+											<Select
+												isMulti
+												options={options}
+												value={userForm.rating}
+												onChange={setSelected}
+												labelledBy={'Select'}
 												valid={userForm.rating}
 												invalid={errors.rating}
-												multiple={true}
-												onChange={handleInput}
-												onBlur={checkError}
-												onFocus={removeError}
+												className={`form-control  new-select ${
+													userForm.rating ? 'is-valid' : ''
+												} ${errors.rating ? 'is-invalid' : ''}`}
 												name='rating'
-											>
-												<option value=''>--Please select Rating--</option>
-												<option
-													selected={
-														userForm.rating === 'Children' ? true : false
-													}
-													value='Children'
-												>
-													{' '}
-													Children{' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Tweens (9 to 12)'
-															? true
-															: false
-													}
-													value='Tweens (9 to 12)'
-												>
-													{' '}
-													Tweens (9 to 12){' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Teens (13 to 17)'
-															? true
-															: false
-													}
-													value='Teens (13 to 17)'
-												>
-													{' '}
-													Teens (13 to 17){' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Adult (18 and Up)'
-															? true
-															: false
-													}
-													value='Adult (18 and Up)'
-												>
-													{' '}
-													Adult (18 and Up){' '}
-												</option>
-												<option
-													selected={userForm.rating === 'Clean' ? true : false}
-													value='Clean'
-												>
-													{' '}
-													Clean{' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Profanity' ? true : false
-													}
-													value='Profanity'
-												>
-													{' '}
-													Profanity{' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Graphic Situations'
-															? true
-															: false
-													}
-													value='Graphic Situations'
-												>
-													{' '}
-													Graphic Situations{' '}
-												</option>
-												<option
-													selected={
-														userForm.rating === 'Mature (Adult Content)'
-															? true
-															: false
-													}
-													value='Mature (Adult Content)'
-												>
-													{' '}
-													Mature (Adult Content){' '}
-												</option>
-											</FormSelect>
-											<FormFeedback> Rating field is required</FormFeedback>
+											/>
+
+											{errors.rating && (
+												<div className='invalid-feedback'>
+													Rating field is required
+												</div>
+											)}
 										</InputGroup>
 									</Col>
 									<Col md='6'>

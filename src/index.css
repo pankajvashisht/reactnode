@@ -6,8 +6,13 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.date-picker .react-date-picker__inputgroup {
+.date-picker > .react-date-picker__wrapper {
 	border: none;
+	outline: none;
+}
+.new-select > .css-yk16xz-control {
+	border-style: none !important;
+	outline: none !important;
 }
 
 code {

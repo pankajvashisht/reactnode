@@ -21,12 +21,14 @@ import Button from '../../components/Button/button';
 import { addPost } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
-import { types, formFields, errorFields } from './constants';
+import { types, formFields, errorFields, options } from './constants';
+import Select from 'react-select';
+
 import {
 	checkAllRequiredFields,
 	checkRequiredField,
-	dateFormate,
 } from '../../utils/validations';
+
 const PostAdd = () => {
 	const [userForm, setUserForm] = useState(formFields);
 	const [errors, setErros] = useState(errorFields);
@@ -34,6 +36,7 @@ const PostAdd = () => {
 	const [fileType, setFileType] = useState('image/*');
 	const checkValidation = () => {
 		const errorObject = checkAllRequiredFields(errors, userForm);
+		console.log(errorObject);
 		setErros({ ...errors, ...errorObject });
 		let checking = false;
 		Object.keys(errorObject).forEach((item) => {
@@ -63,7 +66,14 @@ const PostAdd = () => {
 				swal('Error', 'Some went wrong', 'error');
 			});
 	};
+
+	const setSelected = (value) => {
+		if (value.length > 0) setErros({ ...errors, rating: '' });
+		setUserForm({ ...userForm, rating: value });
+	};
+
 	const checkError = ({ target: { name, value } }) => {
+		console.log(name, value);
 		setErros({ ...errors, ...checkRequiredField(name, value) });
 	};
 
@@ -341,40 +351,25 @@ const PostAdd = () => {
 											<InputGroupAddon type='prepend'>
 												<InputGroupText>Options</InputGroupText>
 											</InputGroupAddon>
-											<FormSelect
+											<Select
+												isMulti
+												options={options}
+												value={userForm.rating}
+												onChange={setSelected}
+												labelledBy={'Select'}
 												valid={userForm.rating}
 												invalid={errors.rating}
-												multiple={true}
-												onChange={handleInput}
-												onBlur={checkError}
-												onFocus={removeError}
+												className={`form-control  new-select ${
+													userForm.rating ? 'is-valid' : ''
+												} ${errors.rating ? 'is-invalid' : ''}`}
 												name='rating'
-											>
-												<option value='Children'> Children </option>
-												<option value='Tweens (9 to 12)'>
-													{' '}
-													Tweens (9 to 12){' '}
-												</option>
-												<option value='Teens (13 to 17)'>
-													{' '}
-													Teens (13 to 17){' '}
-												</option>
-												<option value='Adult (18 and Up)'>
-													{' '}
-													Adult (18 and Up){' '}
-												</option>
-												<option value='Clean'> Clean </option>
-												<option value='Profanity'> Profanity </option>
-												<option value='Graphic Situations'>
-													{' '}
-													Graphic Situations{' '}
-												</option>
-												<option value='Mature (Adult Content)'>
-													{' '}
-													Mature (Adult Content){' '}
-												</option>
-											</FormSelect>
-											<FormFeedback> Rating field is required</FormFeedback>
+											/>
+
+											{errors.rating && (
+												<div className='invalid-feedback'>
+													Rating field is required
+												</div>
+											)}
 										</InputGroup>
 									</Col>
 									<Col md='6'>

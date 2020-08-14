@@ -83,6 +83,8 @@ export const getCoupons = (query) => {
 };
 export const addPost = (data) => {
 	var form = new FormData();
+	const ratings = data.rating.map((value) => value.value).toString();
+	console.log(ratings);
 	form.append('title', data.name || data.title);
 	form.append('url', data.url);
 	form.append('post_type', data.posttype);
@@ -90,7 +92,7 @@ export const addPost = (data) => {
 	form.append('description', data.description);
 	form.append('cover_pic', data.cover_pic);
 	form.append('fiction', data.fiction);
-	form.append('sale_price', data.sale_price);
+	form.append('sale_price', data.sale_price || 0);
 	form.append('user_id', loginId());
 	form.append('author_name', data.author_name);
 	form.append('soical_media_name', data.soical_media_name);
@@ -98,7 +100,7 @@ export const addPost = (data) => {
 	form.append('released_date', data.released_date);
 	form.append('genre', data.genre);
 	form.append('ismb', data.ismb);
-	form.append('rating', data.rating);
+	form.append('rating', ratings);
 	form.append('peek', data.peek);
 	form.append('lbr', data.lbr);
 	form.append('pages', data.pages);
@@ -116,6 +118,8 @@ export const addPost = (data) => {
 
 export const EditPostAPI = (data) => {
 	var form = new FormData();
+	const ratings = data.rating.map((value) => value.value).toString();
+	console.log(ratings);
 	form.append('title', data.title);
 	form.append('url', data.url);
 	form.append('post_type', data.post_type);
@@ -127,9 +131,9 @@ export const EditPostAPI = (data) => {
 	form.append('soical_media_name', data.soical_media_name);
 	form.append('genre', data.genre);
 	form.append('ismb', data.ismb);
-	form.append('rating', data.rating);
+	form.append('rating', ratings);
 	form.append('fiction', data.fiction);
-	form.append('sale_price', data.sale_price);
+	form.append('sale_price', data.sale_price || 0);
 	form.append('rsb', data.rsb);
 	form.append('peek', data.peek);
 	form.append('lbr', data.lbr);

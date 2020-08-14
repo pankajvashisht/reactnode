@@ -55,3 +55,13 @@ export const errorEditFields = {
 };
 
 export const types = ['image/*', '.epub, .mobi', 'audio/*', '.epub, .mobi'];
+export const options = [
+	{ label: 'Children', value: 'Children' },
+	{ label: 'Tweens (9 to 12)', value: 'Tweens (9 to 12)' },
+	{ label: 'Teens (13 to 17)', value: 'Teens (13 to 17)' },
+	{ label: 'Adult (18 and Up)', value: 'Adult (18 and Up)' },
+	{ label: 'Clean', value: 'Clean' },
+	{ label: 'Profanity', value: 'Profanity' },
+	{ label: 'Graphic Situations', value: 'Graphic Situations' },
+	{ label: 'Mature (Adult Content)', value: 'Mature (Adult Content)' },
+];
