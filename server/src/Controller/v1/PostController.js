@@ -27,7 +27,7 @@ module.exports = {
 				query += `and post_type = ${request_data.post_type}`;
 			}
 			if (search.length > 0) {
-				query += ` and (title like '%${search}%' or description like '%${search}%' or author_name like '%${search}%' or fiction like  '%${search}%' or genre like  '%${search}%'  or find_in_set('${search}',rating) <> 0)`;
+				query += ` and (title like '%${search}%' or description like '%${search}%' or author_name like '%${search}%' or fiction like  '%${search}%' or genre like  '%${search}%'  or find_in_set('${search}',rating) <> 0 or rating like  '%${search}%')`;
 			}
 			query += ' order by posts.id desc limit ' + offset + ' , 20';
 			let result = await DB.first(query);
