@@ -24,6 +24,15 @@ export const addAdmin = (userForm) => {
 	form.append('admin_role', userForm.admin_type);
 	return axios.post(`/admins`, form);
 };
+export const editAdmin = (userForm) => {
+	const form = new FormData();
+	form.append('name', userForm.name);
+	form.append('password', userForm.password);
+	form.append('email', userForm.email);
+	form.append('profile', userForm.profile);
+	form.append('id', userForm.id);
+	return axios.post(`/update-admin`, form);
+};
 export const getUser = (page = 1, query = '') => {
 	return axios.get(`/users?q=${query}`);
 };

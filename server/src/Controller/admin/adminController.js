@@ -269,6 +269,35 @@ class adminController {
 		return await DB.save('coupons', body);
 	}
 
+	async updateAdmin(Request) {
+		const { body } = Request;
+		delete body.profile;
+		if (body.password) {
+			body.password = app.createHash(body.password);
+		} else {
+			delete body.password;
+		}
+		const users = await DB.first(
+			`select email from admins where email = '${body.email}' and id != ${body.id}`
+		);
+		if (users.length > 0) {
+			throw 'Email Already exits Please choice different';
+		}
+		if (Request.files && Request.files.profile) {
+			body.profile = await app.upload_pic_with_await(Request.files.profile);
+		}
+		await DB.save('admins', body);
+		const login_details = await DB.find('users', 'first', {
+			conditions: {
+				id: body.id,
+			},
+		});
+		if (login_details.profile.length > 0) {
+			login_details.profile = app.ImageUrl(login_details.profile);
+		}
+		return login_details;
+	}
+
 	async getCoupons(Request) {
 		let { offset = 1, limit = 100 } = Request.params;
 		const { q = '' } = Request.query;
