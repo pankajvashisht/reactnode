@@ -5,6 +5,7 @@ import './login.css';
 import { Redirect } from 'react-router-dom';
 import Button from '../../components/Button/button';
 import Input from '../../components/Input/input';
+import Loader from '../../components/common/Loader';
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -12,6 +13,7 @@ class Login extends Component {
 			email: '',
 			password: '',
 			formErrors: { email: '', password: '' },
+			loading: false,
 			isLogin: false,
 		};
 	}
@@ -19,6 +21,7 @@ class Login extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		const { password, email } = this.state;
+		this.setState({ loading: true });
 		if (email.length === 0 || password.length === 0) {
 			swal('Error', 'Email or password is required', 'error');
 			return false;
@@ -33,6 +36,9 @@ class Login extends Component {
 				if (message) {
 					swal('Error', message, 'error');
 				}
+			})
+			.finally(() => {
+				this.setState({ loading: false });
 			});
 	};
 	handlePassword = (event) => {
@@ -60,6 +66,7 @@ class Login extends Component {
 								/>
 							</div>
 						</div>
+
 						<div className='d-flex justify-content-center form_container'>
 							<form onSubmit={this.handleSubmit}>
 								<div className='input-group mb-3'>
@@ -76,7 +83,9 @@ class Login extends Component {
 										value={this.state.email}
 										placeholder='Email'
 									/>
+									{this.state.loading && <Loader />}
 								</div>
+
 								<div className='input-group mb-2'>
 									<div className='input-group-append'>
 										<span className='input-group-text'>

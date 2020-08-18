@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 const style = {
-	marginLeft: '33%',
+	left: '50%',
 	height: '300px',
 	width: '300px',
 	position: 'fixed',

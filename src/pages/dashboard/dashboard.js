@@ -106,7 +106,9 @@ class Dashboard extends Component {
 									<div style={this.style.count}>
 										<b>Transaction Amount</b>
 									</div>
-									<div style={this.style.text}>{this.state.total_amount}</div>
+									<div style={this.style.text}>
+										{parseInt(this.state.total_amount)}
+									</div>
 								</Link>
 							</Card>
 						</Col>
