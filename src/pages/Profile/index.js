@@ -49,7 +49,8 @@ const Profile = () => {
 		}
 		setLoading(true);
 		editAdmin(userinfo)
-			.then(() => {
+			.then(({ data }) => {
+				localStorage.setItem('userInfo', JSON.stringify(data.data));
 				swal('success', 'Admin Edit successfully', 'success');
 				window.location.reload();
 			})
