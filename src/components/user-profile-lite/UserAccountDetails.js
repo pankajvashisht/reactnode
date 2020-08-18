@@ -81,6 +81,7 @@ const UserAccountDetails = ({
 									<FormInput
 										type='password'
 										id='fePassword'
+										name='password'
 										placeholder='Password'
 										value={userDetails.password}
 										onChange={onChange}
@@ -88,7 +89,7 @@ const UserAccountDetails = ({
 								</Col>
 							</Row>
 
-							<Button theme='accent' type='button'>
+							<Button theme='accent' type='submit'>
 								Update Account
 							</Button>
 						</Form>

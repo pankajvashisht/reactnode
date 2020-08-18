@@ -31,7 +31,7 @@ const Profile = () => {
 	};
 	const checkValidation = () => {
 		let isVaild = false;
-		Object.value(vaildForm).forEach((value) => {
+		Object.values(vaildForm).forEach((value) => {
 			if (value.length > 0) {
 				isVaild = true;
 			}
@@ -50,6 +50,7 @@ const Profile = () => {
 		setLoading(true);
 		editAdmin(userinfo)
 			.then(({ data }) => {
+				localStorage.removeItem('userInfo');
 				localStorage.setItem('userInfo', JSON.stringify(data.data));
 				swal('success', 'Admin Edit successfully', 'success');
 				window.location.reload();
@@ -73,7 +74,7 @@ const Profile = () => {
 			</Row>
 			<Row>
 				<Col lg='4'>
-					<UserDetails userDetails={userinfo} />
+					<UserDetails userDetails={{ ...userinfo }} />
 				</Col>
 				{loading && <Loader />}
 				<Col lg='8'>

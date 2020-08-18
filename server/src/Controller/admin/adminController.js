@@ -287,7 +287,7 @@ class adminController {
 			body.profile = await app.upload_pic_with_await(Request.files.profile);
 		}
 		await DB.save('admins', body);
-		const login_details = await DB.find('users', 'first', {
+		const login_details = await DB.find('admins', 'first', {
 			conditions: {
 				id: body.id,
 			},
