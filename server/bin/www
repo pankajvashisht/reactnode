@@ -24,8 +24,8 @@ app.set('port', port);
 const serverhttp = http.createServer(app);
 var server = https.createServer(
 	{
-		key: fs.readFileSync('/var/www/html/2tiger-private.key', 'utf8'),
-		cert: fs.readFileSync('/var/www/html/2tiger.crt', 'utf8'),
+		key: fs.readFileSync('/var/www/html/readioportal.key', 'utf8'),
+		cert: fs.readFileSync('/var/www/html/readioportal.crt', 'utf8'),
 	},
 	app
 );
