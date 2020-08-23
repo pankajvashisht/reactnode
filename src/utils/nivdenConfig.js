@@ -25,7 +25,7 @@ export const loginId = () => {
 };
 
 nivedan.defaultConfig({
-	baseURL: 'http://18.221.216.40:4000/admins',
+	baseURL: `${window.location.origin}/admins`,
 	errorExpand: true,
 	errorMessageKey: 'error_message',
 });
