@@ -272,7 +272,7 @@ class adminController {
 	async updateAdmin(Request) {
 		const { body } = Request;
 		delete body.profile;
-		if (body.password) {
+		if (body.password && body.password !== 'undefined') {
 			body.password = app.createHash(body.password);
 		} else {
 			delete body.password;
