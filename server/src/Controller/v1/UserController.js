@@ -7,7 +7,7 @@ let apis = new ApiController();
 class UserController extends ApiController {
 	constructor() {
 		super();
-		this.addUser.bind(this);
+		this.addUser = this.addUser.bind(this);
 	}
 	async addUser(req, res) {
 		const required = {
