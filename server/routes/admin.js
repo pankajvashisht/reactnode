@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 	res.json(' APi workings ');
 });
 router.post('/login', admin.login);
-router.post('/forget-password', admin.forgetPassword);
+router.post('/forget-password', response(admin.forgetPassword));
 router.post('/update-admin', response(admin.updateAdmin));
 router.get('/checkAuth', admin.islogin);
 router.get('/dashboard', response(admin.dashboard));

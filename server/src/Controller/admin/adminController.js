@@ -270,13 +270,11 @@ class adminController {
 	}
 
 	async forgetPassword(Request) {
-		const required = {
-			email: Request.body.email,
-		};
-		const requestData = await super.vaildation(required, {});
+		const { email = '' } = Request.body;
+		if (!email) throw 'Email is required';
 		const userInfo = await DB.find('admins', 'first', {
 			conditions: {
-				email: requestData.email,
+				email,
 			},
 			fields: ['id', 'email', 'name', 'forgot_password_hash'],
 		});
@@ -284,7 +282,7 @@ class adminController {
 		userInfo.forgot_password_hash = app.createToken();
 		await DB.save('admins', userInfo);
 		const mail = {
-			to: requestData.email,
+			to: email,
 			subject: 'Forgot Password',
 			template: 'forgot_password',
 			data: {
