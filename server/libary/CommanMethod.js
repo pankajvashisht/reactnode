@@ -60,13 +60,13 @@ module.exports = {
 		}
 	},
 	sendSMS: (data) => {
-		const { SID, AUTHTOKENSMS, SENDERNUMBER } = SMS[SMS.default];
-		const client = new twilio(SID, AUTHTOKENSMS);
+		const { accountSid, authToken, sendNumber } = SMS[SMS.default];
+		const client = new twilio(accountSid, authToken);
 		client.messages
 			.create({
 				body: data.message,
 				to: `+${data.to}`, // Text this number
-				from: SENDERNUMBER, // From a valid Twilio number
+				from: sendNumber, // From a valid Twilio number
 			})
 			.then((message) => console.log(message.sid))
 			.catch((err) => {
