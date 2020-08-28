@@ -7,8 +7,8 @@ let apis = new ApiController();
 class UserController extends ApiController {
 	constructor() {
 		super();
+		this.addUser.bind(this);
 	}
-
 	async addUser(req, res) {
 		const required = {
 			name: req.body.name,
@@ -22,37 +22,36 @@ class UserController extends ApiController {
 			device_token: req.body.device_token,
 			dob: req.body.dob,
 			authorization_key: app.createToken(),
-			otp: 1111, //app.randomNumber()
+			otp: app.randomNumber(),
 		};
 		try {
-			let request_data = await apis.vaildation(required, non_required);
+			const request_data = await apis.vaildation(required, non_required);
 			if (req.files && req.files.profile) {
 				request_data.profile = await app.upload_pic_with_await(
 					req.files.profile
 				);
 			}
-			let insert_id = await DB.save('users', request_data);
+			const insert_id = await DB.save('users', request_data);
+			const { phone, otp } = request_data;
 			request_data.id = insert_id;
+			setTimeout(() => {
+				this.sendOTP(phone, otp);
+			}, 100);
 			app.success(res, {
 				message: 'User signup successfully',
 				data: {
 					authorization_key: request_data.authorization_key,
 				},
 			});
-			let mail = {
-				to: request_data.email,
-				subject: 'Signup User',
-				text:
-					'Your one time password is ' +
-					request_data.otp +
-					' Please Dont share with any one eles',
-			};
-			await app.send_mail(mail);
 		} catch (err) {
 			app.error(res, err);
 		}
 	}
-
+	async sendOTP(to, otp) {
+		const message = `${otp} is your one time password to verify account on Tiger2LL.
+		It is vaild for 30 minutes.Do not share your OTP with anyone`;
+		app.sendSMS({ to, message });
+	}
 	async verifyOtp(req, res) {
 		try {
 			let required = {
@@ -81,33 +80,31 @@ class UserController extends ApiController {
 
 	async forgotPassword(req, res) {
 		try {
-			let required = {
+			const required = {
 				email: req.body.email,
-				otp: app.randomNumber(),
 			};
-			let non_required = {};
-
-			let request_data = await super.vaildation(required, non_required);
-			let user_info = await DB.find('users', 'first', {
+			const requestData = await super.vaildation(required, {});
+			const userInfo = await DB.find('users', 'first', {
 				conditions: {
-					email: request_data.email,
+					email: requestData.email,
 				},
-				fields: ['id', 'email'],
+				fields: ['id', 'email', 'name', 'forgot_password_hash'],
 			});
-			if (!user_info) throw 'Email not found';
-			user_info.otp = request_data.otp;
-			await DB.save('users', user_info);
-			let mail = {
-				to: request_data.email,
+			if (!userInfo) throw 'Email not found';
+			userInfo.forgot_password_hash = app.createToken();
+			await DB.save('users', userInfo);
+			const mail = {
+				to: requestData.email,
 				subject: 'Forgot Password',
-				text:
-					'Your one time password is ' +
-					request_data.otp +
-					' Please Dont share with any one eles',
+				template: 'forgot_password',
+				data: {
+					name: userInfo.name,
+					url: `${global.appURL}users/change_password/${userInfo.forgot_password_hash}/0`,
+				},
 			};
 			await app.send_mail(mail);
 			return app.success(res, {
-				message: 'Otp send your register email',
+				message: 'Email sent',
 				data: [],
 			});
 		} catch (err) {
@@ -115,7 +112,7 @@ class UserController extends ApiController {
 		}
 	}
 
-	async changePassword(req) {
+	async changePassword(req, res) {
 		let required = {
 			old_password: req.body.old_password,
 			new_password: req.body.new_password,

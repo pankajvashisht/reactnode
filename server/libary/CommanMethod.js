@@ -11,32 +11,22 @@
  * when function cal then that file import at moment.
  */
 const config = require('../config/config');
+const SMS = require('../config/message');
 const payment = require('../config/payment');
 const fs = require('fs');
 const crypto = require('crypto');
 const FCM = require('fcm-node');
+const twilio = require('twilio');
+const mails = require('../config/mails');
+const { MailClient } = require('./mails');
 module.exports = {
 	send_mail: function (object) {
-		const MailConfig = require('../config/mails');
-		const nodemailer = require('nodemailer');
-		try {
-			var transporter = nodemailer.createTransport(
-				MailConfig[MailConfig.default]
-			);
-			var mailOptions = object;
-			transporter.sendMail(mailOptions, function (error, info) {
-				if (error) {
-					console.log('i am check error ', error);
-				} else {
-					console.log('Email sent: ' + info.response);
-				}
-			});
-		} catch (err) {
-			console.log(err);
-			return;
-		}
+		const Sendmails = new MailClient(mails[mails.default]);
+		Sendmails.to(object.to)
+			.subject(object.subject)
+			.html(object.template, object.data)
+			.send();
 	},
-
 	upload_pic_with_await: function (
 		file,
 		folder_name = 'uploads/',
@@ -68,6 +58,20 @@ module.exports = {
 		} catch (err) {
 			throw { code: 415, message: err };
 		}
+	},
+	sendSMS: (data) => {
+		const { SID, AUTHTOKENSMS, SENDERNUMBER } = SMS[SMS.default];
+		const client = new twilio(SID, AUTHTOKENSMS);
+		client.messages
+			.create({
+				body: data.message,
+				to: `+${data.to}`, // Text this number
+				from: SENDERNUMBER, // From a valid Twilio number
+			})
+			.then((message) => console.log(message.sid))
+			.catch((err) => {
+				console.log(err);
+			});
 	},
 	send_push: function (data) {
 		const serverKey = config.GOOGLE_KEY; //put your server key here
