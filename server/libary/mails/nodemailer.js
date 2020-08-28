@@ -40,27 +40,31 @@ class MailClient {
 			if (typeof this.htmlData === 'object') {
 				const ejs = require('ejs');
 				const filePath = `/views/mails/${this.htmlData.emailTemplate}.ejs`;
-				ejs.renderFile(appRoot + filePath, this.htmlData.data, (err, data) => {
-					console.log(err);
-					const transporter = nodemailer.createTransport(this.oauth);
-					const mailOptions = {
-						to: this.to,
-						from: process.env.FROM_EMAIL || this.from,
-						subject: this.subject,
-						html: data,
-					};
-					return new Promise((Resolve, Reject) => {
-						transporter.sendMail(mailOptions, function (error, info) {
-							if (error) {
-								console.log('i am check error ', error);
-								Reject(error);
-							} else {
-								console.log('Email sent: ' + info.response);
-								Resolve(info.response);
-							}
+				ejs.renderFile(
+					global.appRoot + filePath,
+					this.htmlData.data,
+					(err, data) => {
+						console.log(err);
+						const transporter = nodemailer.createTransport(this.oauth);
+						const mailOptions = {
+							to: this.to,
+							from: process.env.FROM_EMAIL || this.from,
+							subject: this.subject,
+							html: data,
+						};
+						return new Promise((Resolve, Reject) => {
+							transporter.sendMail(mailOptions, function (error, info) {
+								if (error) {
+									console.log('i am check error ', error);
+									Reject(error);
+								} else {
+									console.log('Email sent: ' + info.response);
+									Resolve(info.response);
+								}
+							});
 						});
-					});
-				});
+					}
+				);
 			} else {
 				const transporter = nodemailer.createTransport(this.oauth);
 				const mailOptions = {
