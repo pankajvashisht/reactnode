@@ -18,7 +18,8 @@ const ForgetPassword = () => {
 		setLoading(true);
 		ForgetPasswordAPI(email)
 			.then(() => {
-				swal('Error', 'Email sent', 'error');
+				setEmail('');
+				swal('success', 'Email sent', 'success');
 			})
 			.catch(({ message = '' }) => {
 				if (message) {
