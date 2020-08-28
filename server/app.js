@@ -39,6 +39,10 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function (req, res, next) {
+	global.appURL = req.protocol + '://' + req.get('host') + '/';
+	next();
+});
 app.get('/admin/*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
@@ -52,10 +56,6 @@ app.use(function (req, res, next) {
 	next(createError(404));
 });
 
-app.use(function (req, res, next) {
-	global.appURL = req.protocol + '://' + req.get('host') + '/';
-	next();
-});
 // set path root path
 global.appRoot = path.resolve(__dirname);
 // error handler
