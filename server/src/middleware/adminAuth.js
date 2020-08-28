@@ -4,7 +4,7 @@ const DB = new Db();
 
 const AdminAuth = async (req, res, next) => {
 	try {
-		if (req.path === '/login') {
+		if (req.path === '/login' || req.path === '/forget-password') {
 			next();
 			return;
 		}

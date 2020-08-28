@@ -1,60 +1,80 @@
-	/* Coded with love by Mutiullah Samim */
+/* Coded with love by Mutiullah Samim */
 
-  
-  .user_card {
-    height: 400px;
-    width: 350px;
-    margin-top: 100px;
-    margin-bottom: auto;
-    background: #7d52c1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 5px;
+.user_card {
+	height: 400px;
+	width: 350px;
+	margin-top: 100px;
+	margin-bottom: auto;
+	background: #7d52c1;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	padding: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+		0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+		0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 5px;
+}
+.brand_logo_container {
+	position: absolute;
+	height: 170px;
+	width: 170px;
+	top: -75px;
+	border-radius: 50%;
+	background: #60a3bc;
+	padding: 10px;
+	text-align: center;
+}
+.brand_logo {
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	border: 2px solid white;
+}
+.form_container {
+	margin-top: 100px;
+}
+.login_btn {
+	width: 100%;
+	background: #c0392b !important;
+	color: white !important;
+}
+.login_btn:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+.login_container {
+	padding: 0 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.login_container > .forget {
+	color: white;
+	text-decoration: underline;
+	margin-top: 10px;
+}
 
-  }
-  .brand_logo_container {
-    position: absolute;
-    height: 170px;
-    width: 170px;
-    top: -75px;
-    border-radius: 50%;
-    background: #60a3bc;
-    padding: 10px;
-    text-align: center;
-  }
-  .brand_logo {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border: 2px solid white;
-  }
-  .form_container {
-    margin-top: 100px;
-  }
-  .login_btn {
-    width: 100%;
-    background: #c0392b !important;
-    color: white !important;
-  }
-  .login_btn:focus {
-    box-shadow: none !important;
-    outline: 0px !important;
-  }
-  .login_container {
-    padding: 0 2rem;
-  }
- 
-  .input_user,
-  .input_pass:focus {
-    box-shadow: none !important;
-    outline: 0px !important;
-  }
-  .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #c0392b !important;
-  }
+.input_user,
+.input_pass:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+	background-color: #c0392b !important;
+}
+.forget-password-div {
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: wheat;
+
+	height: 100vh;
+}
+.forget-password-div .forget {
+	color: blue;
+}

@@ -24,6 +24,9 @@ export const addAdmin = (userForm) => {
 	form.append('admin_role', userForm.admin_type);
 	return axios.post(`/admins`, form);
 };
+export const ForgetPasswordAPI = (email) => {
+	return axios.post(`/forget-password`, { email });
+};
 export const editAdmin = (userForm) => {
 	const form = new FormData();
 	form.append('name', userForm.name);

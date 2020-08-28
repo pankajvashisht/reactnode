@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Adminlogin } from '../../Apis/apis';
 import swal from 'sweetalert';
 import './login.css';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Button from '../../components/Button/button';
 import Input from '../../components/Input/input';
 import Loader from '../../components/common/Loader';
@@ -110,6 +110,9 @@ class Login extends Component {
 								children='Login'
 								classes='btn login_btn'
 							/>
+							<Link to='/forget-password' className='forget'>
+								Forget Password
+							</Link>
 						</div>
 					</div>
 				</div>

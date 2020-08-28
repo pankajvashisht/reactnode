@@ -11,6 +11,7 @@ import { AddAdmin, Admin } from './pages/SubAdmin';
 import Profile from './pages/Profile';
 import Transaction from './pages/Transaction';
 import Settings from './pages/Settings';
+import ForgetPassword from './pages/ForgotPassword';
 import { Coupons, AddCoupon, EditCoupon } from './pages/coupons';
 const isLogin = () => {
 	let login_datails = localStorage.getItem('userInfo');
@@ -41,6 +42,13 @@ export default [
 		page: 'Login',
 		layout: logins,
 		component: Login,
+		auth: false,
+	},
+	{
+		path: '/forget-password',
+		page: 'forget-password',
+		layout: logins,
+		component: ForgetPassword,
 		auth: false,
 	},
 	{

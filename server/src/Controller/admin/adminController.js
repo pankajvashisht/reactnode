@@ -269,6 +269,36 @@ class adminController {
 		return await DB.save('coupons', body);
 	}
 
+	async forgetPassword(Request) {
+		const required = {
+			email: Request.body.email,
+		};
+		const requestData = await super.vaildation(required, {});
+		const userInfo = await DB.find('admins', 'first', {
+			conditions: {
+				email: requestData.email,
+			},
+			fields: ['id', 'email', 'name', 'forgot_password_hash'],
+		});
+		if (!userInfo) throw 'Email not found';
+		userInfo.forgot_password_hash = app.createToken();
+		await DB.save('admins', userInfo);
+		const mail = {
+			to: requestData.email,
+			subject: 'Forgot Password',
+			template: 'forgot_password',
+			data: {
+				name: userInfo.name,
+				url: `${global.appURL}users/change_password/${userInfo.forgot_password_hash}/1`,
+			},
+		};
+		await app.send_mail(mail);
+		return {
+			message: 'Email sent',
+			data: [],
+		};
+	}
+
 	async updateAdmin(Request) {
 		const { body } = Request;
 		delete body.profile;
