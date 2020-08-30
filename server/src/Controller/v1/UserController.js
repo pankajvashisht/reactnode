@@ -48,7 +48,7 @@ class UserController extends ApiController {
 		}
 	}
 	async sendOTP(to, otp) {
-		const message = `${otp} is your one time password to verify account on Tiger2LL. It is vaild for 30 minutes.Do not share your OTP with anyone`;
+		const message = `${otp} is your one time password to verify account on Readio App.It is vaild for 30 minutes.Do not share your OTP with anyone`;
 		app.sendSMS({ to, message });
 	}
 	async verifyOtp(req, res) {
