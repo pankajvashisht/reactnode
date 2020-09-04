@@ -13,15 +13,22 @@ import {
 	InputGroupText,
 	FormSelect,
 	InputGroup,
-	FormTextarea,
 } from 'shards-react';
 import DatePicker from 'react-date-picker';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import PageTitle from '../../components/common/PageTitle';
 import Button from '../../components/Button/button';
 import { addPost } from '../../Apis/apis';
 import swal from 'sweetalert';
 import Loader from '../../components/common/Loader';
-import { types, formFields, errorFields, options } from './constants';
+import {
+	types,
+	formFields,
+	errorFields,
+	options,
+	optionData,
+} from './constants';
 import Select from 'react-select';
 
 import {
@@ -511,7 +518,7 @@ const PostAdd = () => {
 								<Row form>
 									<Col md='12'>
 										<label htmlFor='fePassword'>Synopsis</label>
-										<FormTextarea
+										{/* <FormTextarea
 											type='file'
 											placeholder='Synopsis'
 											rows='5'
@@ -521,16 +528,37 @@ const PostAdd = () => {
 											onBlur={checkError}
 											onFocus={removeError}
 											name='description'
+										/> */}
+										<ReactQuill
+											toolbar={optionData}
+											onBlur={(value) =>
+												checkError({ target: { name: 'description', value } })
+											}
+											onFocus={() =>
+												removeError({
+													target: { name: 'description' },
+												})
+											}
+											value={userForm.description}
+											className={`${userForm.description ? 'is-valid' : ''} ${
+												errors.description ? 'is-invalid' : ''
+											}`}
+											onChange={(value) =>
+												handleInput({ target: { name: 'description', value } })
+											}
 										/>
-										<FormFeedback> Synopsis field is required</FormFeedback>
+										{errors.description && (
+											<div class='invalid-feedback-error'>
+												Synopsis field is required
+											</div>
+										)}
 									</Col>
 								</Row>
 								<hr></hr>
 								<Row form>
 									<Col md='12'>
 										<label htmlFor='fePassword'>Peek Inside</label>
-										<FormTextarea
-											type='file'
+										{/* <FormTextarea
 											placeholder='Copy and Paste first six pages of Chapter One.'
 											rows='5'
 											valid={userForm.peek}
@@ -539,8 +567,31 @@ const PostAdd = () => {
 											onBlur={checkError}
 											onFocus={removeError}
 											name='peek'
+										/> */}
+										<ReactQuill
+											toolbar={optionData}
+											onBlur={(value) =>
+												checkError({ target: { name: 'peek', value } })
+											}
+											onFocus={() =>
+												removeError({
+													target: { name: 'peek' },
+												})
+											}
+											value={userForm.peek}
+											className={`${userForm.peek ? 'is-valid' : ''} ${
+												errors.peek ? 'is-invalid' : ''
+											}`}
+											onChange={(value) =>
+												handleInput({ target: { name: 'peek', value } })
+											}
 										/>
-										<FormFeedback> Peek Inside field is required</FormFeedback>
+										{errors.peek && (
+											<div class='invalid-feedback-error'>
+												Peek Inside field is required
+											</div>
+										)}
+										<FormFeedback> </FormFeedback>
 									</Col>
 								</Row>
 								<hr></hr>

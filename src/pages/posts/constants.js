@@ -65,3 +65,9 @@ export const options = [
 	{ label: 'Graphic Situations', value: 'Graphic Situations' },
 	{ label: 'Mature (Adult Content)', value: 'Mature (Adult Content)' },
 ];
+
+export const optionData = [
+	{ label: 'Montly', value: 1, key: 0 },
+	{ label: 'Yearly', value: 2, key: 1 },
+	{ label: 'Life Time', value: 3, key: 2 },
+];

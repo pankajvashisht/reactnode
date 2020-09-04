@@ -25,7 +25,10 @@ export const loginId = () => {
 };
 
 nivedan.defaultConfig({
-	baseURL: `${window.location.origin}/admins`,
+	baseURL:
+		window.location.hostname === 'localhost'
+			? `https://www.readioportal.com:4001/admins`
+			: `${window.location.origin}/admins`,
 	errorExpand: true,
 	errorMessageKey: 'error_message',
 });

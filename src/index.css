@@ -14,7 +14,31 @@ body {
 	border-style: none !important;
 	outline: none !important;
 }
-
+.quill > .ql-container {
+	min-height: 100px;
+	height: auto;
+}
+.quill.is-invalid {
+	border: 1px solid;
+	border-color: #c4183c;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	box-shadow: 0 5px 11.5px rgba(196, 24, 60, 0.1);
+	padding: 0;
+}
+.quill.is-valid {
+	border: 1px solid;
+	border-color: #17c671;
+	box-shadow: 0 5px 11.5px rgba(23, 198, 113, 0.1);
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	padding: 0;
+}
+.invalid-feedback-error {
+	margin-top: 0.25rem;
+	font-size: 80%;
+	color: #c4183c;
+}
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
