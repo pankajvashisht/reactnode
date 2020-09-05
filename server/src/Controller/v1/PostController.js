@@ -10,7 +10,7 @@ module.exports = {
 		let required = {
 			user_id: req.body.user_id,
 			offset: req.params.offset,
-			post_type: req.query.post_type,
+			post_type: req.query.post_type || 'nothing',
 		};
 		try {
 			const request_data = await apis.vaildation(required, {});
@@ -23,7 +23,7 @@ module.exports = {
 				' and post_id = posts.id) as is_buy,IFNULL((select avg(rating) from post_comments where post_id = posts.id),0) as post_rating,IFNULL((select count(*) from favourites where user_id = ' +
 				request_data.user_id +
 				' and post_id = posts.id),0) as is_fav from posts where status = 1 ';
-			if (request_data.post_type) {
+			if (request_data.post_type !== 'nothing') {
 				query += `and post_type = ${request_data.post_type}`;
 			}
 			if (search.length > 0) {
