@@ -444,7 +444,7 @@ module.exports = {
 			if (postDetails.rsb === 0 && postDetails.lbr === 0) {
 				coupon_type = ` and coupon_type = 'discount' `;
 			} else {
-				throw { message: 'coupon not apply on this post', code: 400 };
+				throw { message: 'Purchase not eligible for coupon code.', code: 400 };
 			}
 			const data = await DB.first(
 				`select * from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 4 ${coupon_type} limit 1`
@@ -456,8 +456,12 @@ module.exports = {
 			if (app.currentTime > data[0].end_time) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			if (3 > postDetails.price) {
-				throw { message: 'Coupon code not apply in this price', code: 400 };
+			if (3 >= postDetails.price) {
+				throw {
+					message:
+						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
+					code: 400,
+				};
 			}
 			return app.success(res, {
 				message: 'post details',
