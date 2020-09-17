@@ -1,6 +1,6 @@
 require('dotenv').config();
 const stripKey =
-	process.env.STRIP_KEY || 'sk_test_asWiwURMo5A3rKHzLWW6OvHz00TvWHSLvN';
+	process.env.STRIP_KEY || 'sk_live_QX4bw5EKbE8xhvLLNrw7OgQs0029hoOsdO';
 const stripe = require('stripe')(stripKey);
 const app = require('../../../libary/CommanMethod');
 module.exports = {
