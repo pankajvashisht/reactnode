@@ -9,12 +9,11 @@ module.exports = {
 			const { amount = 0, currency = 'usd' } = Request.body;
 			if (amount === 0)
 				throw { message: 'Amount field is required', code: 400 };
-
+			console.log(amount);
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount,
 				currency,
 			});
-			console.log(paymentIntent);
 			const clientSecret = paymentIntent.client_secret;
 			return app.success(response, {
 				message: 'Stripe Secert Key',
