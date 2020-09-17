@@ -14,6 +14,7 @@ module.exports = {
 				amount,
 				currency,
 			});
+			console.log(paymentIntent);
 			const clientSecret = paymentIntent.client_secret;
 			return app.success(response, {
 				message: 'Stripe Secert Key',
