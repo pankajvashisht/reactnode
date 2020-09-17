@@ -1,6 +1,6 @@
 require('dotenv').config();
 const stripKey =
-	process.env.STRIP_KEY || 'sk_live_QX4bw5EKbE8xhvLLNrw7OgQs0029hoOsdO';
+	process.env.STRIP_KEY || 'sk_test_asWiwURMo5A3rKHzLWW6OvHz00TvWHSLvN';
 const stripe = require('stripe')(stripKey);
 const app = require('../../../libary/CommanMethod');
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
 			const { amount = 0, currency = 'usd' } = Request.body;
 			if (amount === 0)
 				throw { message: 'Amount field is required', code: 400 };
-			console.log(amount);
+
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount,
 				currency,
