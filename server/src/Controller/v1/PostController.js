@@ -434,11 +434,6 @@ module.exports = {
 			if (!postDetails) {
 				throw { message: 'Invaild post id', code: 400 };
 			}
-			console.log(
-				postDetails.rsb,
-				postDetails.lbr,
-				postDetails.rsb === 1 && postDetails.lbr === 1
-			);
 			let coupon_type = '';
 			if (postDetails.rsb === 1 && postDetails.lbr === 1) {
 				coupon_type = '';
@@ -446,8 +441,7 @@ module.exports = {
 				coupon_type = ` and coupon_type = 'rsb' `;
 			} else if (postDetails.lbr === 1 && postDetails.rsb !== 1) {
 				coupon_type = ` and coupon_type = 'lbr' `;
-			}
-			if (postDetails.rsb === 0 && postDetails.lbr === 0) {
+			} else if (postDetails.rsb === 0 && postDetails.lbr === 0) {
 				coupon_type = ` and coupon_type = 'discount' `;
 			} else {
 				throw { message: 'Purchase not eligible for coupon code.', code: 400 };
