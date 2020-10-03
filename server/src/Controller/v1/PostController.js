@@ -435,13 +435,21 @@ module.exports = {
 				throw { message: 'Invaild post id', code: 400 };
 			}
 			let coupon_type = '';
-			if (postDetails.rsb === 1 && postDetails.lbr === 1) {
+			if (
+				postDetails.rsb === 1 &&
+				postDetails.lbr === 1 &&
+				postDetails.sale_price !== 0
+			) {
 				coupon_type = '';
 			} else if (postDetails.rsb === 1 && postDetails.lbr !== 1) {
 				coupon_type = ` and coupon_type = 'rsb' `;
 			} else if (postDetails.lbr === 1 && postDetails.rsb !== 1) {
 				coupon_type = ` and coupon_type = 'lbr' `;
-			} else if (postDetails.sale_price === 0) {
+			} else if (
+				postDetails.rsb === 0 &&
+				postDetails.lbr === 0 &&
+				postDetails.sale_price === 0
+			) {
 				coupon_type = ` and coupon_type = 'discount' `;
 			} else {
 				throw { message: 'Purchase not eligible for coupon code.', code: 400 };
