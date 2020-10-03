@@ -438,7 +438,7 @@ module.exports = {
 			if (
 				postDetails.rsb === 1 &&
 				postDetails.lbr === 1 &&
-				postDetails.sale_price !== 0
+				postDetails.sale_price === 0
 			) {
 				coupon_type = '';
 			} else if (postDetails.rsb === 1 && postDetails.lbr !== 1) {
