@@ -464,7 +464,7 @@ module.exports = {
 			// 	};
 			// }
 			if (data[0].coupon_type === 'discount' && postDetails.sale_price !== 0) {
-				throw { message: 'this coupon is not isabel', code: 400 };
+				throw { message: 'Coupon code is not eligible', code: 400 };
 			}
 			return app.success(res, {
 				message: 'post details',
