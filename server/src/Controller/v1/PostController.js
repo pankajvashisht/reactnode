@@ -456,13 +456,17 @@ module.exports = {
 			if (app.currentTime > data[0].end_time) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			// if (3 >= postDetails.price) {
-			// 	throw {
-			// 		message:
-			// 			'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
-			// 		code: 400,
-			// 	};
-			// }
+			if (
+				3 >= postDetails.price &&
+				postDetails.rsb === 0 &&
+				postDetails.lbr === 0
+			) {
+				throw {
+					message:
+						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
+					code: 400,
+				};
+			}
 			if (data[0].coupon_type === 'discount' && postDetails.sale_price !== 0) {
 				throw { message: 'Coupon code is not eligible', code: 400 };
 			}
