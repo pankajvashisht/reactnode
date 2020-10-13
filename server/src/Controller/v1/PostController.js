@@ -457,9 +457,7 @@ module.exports = {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
 			if (
-				2.98 >= postDetails.price &&
-				postDetails.rsb === 0 &&
-				postDetails.lbr === 0
+				2.98 >= postDetails.price
 			) {
 				throw {
 					message:
