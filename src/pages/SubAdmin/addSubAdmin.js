@@ -103,12 +103,12 @@ const AddAdmin = () => {
 								<Row form>
 									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'>
-											First Name & Publisher
+											First Name or Publisher
 										</label>
 										<FormInput
 											id='feEmailAddress'
 											type='text'
-											placeholder='Name & Publisher'
+											placeholder='First Name or Publisher'
 											name='name'
 											value={userForm.name}
 											valid={userForm.name}

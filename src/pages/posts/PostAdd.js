@@ -112,7 +112,6 @@ const PostAdd = () => {
 			errors.sample_audio = '';
 			userForm.audio = '';
 		}
-		console.log(errors);
 		setErros({ ...errors });
 		setUserForm({ ...userForm });
 	};

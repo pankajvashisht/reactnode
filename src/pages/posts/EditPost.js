@@ -95,18 +95,19 @@ const EditPost = ({
 			delete errors.audio;
 			delete errors.sample_audio;
 			delete userForm.audio;
-			delete errors.sample_audio;
+			delete userForm.sample_audio;
 			errors.url = '';
 		} else if (value === '2') {
 			userForm.sample_audio = '';
 			delete errors.audio;
 			delete userForm.audio;
 		} else if (value === '3') {
-			userForm.sample_audio = '';
-			errors.audio = '';
-			userForm.audio = '';
 			delete errors.url;
 			userForm.url = '';
+			userForm.sample_audio = '';
+			errors.audio = '';
+			errors.sample_audio = '';
+			userForm.audio = '';
 		}
 		setErros({ ...errors });
 		setUserForm({ ...userForm });
@@ -563,7 +564,7 @@ const EditPost = ({
 										<FormFeedback> File field is required</FormFeedback>
 									</Col>
 								</Row>
-								{(userForm.posttype === '2' || userForm.posttype === '3') && (
+								{(userForm.post_type === '2' || userForm.post_type === '3') && (
 									<Row form>
 										<Col md='6'>
 											<label>Audio Sample</label>
@@ -580,7 +581,7 @@ const EditPost = ({
 											/>
 											<FormFeedback> {errors.sample_audio}</FormFeedback>
 										</Col>
-										{userForm.posttype === '3' ? (
+										{userForm.post_type === '3' ? (
 											<Col md='6'>
 												<label>Audio File</label>
 												<FormInput
