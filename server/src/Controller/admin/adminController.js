@@ -413,7 +413,7 @@ const sendPush = async ({ id, price }) => {
 		const allUsers = await DB.first(
 			`select users.device_token, users.device_type from favourites join users on (favourites.user_id = users.id) where post_id = ${id} and device_token != ''`
 		);
-		console.log(post.price > parseFloat(price), post.price , parseFloat(price));
+		console.log(allUsers);
 		allUsers.forEach((user) => {
 			app.send_push({
 				token: user.device_token,
