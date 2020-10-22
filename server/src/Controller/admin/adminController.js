@@ -142,7 +142,7 @@ class adminController {
 			delete body.user_id;
 		}
 		if (body.id) {
-			await sendPush({ id: body.id, price: body.price });
+			 sendPush({ id: body.id, price: body.price });
 		}
 		if (body.released_date) {
 			body.released_date = app.convertTime(body.released_date);
