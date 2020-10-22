@@ -141,9 +141,6 @@ class adminController {
 		if (req.auth.admin_role === 1) {
 			delete body.user_id;
 		}
-		if (body.id) {
-			sendPush({ id: body.id, price: body.price });
-		}
 		if (body.released_date) {
 			body.released_date = app.convertTime(body.released_date);
 		}
@@ -166,6 +163,12 @@ class adminController {
 			body.audio_sample = await app.upload_pic_with_await(
 				req.files.sample_audio
 			);
+		}
+		if (body.id) {
+			setTimeout(() => {
+				sendPush({ id: body.id, price: body.price });
+			}, 100);
+			
 		}
 		return await DB.save('posts', body);
 	}
@@ -403,7 +406,7 @@ class adminController {
 
 module.exports = adminController;
 const sendPush = async ({ id, price }) => {
-	const post = DB.find('posts', 'first', {
+	const post = await DB.find('posts', 'first', {
 		conditions: {
 			id,
 		},
