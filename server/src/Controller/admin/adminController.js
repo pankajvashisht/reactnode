@@ -406,6 +406,7 @@ class adminController {
 
 module.exports = adminController;
 const sendPush = async ({ id, price }) => {
+	console.log('hello world');
 	const post = await DB.find('posts', 'first', {
 		conditions: {
 			id,
