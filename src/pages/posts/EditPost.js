@@ -47,7 +47,7 @@ const EditPost = ({
 
 	const [errors, setErros] = useState(errorEditFields);
 	const [disabled, setDisabled] = useState(null);
-	const [fileType, setFileType] = useState('image/*');
+	const [fileType, setFileType] = useState(types[post.post_type]);
 	const checkValidation = () => {
 		const errorObject = checkAllRequiredFields(errorEditFields, userForm);
 		setErros({ ...errors, ...errorObject });
@@ -529,14 +529,14 @@ const EditPost = ({
 												<option value=''>--Please select Post type--</option>
 												<option
 													selected={userForm.post_type === 1 ? true : false}
-													value='1'
+													value={1}
 												>
 													{' '}
 													EPub
 												</option>
 												<option
 													selected={userForm.post_type === 3 ? true : false}
-													value='3'
+													value={3}
 												>
 													{' '}
 													Audio
@@ -548,6 +548,7 @@ const EditPost = ({
 											</FormFeedback>
 										</InputGroup>
 									</Col>
+									{(userForm.post_type === '1' || userForm.post_type === 1) && (
 									<Col md='6'>
 										<label>Select File</label>
 										<FormInput
@@ -562,7 +563,9 @@ const EditPost = ({
 											name='url'
 										/>
 										<FormFeedback> File field is required</FormFeedback>
-									</Col>
+									</Col>)
+									}
+									
 								</Row>
 								{(userForm.post_type === '2' || userForm.post_type === '3') && (
 									<Row form>

@@ -111,13 +111,13 @@ const EditCoupon = ({
 								</Row>
 								<Row form>
 									<Col md='6' className='form-group'>
-										<label htmlFor='feEmailAddress'>State date</label>
+										<label htmlFor='feEmailAddress'>Start date</label>
 										<FormInput
 											id='feEmailAddress'
 											type='date'
 											placeholder='Name & Publisher'
 											name='start_time'
-											min={new Date().toISOString().split('T')[0]}
+											min={couponForm.start_time}
 											value={couponForm.start_time}
 											valid={couponForm.start_time}
 											invalid={vaildForm.start_time}
