@@ -418,7 +418,7 @@ const sendPush = async ({ id, price }) => {
 			app.send_push({
 				token: user.device_token,
 				message: `Author has changed the price the E-book/Audio Book , New price is $${price}`,
-				data: post,
+				data: {post_id: id},
 			});
 		});
 	}
