@@ -142,7 +142,11 @@ class adminController {
 			delete body.user_id;
 		}
 		if (body.id) {
-			 sendPush({ id: body.id, price: body.price });
+			sendPush({
+				id: body.id,
+				price: body.price,
+				sale_price: body.sale_price,
+			});
 		}
 		if (body.released_date) {
 			body.released_date = app.convertTime(body.released_date);
@@ -167,7 +171,7 @@ class adminController {
 				req.files.sample_audio
 			);
 		}
-		
+
 		return await DB.save('posts', body);
 	}
 	async addUser(req) {
@@ -403,13 +407,16 @@ class adminController {
 }
 
 module.exports = adminController;
-const sendPush = async ({ id, price }) => {
+const sendPush = async ({ id, price, sale_price }) => {
 	const post = await DB.find('posts', 'first', {
 		conditions: {
 			id,
 		},
 	});
-	if (post.price > parseFloat(price)) {
+	if (
+		post.price > parseFloat(price) ||
+		post.sale_price > parseFloat(sale_price)
+	) {
 		const allUsers = await DB.first(
 			`select users.device_token, users.device_type from favourites join users on (favourites.user_id = users.id) where post_id = ${id} and device_token != ''`
 		);
@@ -418,7 +425,7 @@ const sendPush = async ({ id, price }) => {
 			app.send_push({
 				token: user.device_token,
 				message: `Author has changed the price the E-book/Audio Book , New price is $${price}`,
-				data: {post_id: id},
+				data: { post_id: id },
 			});
 		});
 	}

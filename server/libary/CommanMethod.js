@@ -221,6 +221,12 @@ module.exports = {
 	get currentTime() {
 		return Math.round(new Date().getTime() / 1000, 0);
 	},
+	setHours(time) {
+		const date = new Date(time * 1000);
+		date.setHours('23');
+		date.setMinutes('59');
+		return Math.round(new Date(date).getTime() / 1000, 0);
+	},
 	createRandomNubmer(length = 5) {
 		let result = '';
 		let characters =

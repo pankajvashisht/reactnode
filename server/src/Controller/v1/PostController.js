@@ -453,12 +453,10 @@ module.exports = {
 			if (data.length === 0) {
 				throw { message: 'Invaild coupon code', code: 400 };
 			}
-			if (app.currentTime > data[0].end_time) {
+			if (app.currentTime > app.setHours(data[0].end_time)) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			if (
-				2.98 >= postDetails.price
-			) {
+			if (2.98 >= postDetails.price) {
 				throw {
 					message:
 						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
