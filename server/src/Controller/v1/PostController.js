@@ -27,7 +27,7 @@ module.exports = {
 				query += `and post_type = ${request_data.post_type}`;
 			}
 			if (search.length > 0) {
-				let q = search.replace("'", '');
+				let q = search.replace("'", "\\'");
 				query += ` and (title like '%${q}%' or description like '%${q}%' or author_name like '%${q}%' or fiction like  '%${q}%' or genre like  '%${q}%'  or find_in_set('${q}',rating) <> 0 or rating like  '%${q}%')`;
 			}
 			query += ' order by posts.id desc limit ' + offset + ' , 20';
