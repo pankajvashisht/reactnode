@@ -9,6 +9,7 @@ import { review } from '../../Apis/apis';
 import { EpubView } from 'react-reader';
 const PostDetails = (props) => {
 	const [postdetail] = useState({ ...props.location.state.postDetails });
+	console.log(postdetail);
 	const [rating, setRating] = useState([]);
 	useEffect(() => {
 		review(postdetail.id).then((data) => {
@@ -165,7 +166,7 @@ const PostDetails = (props) => {
 							</CardHeader>
 							<CardBody>
 								<div>
-									<b> Name </b> : {postdetail.username}
+									<b> Name </b> : {postdetail.name}
 								</div>
 								<hr></hr>
 								<div>
@@ -173,7 +174,7 @@ const PostDetails = (props) => {
 								</div>
 								<hr></hr>
 								<div>
-									<b> Profile Pic </b> : <Image src={postdetail.profile} />
+									<b> Profile Pic </b> : <Image src={postdetail.image} />
 								</div>
 							</CardBody>
 						</Card>

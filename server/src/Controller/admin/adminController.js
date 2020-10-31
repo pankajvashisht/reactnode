@@ -115,6 +115,7 @@ class adminController {
 			'audio',
 			'cover_pic',
 			'audio_sample',
+			'profile',
 		]);
 	}
 
@@ -420,13 +421,21 @@ const sendPush = async ({ id, price, sale_price }) => {
 		const allUsers = await DB.first(
 			`select users.device_token, users.device_type from favourites join users on (favourites.user_id = users.id) where post_id = ${id} and device_token != ''`
 		);
-		console.log(allUsers);
 		allUsers.forEach((user) => {
-			app.send_push({
-				token: user.device_token,
-				message: `Author has changed the price the E-book/Audio Book , New price is $${price}`,
-				data: { post_id: id },
-			});
+			if (post.price > parseFloat(price)) {
+				app.send_push({
+					token: user.device_token,
+					message: `Author has changed the price the E-book/Audio Book , New price is $${price}`,
+					data: { post_id: id },
+				});
+			}
+			if (post.sale_price > parseFloat(sale_price)) {
+				app.send_push({
+					token: user.device_token,
+					message: `Author has changed the sale price the E-book/Audio Book , New price is $${sale_price}`,
+					data: { post_id: id },
+				});
+			}
 		});
 	}
 };
