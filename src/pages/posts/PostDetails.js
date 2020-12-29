@@ -10,12 +10,16 @@ import { EpubView } from 'react-reader';
 const PostDetails = (props) => {
 	const [postdetail] = useState({ ...props.location.state.postDetails });
 	const [rating, setRating] = useState([]);
+	const [mediaDetails, setMediaDetails] = useState({});
 	useEffect(() => {
 		review(postdetail.id).then((data) => {
 			const response = data.data.data;
 			setRating(response);
 		});
-	}, [postdetail.id]);
+		if (postdetail.metadata) {
+			setMediaDetails(JSON.parse(postdetail.metadata));
+		}
+	}, [postdetail.id, postdetail.metadata]);
 	const dates = (dates) => {
 		var date = new Date(dates * 1000);
 		return (
@@ -93,7 +97,11 @@ const PostDetails = (props) => {
 							<div>
 								<b> status </b> : {status(postdetail.status)}
 							</div>
-							<hr></hr>
+							<hr />
+							<div>
+								<b> File Name </b> : {mediaDetails.name || ''}
+							</div>
+							<hr />
 							<div>
 								<b> Created </b> : {dates(postdetail.created)}
 							</div>

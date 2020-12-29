@@ -163,6 +163,7 @@ class adminController {
 		}
 		if (req.files && req.files.audio) {
 			body.audio = await app.upload_pic_with_await(req.files.audio);
+			body.metadata = JSON.stringify(req.files.url);
 		}
 		if (req.files && req.files.cover_pic) {
 			body.cover_pic = await app.upload_pic_with_await(req.files.cover_pic);
