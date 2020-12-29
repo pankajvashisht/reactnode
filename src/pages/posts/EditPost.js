@@ -511,6 +511,18 @@ const EditPost = ({
 								</Row>
 								<hr></hr>
 								<Row form>
+									<Col md='12' className='form-group'>
+										<label htmlFor='feEmailAddress'>File name: - </label>
+										<b>
+											{' '}
+											{userForm.metadata
+												? JSON.parse(userForm.metadata).name
+												: ''}
+										</b>
+									</Col>
+								</Row>
+								<hr></hr>
+								<Row form>
 									<Col md='6' className='form-group'>
 										<label htmlFor='feEmailAddress'> EPub or Audio </label>
 										<InputGroup className='mb-3'>
@@ -549,23 +561,22 @@ const EditPost = ({
 										</InputGroup>
 									</Col>
 									{(userForm.post_type === '1' || userForm.post_type === 1) && (
-									<Col md='6'>
-										<label>Select File</label>
-										<FormInput
-											type='file'
-											placeholder='Password'
-											valid={userForm.url}
-											accept={fileType}
-											invalid={errors.url}
-											onBlur={checkError}
-											onFocus={removeError}
-											onChange={selectImage}
-											name='url'
-										/>
-										<FormFeedback> File field is required</FormFeedback>
-									</Col>)
-									}
-									
+										<Col md='6'>
+											<label>Select File</label>
+											<FormInput
+												type='file'
+												placeholder='Password'
+												valid={userForm.url}
+												accept={fileType}
+												invalid={errors.url}
+												onBlur={checkError}
+												onFocus={removeError}
+												onChange={selectImage}
+												name='url'
+											/>
+											<FormFeedback> File field is required</FormFeedback>
+										</Col>
+									)}
 								</Row>
 								{(userForm.post_type === '2' || userForm.post_type === '3') && (
 									<Row form>
