@@ -22,6 +22,7 @@ module.exports = {
 				},
 			});
 		} catch (err) {
+			console.log(err);
 			return app.error(response, err);
 		}
 	},
