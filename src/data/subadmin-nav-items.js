@@ -34,5 +34,10 @@ export default {
 			htmlBefore: '<i class="material-icons">local_activity</i>',
 			to: '/posts',
 		},
+		{
+			title: 'Transaction',
+			htmlBefore: '<i class="material-icons">transfer_within_a_station</i>',
+			to: '/transaction',
+		},
 	],
 };

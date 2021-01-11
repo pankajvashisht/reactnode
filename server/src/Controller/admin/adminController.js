@@ -379,17 +379,14 @@ class adminController {
 		let limit = req.params.limit !== undefined ? req.params.limit : 300;
 		offset = (offset - 1) * limit;
 		let conditions = '';
+		if (req.auth.admin_role !== 0) {
+			conditions = `where posts.user_id =  ${req.auth.id}`;
+		}
 		if (req.query.q.length > 0) {
+			const query = req.query.q;
 			conditions +=
-				" where posts.title like '%" +
-				req.query.q +
-				"%' or posts.description like '%" +
-				req.query.q +
-				"%' or users.name like '%" +
-				req.query.q +
-				"%' or users.email like '%" +
-				req.query.q +
-				"%'";
+				` ${conditions.length > 0 ? 'and': 'where'}  posts.title like '%${query}%' or posts.description like '%${query}%' or users.name like '%${query}%' or users.email like '%${query} 
+				%'`;
 		}
 		let query =
 			'select posts.*, users_posts.*, users.name as username, users.email as email, users.profile as profile';
