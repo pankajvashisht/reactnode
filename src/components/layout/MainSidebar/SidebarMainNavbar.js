@@ -7,7 +7,6 @@ import { Dispatcher, Constants } from "../../../flux";
 class SidebarMainNavbar extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
   }
 

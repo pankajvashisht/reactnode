@@ -14,9 +14,8 @@ class SidebarNavItems extends React.Component {
 	}
 
 	componentWillMount() {
-		const login_datails = JSON.parse(localStorage.getItem('userInfo'));
-		// eslint-disable-next-line valid-typeof
-		if (typeof login_datails !== 'null') {
+		if (localStorage.getItem('userInfo')) {
+			const login_datails = JSON.parse(localStorage.getItem('userInfo'));
 			if (login_datails.admin_role !== 0) {
 				this.setState({ navItems: subAdmin[login_datails.admin_role] });
 			}
@@ -28,10 +27,17 @@ class SidebarNavItems extends React.Component {
 	}
 
 	onChange() {
-		this.setState({
-			...this.state,
-			navItems: Store.getSidebarItems(),
-		});
+		if (localStorage.getItem('userInfo')) {
+			const login_datails = JSON.parse(localStorage.getItem('userInfo'));
+			if (login_datails.admin_role !== 0) {
+				this.setState({ navItems: subAdmin[login_datails.admin_role] });
+			}
+		} else {
+			this.setState({
+				...this.state,
+				navItems: Store.getSidebarItems(),
+			});
+		}
 	}
 
 	render() {
@@ -40,7 +46,9 @@ class SidebarNavItems extends React.Component {
 			<div className='nav-wrapper'>
 				<Nav className='nav--no-borders flex-column'>
 					{items.map((item, idx) => (
-						<SidebarNavItem key={idx} item={item} />
+						<>
+							<SidebarNavItem key={idx} item={item} />
+						</>
 					))}
 				</Nav>
 			</div>
