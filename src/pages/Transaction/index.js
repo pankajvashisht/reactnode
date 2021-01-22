@@ -39,18 +39,18 @@ class Transaction extends Component {
 				this.setState({ transaction: data, loading: false });
 				if (data.length > 0) {
 					const newExcal = [];
-					data.map((val) => {
+					data.forEach((val) => {
 						const excal = {
 							title: val.title,
 							price: val.price,
 							AuthorName: val.author_name,
-							post_type: val.post_type === 1 ? 'EPUB' : 'AUDIO',
+							coupon: val.coupon || '',
+							post_type: val.post_type === 1 ? 'PDF' : 'AUDIO',
 							Genre: val.genre,
 							ISMB: val.ismb,
 						};
 						newExcal.push(excal);
 					});
-					console.log(newExcal);
 					this.setState({ exportdata: newExcal });
 				}
 			})
