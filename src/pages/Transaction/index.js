@@ -44,6 +44,8 @@ class Transaction extends Component {
 							title: val.title,
 							price: val.price,
 							AuthorName: val.author_name,
+							couponName: val.couponName || '',
+							couponAmount: val.couponAmount || 0,
 							coupon: val.coupon || '',
 							post_type: val.post_type === 1 ? 'PDF' : 'AUDIO',
 							Genre: val.genre,
