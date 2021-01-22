@@ -389,9 +389,10 @@ class adminController {
 				%'`;
 		}
 		let query =
-			'select posts.*, users_posts.*, users.name as username, users.email as email, users.profile as profile';
+			'select posts.*, coupons.name as couponName, coupons.discount as couponDiscount,  users_posts.*, users.name as username, users.email as email, users.profile as profile';
 		query += ' from users_posts';
 		query += ' join posts on (posts.id = users_posts.post_id)';
+		query += ' left join coupons on (coupons.id = users_posts.coupon_id)';
 		query +=
 			' left join users on (users.id = users_posts.user_id)' + conditions;
 		query += ' order by users_posts.id desc limit ' + offset + ' ,' + limit;
