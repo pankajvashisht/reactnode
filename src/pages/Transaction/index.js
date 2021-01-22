@@ -71,6 +71,7 @@ class Transaction extends Component {
 		if (this.state.redirect) {
 			return <Redirect to='add-post' />;
 		}
+		const {admin_role} = JSON.parse(localStorage.getItem('userInfo'));
 		return (
 			<Container fluid className='main-content-container px-4'>
 				<Row noGutters className='page-header py-4'>
@@ -120,9 +121,9 @@ class Transaction extends Component {
 											<th scope='col' className='border-0'>
 												Title
 											</th>
-											<th scope='col' className='border-0'>
+											{admin_role !== 2 && (<th scope='col' className='border-0'>
 												Username
-											</th>
+											</th>)}
 											<th scope='col' className='border-0'>
 												Pen Number
 											</th>
@@ -146,7 +147,7 @@ class Transaction extends Component {
 											<tr key={key}>
 												<td>{key + 1}</td>
 												<td>{post.title}</td>
-												<td>{post.username}</td>
+												{admin_role !== 2 && (<td>{post.username}</td>)}
 												<td>{''}</td>
 												<td>
 													<Link
