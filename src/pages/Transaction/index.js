@@ -49,6 +49,7 @@ class Transaction extends Component {
 							post_type: val.post_type === 1 ? 'PDF' : 'AUDIO',
 							Genre: val.genre,
 							ISMB: val.ismb,
+							purchaseDate: new Date(val.purchaseDate*1000).toISOString()
 						};
 						newExcal.push(excal);
 					});
