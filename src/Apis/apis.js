@@ -79,7 +79,7 @@ export const transaction = (page = 1, query = '') => {
 
 export const transactionBYDate = (toDate, formDate) => {
 	return axios.get(`/transaction`, {
-		parms: {
+		params: {
 			toDate,
 			formDate,
 		},

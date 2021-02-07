@@ -377,17 +377,19 @@ class adminController {
 	async transaction(req) {
 		let offset = req.params.offset !== undefined ? req.params.offset : 1;
 		let limit = req.params.limit !== undefined ? req.params.limit : 300;
-		const { formDate = 0, toDate = 0 } = req.query;
+		const { formDate = 0, toDate = 0, q = '' } = req.query;
 		offset = (offset - 1) * limit;
 		let conditions = '';
 		if (req.auth.admin_role !== 0) {
 			conditions = `where posts.user_id =  ${req.auth.id}`;
 		}
 		if (formDate !== 0 && toDate !== 0) {
-			conditions = `where users_posts.created >=  ${formDate} and users_posts.created <=  ${toDate} `;
+			conditions = `where ${
+				req.auth.admin_role !== 0 ? `posts.user_id =  ${req.auth.id} and` : ''
+			} users_posts.created >=  ${formDate} and users_posts.created <=  ${toDate} `;
 			limit = '1000';
 		}
-		if (req.query.q.length > 0) {
+		if (q) {
 			const query = req.query.q;
 			conditions += ` ${
 				conditions.length > 0 ? 'and' : 'where'
