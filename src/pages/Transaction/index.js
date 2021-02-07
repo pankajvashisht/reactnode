@@ -7,6 +7,7 @@ import StatusUpdate from '../../components/common/StatusUpdate';
 import Input from '../../components/Input/input';
 import Loader from '../../components/common/Loader';
 import { CSVLink } from 'react-csv';
+import swal from 'sweetalert';
 class Transaction extends Component {
 	constructor(props) {
 		super(props);
@@ -86,33 +87,39 @@ class Transaction extends Component {
 			transactionBYDate(
 				this.covertUnixTime(toDate),
 				this.covertUnixTime(formDate)
-			).then((response) => {
-				const { data } = response.data;
-				if (data.length > 0) {
-					const newExcal = [];
-					data.forEach((val) => {
-						const excal = {
-							AuthorName: val.author_name,
-							Title: val.title,
-							price: val.price,
-							CouponName: val.couponName || '',
-							CouponDiscount: val.couponDiscount || 0,
-							PostType: val.post_type === 1 ? 'PDF' : 'AUDIO',
-							Genre: val.genre,
-							ISMB: val.ismb,
-							purchaseDate: new Date(val.purchaseDate * 1000).toISOString(),
-							'Tax State': val.tax_state || '',
-							'Tax Rate': val.tax_rate || '',
-							Country: val.country || '',
-							'Country Rate': val.country_rate || '',
-						};
-						newExcal.push(excal);
-					});
-					this.setState({ exportdata: newExcal, loading: false }, () => {
-						this.csvLink.current.link.click();
-					});
-				}
-			});
+			)
+				.then((response) => {
+					const { data } = response.data;
+					if (data.length > 0) {
+						const newExcal = [];
+						data.forEach((val) => {
+							const excal = {
+								AuthorName: val.author_name,
+								Title: val.title,
+								price: val.price,
+								CouponName: val.couponName || '',
+								CouponDiscount: val.couponDiscount || 0,
+								PostType: val.post_type === 1 ? 'PDF' : 'AUDIO',
+								Genre: val.genre,
+								ISMB: val.ismb,
+								purchaseDate: new Date(val.purchaseDate * 1000).toISOString(),
+								'Tax State': val.tax_state || '',
+								'Tax Rate': val.tax_rate || '',
+								Country: val.country || '',
+								'Country Rate': val.country_rate || '',
+							};
+							newExcal.push(excal);
+						});
+						this.setState({ exportdata: newExcal }, () => {
+							this.csvLink.current.link.click();
+						});
+					} else {
+						swal('Info', 'No Record found', 'error');
+					}
+				})
+				.finally(() => {
+					this.setState({ loading: false });
+				});
 			return false;
 		}
 		this.csvLink.current.link.click();
