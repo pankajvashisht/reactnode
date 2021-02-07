@@ -43,3 +43,27 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
+
+.page-head{
+	display: flex;
+	justify-content: space-between;
+}
+.page-head .btn-export >a {
+	color:white;
+	text-decoration: none;
+}
+.hidden{
+display: none;
+}
+.filter-date{
+	display:flex
+}
+.mb-full{
+	width: 100%
+}
+.mb-full .filter {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+    align-items: center;
+}

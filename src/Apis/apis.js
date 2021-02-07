@@ -77,6 +77,15 @@ export const transaction = (page = 1, query = '') => {
 	return axios.get(`/transaction?q=${query}`);
 };
 
+export const transactionBYDate = (toDate, formDate) => {
+	return axios.get(`/transaction`, {
+		parms: {
+			toDate,
+			formDate,
+		},
+	});
+};
+
 export const review = (post_id, page = 1) => {
 	return axios.get(`/review/${post_id}`);
 };

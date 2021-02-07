@@ -9,6 +9,7 @@ import StatusUpdate from '../../components/common/StatusUpdate';
 import Image from '../../components/common/Image';
 import Input from '../../components/Input/input';
 import Loader from '../../components/common/Loader';
+import { CSVLink } from 'react-csv';
 class User extends Component {
 	constructor(props) {
 		super(props);
@@ -17,14 +18,25 @@ class User extends Component {
 			users: [],
 			searchtext: '',
 			loading: true,
+			exportdata: [],
 		};
 	}
 
 	componentWillMount() {
 		getUser()
-			.then((data) => {
-				console.log(data.data.data);
-				this.setState({ users: data.data.data, loading: false });
+			.then((res) => {
+				const newExcal = [];
+				const { data } = res.data;
+				data.forEach((val) => {
+					const excal = {
+						name: val.name,
+						email: val.email,
+						status: val.state === 0 ? 'Deactive' : 'Active',
+					};
+					newExcal.push(excal);
+				});
+				this.setState({ exportdata: newExcal });
+				this.setState({ users: data, loading: false });
 			})
 			.catch((err) => this.setState({ oading: false }));
 	}
@@ -36,11 +48,26 @@ class User extends Component {
 		const text = event.target.value;
 		this.setState({ searchtext: text, loading: true });
 		getUser(1, text)
-			.then((data) => {
-				console.log(data.data.data);
-				this.setState({ users: data.data.data, loading: false });
+			.then((res) => {
+				const newExcal = [];
+				const { data } = res.data;
+				data.forEach((val) => {
+					const excal = {
+						name: val.name,
+						email: val.email,
+						status: val.state === 0 ? 'Deactive' : 'Active',
+					};
+					newExcal.push(excal);
+				});
+				this.setState({ exportdata: newExcal });
+				console.log('this', newExcal);
+				this.setState({ users: data, loading: false });
 			})
 			.catch((err) => this.setState({ loading: false }));
+	};
+
+	exportData = () => {
+		return <CSVLink data={this.state.exportdata} filename='record.csv' />;
 	};
 
 	render() {
@@ -57,12 +84,20 @@ class User extends Component {
 						className='text-sm-left'
 					/>
 				</Row>
-				<Row noGutters className='page-header py-4 pull-right'>
+				<Row noGutters className='page-header py-4 pull-right page-head'>
 					<Button
 						classes='btn btn-info '
 						children='Add User'
 						action={this.addUser}
 					/>
+					<Button
+						classes='btn btn-primary pull-right btn-export'
+						children='Export Users'
+					>
+						<CSVLink data={this.state.exportdata} filename='record.csv'>
+							Export Users
+						</CSVLink>
+					</Button>
 				</Row>
 
 				<Row>

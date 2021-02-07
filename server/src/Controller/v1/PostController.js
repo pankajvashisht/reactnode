@@ -484,6 +484,10 @@ module.exports = {
 			status: req.body.status,
 			coupon_id: req.body.coupon_id || 0,
 			discount: req.body.discount || 0,
+			tax_state: req.body.tax_state || '0',
+			country: req.body.country || '0',
+			tax_rate: req.body.tax_rate || '0',
+			country_rate: req.body.country_rate || '0',
 		};
 		try {
 			const request_data = await apis.vaildation(required);

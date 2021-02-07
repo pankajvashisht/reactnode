@@ -51,6 +51,7 @@ const PostDetails = (props) => {
 		};
 		return <span className={statusCheck()}>{text()}</span>;
 	};
+	const { admin_role } = JSON.parse(localStorage.getItem('userInfo'));
 	return (
 		<Container
 			fluid
@@ -167,7 +168,7 @@ const PostDetails = (props) => {
 					</Col>
 				</Row>
 			)}
-			{postdetail.hasOwnProperty('profile') && (
+			{admin_role !== 2 && postdetail.hasOwnProperty('profile') && (
 				<Row style={{ marginTop: '10px' }}>
 					<Col md='12'>
 						<Card>
