@@ -488,6 +488,7 @@ module.exports = {
 			country: req.body.country || '0',
 			tax_rate: req.body.tax_rate || '0',
 			country_rate: req.body.country_rate || '0',
+			tax_amount: req.body.tax_amount || '0',
 		};
 		try {
 			const request_data = await apis.vaildation(required);

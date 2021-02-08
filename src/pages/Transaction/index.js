@@ -51,10 +51,11 @@ class Transaction extends Component {
 							price: val.price,
 							CouponName: val.couponName || '',
 							CouponDiscount: val.couponDiscount || 0,
-							PostType: val.post_type === 1 ? 'PDF' : 'AUDIO',
+							PostType: val.post_type === 1 ? 'EPUB' : 'AUDIO',
 							Genre: val.genre,
-							ISMB: val.ismb,
+							ISBN: val.ismb,
 							purchaseDate: new Date(val.purchaseDate * 1000).toISOString(),
+							'Tax Amount': val.tax_amount || '',
 							'Tax State': val.tax_state || '',
 							'Tax Rate': val.tax_rate || '',
 							Country: val.country || '',
@@ -85,7 +86,7 @@ class Transaction extends Component {
 		if (toDate && formDate) {
 			this.setState({ loading: true });
 			transactionBYDate(
-				this.covertUnixTime(toDate),
+				this.covertUnixTime(toDate + 86400),
 				this.covertUnixTime(formDate)
 			)
 				.then((response) => {
@@ -99,10 +100,11 @@ class Transaction extends Component {
 								price: val.price,
 								CouponName: val.couponName || '',
 								CouponDiscount: val.couponDiscount || 0,
-								PostType: val.post_type === 1 ? 'PDF' : 'AUDIO',
+								PostType: val.post_type === 1 ? 'EPUB' : 'AUDIO',
 								Genre: val.genre,
-								ISMB: val.ismb,
+								ISBN: val.ismb,
 								purchaseDate: new Date(val.purchaseDate * 1000).toISOString(),
+								'Tax Amount': val.tax_amount || '',
 								'Tax State': val.tax_state || '',
 								'Tax Rate': val.tax_rate || '',
 								Country: val.country || '',
