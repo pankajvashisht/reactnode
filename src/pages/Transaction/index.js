@@ -86,7 +86,7 @@ class Transaction extends Component {
 		if (toDate && formDate) {
 			this.setState({ loading: true });
 			transactionBYDate(
-				this.covertUnixTime(toDate + 86400),
+				this.covertUnixTime(toDate) + 86400,
 				this.covertUnixTime(formDate)
 			)
 				.then((response) => {
