@@ -15,9 +15,10 @@ const SMS = require('../config/message');
 const payment = require('../config/payment');
 const fs = require('fs');
 const crypto = require('crypto');
-const FCM = require('fcm-node');
+const url = require('url');
 const twilio = require('twilio');
 const mails = require('../config/mails');
+const https = require('https');
 const { MailClient } = require('./mails');
 module.exports = {
 	send_mail: function (object) {
@@ -44,15 +45,16 @@ module.exports = {
 				let image_array = image.mimetype.split('/');
 				let extension = image_array[image_array.length - 1];
 				var timestamp = parseInt(new Date().getTime());
-				image.mv(upload_path + '/' + timestamp + '.' + extension, function (
-					err
-				) {
-					if (err) {
-						console.log(err);
-					} else {
-						console.log('file_uploaded');
+				image.mv(
+					upload_path + '/' + timestamp + '.' + extension,
+					function (err) {
+						if (err) {
+							console.log(err);
+						} else {
+							console.log('file_uploaded');
+						}
 					}
-				});
+				);
 				return timestamp + '.' + extension;
 			}
 		} catch (err) {
@@ -74,35 +76,69 @@ module.exports = {
 			});
 	},
 	send_push: function (data) {
-		const serverKey = config.GOOGLE_KEY; //put your server key here
-		const fcm = new FCM(serverKey);
-		delete data.data.message_type;
-		let message = {
-			//this may vary according to the message type (single recipient, multicast, topic, et cetera)
-			to: data.token,
-			collapse_key: 'your_collapse_key',
-
-			notification: {
-				title: config.AppName,
-				body: data.message,
-			},
-
-			data,
+		const GOOGLE_KEY = config.GOOGLE_KEY; //put your server key here
+		const headers = {
+			Authorization: `key=${GOOGLE_KEY}`,
+			'Content-Type': 'application/json',
 		};
-		console.log('push testing', message);
-		try {
-			fcm.send(message, function (err, response) {
-				if (err) {
-					console.log(err);
-					return false;
-				} else {
-					console.log('Successfully sent with response: ', response);
-					return true;
-				}
-			});
-		} catch (err) {
-			throw err;
+		let pushObject;
+		if (data.device_type !== 1) {
+			pushObject = {
+				to: data.token,
+				notification: {
+					body: data.message,
+					title: config.App_name,
+					priority: 'high',
+				},
+				data,
+			};
+		} else {
+			pushObject = {
+				registration_ids: [data.token],
+				data,
+			};
 		}
+		console.log(pushObject);
+		POST(
+			'https://fcm.googleapis.com/fcm/send',
+			JSON.stringify(pushObject),
+			headers
+		)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		// const serverKey = config.GOOGLE_KEY; //put your server key here
+		// const fcm = new FCM(serverKey);
+		// delete data.data.message_type;
+		// let message = {
+		// 	//this may vary according to the message type (single recipient, multicast, topic, et cetera)
+		// 	to: data.token,
+		// 	collapse_key: 'your_collapse_key',
+
+		// 	notification: {
+		// 		title: config.AppName,
+		// 		body: data.message,
+		// 	},
+
+		// 	data,
+		// };
+		// console.log('push testing', message);
+		// try {
+		// 	fcm.send(message, function (err, response) {
+		// 		if (err) {
+		// 			console.log(err);
+		// 			return false;
+		// 		} else {
+		// 			console.log('Successfully sent with response: ', response);
+		// 			return true;
+		// 		}
+		// 	});
+		// } catch (err) {
+		// 	throw err;
+		// }
 	},
 	send_push_apn: function () {},
 	paypal: async function (payment_info) {
@@ -238,3 +274,31 @@ module.exports = {
 		return result;
 	},
 };
+
+function POST(apiUrl, data, headers) {
+	return new Promise((resolve, reject) => {
+		const host = url.parse(apiUrl).hostname;
+		const path = url.parse(apiUrl).pathname;
+		const options = {
+			host,
+			path,
+			method: 'post',
+			headers,
+		};
+		const request = https.request(options, function (res) {
+			res.setEncoding('utf-8');
+			let responseString = '';
+			res.on('data', function (data) {
+				responseString += data;
+			});
+			request.on('error', function (error) {
+				reject(error);
+			});
+			res.on('end', function () {
+				resolve(responseString);
+			});
+		});
+		request.write(data);
+		request.end();
+	});
+}
