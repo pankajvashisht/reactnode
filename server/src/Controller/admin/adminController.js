@@ -432,6 +432,7 @@ const sendPush = async ({ id, price, sale_price }) => {
 			if (post.price > parseFloat(price)) {
 				app.send_push({
 					token: user.device_token,
+					device_type: user.device_type,
 					message: `Author has changed ${
 						post.post_type === 3 ? 'Audio Book' : 'E-book'
 					} price, New price is $${price}`,
@@ -441,6 +442,7 @@ const sendPush = async ({ id, price, sale_price }) => {
 			if (post.sale_price > parseFloat(sale_price)) {
 				app.send_push({
 					token: user.device_token,
+					device_type: user.device_type,
 					message: `Author has changed ${
 						post.post_type === 3 ? 'Audio Book' : 'E-book'
 					} sale price, New sale price is $${sale_price}`,
