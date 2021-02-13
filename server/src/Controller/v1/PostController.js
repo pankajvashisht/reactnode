@@ -458,7 +458,7 @@ module.exports = {
 			}
 			if (
 				2.98 >= postDetails.price &&
-				(postDetails.rsb !== 1 || postDetails.lbr !== 1)
+				data[0].coupon_type === 'discount'
 			) {
 				throw {
 					message:
