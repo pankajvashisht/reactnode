@@ -7,15 +7,15 @@ let apis = new ApiController();
 let DB = new Db();
 module.exports = {
 	getPost: async (req, res) => {
-		let required = {
+		const required = {
 			user_id: req.body.user_id,
 			offset: req.params.offset,
 			post_type: req.query.post_type || 'nothing',
 		};
 		try {
 			const request_data = await apis.vaildation(required, {});
-			const { search = '' } = req.query;
-			let offset = (request_data.offset - 1) * 20;
+			const { search = '', limit = 20 } = req.query;
+			let offset = (request_data.offset - 1) * limit;
 			let query = 'select posts.*, ';
 			query +=
 				'(select count(*) from users_posts where user_id = ' +
@@ -30,7 +30,7 @@ module.exports = {
 				let q = search.replace("'", "\\'");
 				query += ` and (title like '%${q}%' or description like '%${q}%' or author_name like '%${q}%' or fiction like  '%${q}%' or genre like  '%${q}%'  or find_in_set('${q}',rating) <> 0 or rating like  '%${q}%')`;
 			}
-			query += ' order by posts.id desc limit ' + offset + ' , 20';
+			query += ' order by posts.id desc limit ' + offset + ' , ' + limit;
 			let result = await DB.first(query);
 			const final = result.map((value) => {
 				value.url = app.ImageUrl(value.url);
@@ -456,10 +456,7 @@ module.exports = {
 			if (app.currentTime > app.setHours(data[0].end_time)) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			if (
-				2.98 >= postDetails.price &&
-				data[0].coupon_type === 'discount'
-			) {
+			if (2.98 >= postDetails.price && data[0].coupon_type === 'discount') {
 				throw {
 					message:
 						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
