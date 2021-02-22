@@ -84,23 +84,19 @@ class adminController {
 	}
 
 	async allPost(req) {
-		let offset = req.params.offset !== undefined ? req.params.offset : 1;
-		let limit = req.params.limit !== undefined ? req.params.limit : 20;
+		let offset = 1;
+		const limit = 200;
 		offset = (offset - 1) * limit;
 		let conditions = '';
 		if (req.auth.admin_role !== 0) {
-			conditions = ' where posts.user_id = ' + req.auth.id;
+			conditions = ` where posts.user_id = ${req.auth.id} `;
 		}
-		if (req.query.q.length > 0) {
+		const { q = '' } = req.query;
+		if (q) {
 			if (conditions.length > 0) {
-				conditions +=
-					" and title like '%" +
-					req.query.q +
-					"%' or description like '%" +
-					req.query.q +
-					"%'";
+				conditions += `and (title like '%${q}%' or description like '% ${q}%')`;
 			} else {
-				conditions += `where title like '%${req.query.q}%' or description like '% ${req.query.q}%'`;
+				conditions += `where title like '%${q}%' or description like '% ${q}%'`;
 			}
 		}
 		let query =
