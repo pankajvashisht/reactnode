@@ -24,6 +24,7 @@ router.post('/user/verifiy', UserAuth, user.verifyOtp);
 router.post('/favourite', UserAuth, PostController.favourites);
 router.post('/stripe-secert', UserAuth, PaymentController.createStripeSecert);
 router.get('/resize', PostController.setImageSize);
+router.post('/brain-tree-token', PaymentController.createBrianTreeToken);
 router.get('/myPost/:offset([0-9]+)?', UserAuth, PostController.myPost);
 router.get(
 	'/comment/:post_id([0-9]+)/:offset([0-9]+)?/:limit([0-9]+)?',
