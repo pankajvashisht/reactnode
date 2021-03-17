@@ -1,5 +1,6 @@
 require('dotenv').config();
 const braintree = require('braintree');
+const ApiController = require('./ApiController');
 const stripKey =
 	process.env.STRIP_KEY || 'sk_test_asWiwURMo5A3rKHzLWW6OvHz00TvWHSLvN';
 const stripe = require('stripe')(stripKey);
@@ -13,6 +14,7 @@ const gateway = new braintree.BraintreeGateway({
 	publicKey: process.env.PUBLIC_KEY || '8jvfj3x967js2wzh',
 	privateKey: process.env.PRIVATE_KEY || '51a06aeba5333d18476d9be72982c9b7',
 });
+const helper = new ApiController();
 
 module.exports = {
 	createStripeSecert: async (Request, response) => {
@@ -45,6 +47,46 @@ module.exports = {
 				message: 'Brain tree',
 				data: {
 					token,
+				},
+			});
+		} catch (err) {
+			return app.error(res, err);
+		}
+	},
+	completeBrainPayment: async (
+		{ body: { event_id, deviceData, paymentMethodNonce, amount } },
+		res
+	) => {
+		try {
+			await helper.vaildation(
+				{
+					amount,
+					paymentMethodNonce,
+					deviceData,
+					event_id,
+				},
+				{}
+			);
+
+			const saleRequest = {
+				amount,
+				paymentMethodNonce,
+				deviceData,
+				orderId: event_id,
+				options: {
+					submitForSettlement: true,
+					paypal: {
+						customField: 'PayPal custom field',
+						description: 'Description for PayPal email receipt',
+					},
+				},
+			};
+
+			const transaction = await gateway.transaction.sale(saleRequest);
+			return app.success(res, {
+				message: 'Brain tree',
+				data: {
+					transaction,
 				},
 			});
 		} catch (err) {

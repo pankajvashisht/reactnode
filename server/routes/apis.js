@@ -40,6 +40,11 @@ router.get(
 );
 router.get('/favourite/:offset([0-9]+)?', UserAuth, PostController.favPost);
 router.post('/do-payment', UserAuth, PostController.payments);
+router.post(
+	'/brain-tree-payment',
+	UserAuth,
+	PaymentController.completeBrainPayment
+);
 router.post('/user/forgot_password', user.forgotPassword);
 router.post('/user/logout', UserAuth, user.logout);
 router.post('/check-coupon', UserAuth, PostController.checkCoupon);

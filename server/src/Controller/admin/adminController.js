@@ -47,7 +47,7 @@ class adminController {
 	}
 	async allUser(req) {
 		let offset = req.params.offset !== undefined ? req.params.offset : 1;
-		let limit = req.params.limit !== undefined ? req.params.limit : 20;
+		let limit = 10000;
 		offset = (offset - 1) * limit;
 		let conditions = '';
 		if (req.query.q.length > 0 && req.query.q !== 'undefined') {
