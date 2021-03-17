@@ -216,7 +216,7 @@ class adminController {
 
 	async allAdmins(req) {
 		let offset = req.params.offset !== undefined ? req.params.offset : 1;
-		let limit = req.params.limit !== undefined ? req.params.limit : 20;
+		let limit = 10000;
 		offset = (offset - 1) * limit;
 		const { admin_role } = req.auth;
 		let conditions = `where admin_role != 0`;
