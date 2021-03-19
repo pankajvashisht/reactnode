@@ -47,6 +47,7 @@ class Transaction extends Component {
 					data.forEach((val) => {
 						const excal = {
 							AuthorName: val.author_name,
+							email: val.email,
 							Title: val.title,
 							price: val.price,
 							CouponName: val.couponName || '',
