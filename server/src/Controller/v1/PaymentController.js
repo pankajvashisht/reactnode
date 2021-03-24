@@ -75,10 +75,6 @@ module.exports = {
 				orderId: event_id,
 				options: {
 					submitForSettlement: true,
-					paypal: {
-						customField: 'PayPal custom field',
-						description: 'Description for PayPal email receipt',
-					},
 				},
 			};
 
