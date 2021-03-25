@@ -20,13 +20,13 @@
         var DownloadURL = "http://myapp.com/download";
 
         if(navigator.userAgent.match(/Android/) || navigator.userAgent.match(/Chrome/)) {
-            window.location.href = "intent://myapp/#Intent;scheme=myUniqueScheme;package=com.tigerslcc;id=<%= id %>;end";
+            window.location.href = "intent://myapp/#Intent;scheme=myUniqueScheme;package=com.app2tigersllc;id=<%= id %>;end";
             setTimeout(function () {
                 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                 if(/android/i.test(userAgent)) {
-                    window.location.href = "market://details?id=com.tigerslcc&hl=en";
+                    window.location.href = "market://details?id=com.app2tigersllc&hl=en";
                 } else {
-                    window.location.href = "https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.tigerslcc";
+                    window.location.href = "https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.app2tigersllc";
                 }
 
             }, 2000);
@@ -40,7 +40,7 @@
                 //  document.write("please save this to your home screen");
             };
         } else {
-            window.location.href = "https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.tigerslcc";
+            window.location.href = "https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.app2tigersllc";
         };
     }
 </script>
