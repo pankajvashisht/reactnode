@@ -447,11 +447,18 @@ module.exports = {
 				throw { message: 'Purchase not eligible for coupon code.', code: 400 };
 			}
 			const data = await DB.first(
-				`select * from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 4 ${coupon_type} limit 1`
+				`select coupons.*, (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) as totalUse from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 1000 ${coupon_type} limit 1`
 			);
 
 			if (data.length === 0) {
+				// eslint-disable-next-line no-throw-literal
 				throw { message: 'Invaild coupon code', code: 400 };
+			}
+			if (
+				(data[0].coupon_type === 'lbr' || data[0].coupon_type === 'rsb') &&
+				data[0].totalUse > 1
+			) {
+				throw { message: 'You have already use this coupon', code: 400 };
 			}
 			if (app.currentTime > app.setHours(data[0].end_time)) {
 				throw { message: 'Coupon was expired', code: 400 };
