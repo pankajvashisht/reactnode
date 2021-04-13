@@ -456,14 +456,16 @@ module.exports = {
 			} else if (
 				postDetails.rsb === 1 &&
 				postDetails.lbr !== 1 &&
-				data[0].coupon_type !== 'rsb'
+				data[0].coupon_type !== 'rsb' &&
+				data[0].coupon_type !== 'discount'
 			) {
 				// eslint-disable-next-line no-throw-literal
 				throw { message: 'Invaild coupon code', code: 400 };
 			} else if (
 				postDetails.lbr === 1 &&
 				postDetails.rsb !== 1 &&
-				data[0].coupon_type !== 'lbr'
+				data[0].coupon_type !== 'lbr' &&
+				data[0].coupon_type !== 'discount'
 			) {
 				// eslint-disable-next-line no-throw-literal
 				throw { message: 'Invaild coupon code', code: 400 };
