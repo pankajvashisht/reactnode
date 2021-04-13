@@ -447,10 +447,24 @@ module.exports = {
 				throw { message: 'Purchase not eligible for coupon code.', code: 400 };
 			}
 			const data = await DB.first(
-				`select coupons.*, (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) as totalUse from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 1000 ${coupon_type} limit 1`
+				`select coupons.*, (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) as totalUse from coupons where name = '${coupon}' and  (select count(*) from apply_coupons where user_id = ${user_id} and coupon_id = coupons.id) < 1000 limit 1`
 			);
 
 			if (data.length === 0) {
+				// eslint-disable-next-line no-throw-literal
+				throw { message: 'Invaild coupon code', code: 400 };
+			} else if (
+				postDetails.rsb === 1 &&
+				postDetails.lbr !== 1 &&
+				data[0].coupon_type !== 'rsb'
+			) {
+				// eslint-disable-next-line no-throw-literal
+				throw { message: 'Invaild coupon code', code: 400 };
+			} else if (
+				postDetails.lbr === 1 &&
+				postDetails.rsb !== 1 &&
+				data[0].coupon_type !== 'lbr'
+			) {
 				// eslint-disable-next-line no-throw-literal
 				throw { message: 'Invaild coupon code', code: 400 };
 			}
@@ -463,8 +477,8 @@ module.exports = {
 			if (app.currentTime > app.setHours(data[0].end_time)) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			//&& data[0].coupon_type === 'discount'
-			if (2.98 >= postDetails.price) {
+			//
+			if (2.98 >= postDetails.price && data[0].coupon_type === 'discount') {
 				throw {
 					message:
 						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
