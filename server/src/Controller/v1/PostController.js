@@ -463,7 +463,8 @@ module.exports = {
 			if (app.currentTime > app.setHours(data[0].end_time)) {
 				throw { message: 'Coupon was expired', code: 400 };
 			}
-			if (2.98 >= postDetails.price && data[0].coupon_type === 'discount') {
+			//&& data[0].coupon_type === 'discount'
+			if (2.98 >= postDetails.price) {
 				throw {
 					message:
 						'Discount Coupon Code applies to Regular Priced items $2.99 or more.',
