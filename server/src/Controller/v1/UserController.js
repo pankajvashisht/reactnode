@@ -15,6 +15,7 @@ class UserController extends ApiController {
 			email: req.body.email,
 			password: req.body.password,
 			phone: req.body.phone,
+			status: 1,
 			checkexist: 1,
 		};
 		const non_required = {
