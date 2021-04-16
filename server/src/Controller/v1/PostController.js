@@ -470,10 +470,7 @@ module.exports = {
 				// eslint-disable-next-line no-throw-literal
 				throw { message: 'Invaild coupon code', code: 400 };
 			}
-			if (
-				(data[0].coupon_type === 'lbr' || data[0].coupon_type === 'rsb') &&
-				data[0].totalUse > 1
-			) {
+			if (data[0].totalUse > 1) {
 				throw { message: 'You have already use this coupon', code: 400 };
 			}
 			if (app.currentTime > app.setHours(data[0].end_time)) {
