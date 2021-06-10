@@ -223,15 +223,8 @@ module.exports = {
 	},
 	UserToken: function (id, req) {
 		const clientIp = req.connection.remoteAddress;
-		const {
-			isMobile,
-			isDesktop,
-			browser,
-			version,
-			os,
-			platform,
-			source,
-		} = req.useragent;
+		const { isMobile, isDesktop, browser, version, os, platform, source } =
+			req.useragent;
 		let token =
 			id +
 			clientIp +
@@ -245,8 +238,7 @@ module.exports = {
 		return this.createHash(token);
 	},
 	ImageUrl(name, folder = 'uploads') {
-		let ip = '18.221.216.40';
-		return 'http://' + ip + ':' + config.port + '/' + folder + '/' + name;
+		return `${global.appURL}${folder}/${name}`;
 	},
 	randomNumber() {
 		return Math.floor(1000 + Math.random() * 9000);
